@@ -1,0 +1,3 @@
+testbox/.terraform
+testbox/.terraform.lock.hcl
+testbox/terraform.tfstate*
