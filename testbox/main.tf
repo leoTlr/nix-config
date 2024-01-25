@@ -15,7 +15,7 @@ variable "nixos_version" {
 }
 
 provider "libvirt" {
-  uri = "qemu:///system"
+  uri = "qemu:///session"
 }
 
 resource "libvirt_domain" "nixos_testbox" {
@@ -45,6 +45,22 @@ resource "libvirt_domain" "nixos_testbox" {
     type        = "spice"
     listen_type = "address"
     autoport    = true
+  }
+
+  filesystem {
+    # share the repo with the VM
+    # had to set following entries in /etc/libvirt/qemu.conf to make it work:
+    #   user = "root"
+    #   group = "root"
+    #   dynamic_ownership = 0
+    # 
+    # Better not do this if you have other VMs running on the same machine.
+    #
+    # Inside the VM mount with:
+    # sudo mount -t 9p -o trans=virtio,version=9p2000.L,rw repo /some/dir
+    source   = "${abspath(path.module)}/.."
+    target   = "repo"
+    readonly = false
   }
 
 }
