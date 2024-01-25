@@ -23,6 +23,9 @@ resource "libvirt_domain" "nixos_testbox" {
   vcpu     = 8
   memory   = 4096                                  #MiB
   firmware = "/usr/share/edk2/x64/OVMF_CODE.4m.fd" # UEFI (might be somewhere elsse depending on distro)
+  lifecycle {
+    ignore_changes = [nvram] # managed by libvirt
+  }
 
   network_interface {
     network_name = libvirt_network.nixos_testbox_network.name # virsh net-list --all
