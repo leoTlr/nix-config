@@ -6,6 +6,8 @@
       ./hardware-configuration.nix
     ];
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -22,6 +24,7 @@
 
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  virtualisation.libvirtd.enable = true;
 
   users.users.leo = {
     isNormalUser = true;
@@ -35,7 +38,7 @@
   environment.systemPackages = with pkgs; [
     vim
     git
-    libvirtd # testbox
+    libvirt # testbox
     opentofu # testbox
   ];
 
