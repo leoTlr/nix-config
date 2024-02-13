@@ -15,9 +15,12 @@ echo "### Partitioning ${device} successful"
 
 echo "### Installing nixos"
 mkdir -p /mnt/etc/nixos/
-cp ${SCRIPT_DIR}/configuration.nix /mnt/etc/nixos/configuration.nix
+cp ${SCRIPT_DIR}/hosts/testbox/configuration.nix /mnt/etc/nixos/configuration.nix
 
 nixos-generate-config --root /mnt
+
+nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+nix-channel --update
 
 nixos-install
 echo "### Successfully installed nixos. Reboot now"
