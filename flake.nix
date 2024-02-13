@@ -11,20 +11,23 @@
   
   outputs = {self, nixpkgs, home-manager, ... }:
     let
-      lib = nixpkgs.lib;
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
     nixosConfigurations = {
-      testbox = lib.nixosSystem {
+      testbox = nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [ ./configuration.nix ];
-      };
-    };
-    homeConfigurations = {
-      leo = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./home.nix ];
+        
+        modules = [
+          home-manager.nixosModule {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          }
+          ./hosts/testbox/configuration.nix
+          ./users/leo/default.nix
+          ./modules/hyprland/default.nix
+        ];
       };
     };
   };

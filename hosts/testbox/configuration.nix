@@ -5,7 +5,7 @@
     [
       ./hardware-configuration.nix
     ];
-
+  
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader.systemd-boot.enable = true;
@@ -26,6 +26,13 @@
   hardware.pulseaudio.enable = true;
   virtualisation.libvirtd.enable = true;
 
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+    libvirt # testbox
+    opentofu # testbox
+  ];
+
   users.users.leo = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "libvirtd" ];
@@ -34,13 +41,6 @@
     #   foo
     # ];
   };
-
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    libvirt # testbox
-    opentofu # testbox
-  ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
