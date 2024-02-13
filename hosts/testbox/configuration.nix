@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, localeSettings, userSettings, ... }:
 
 {
   imports =
@@ -14,12 +14,12 @@
   networking.hostName = "testbox";
   networking.networkmanager.enable = true;
 
-  time.timeZone = "Europe/Berlin";
+  time.timeZone = localeSettings.timezone;
 
-  i18n.defaultLocale = "en_IE.UTF-8"; # english with european date/time format
+  i18n.defaultLocale = localeSettings.locale;
   console = {
     font = "Lat2-Terminus16";
-    keyMap = "de";
+    keyMap = localeSettings.keymap;
   };
 
   sound.enable = true;
@@ -33,7 +33,7 @@
     opentofu # testbox
   ];
 
-  users.users.leo = {
+  users.users.${userSettings.name} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "libvirtd" ];
     initialPassword = "1234";

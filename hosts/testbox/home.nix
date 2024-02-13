@@ -1,11 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, localeSettings, userSettings, ... }:
 
 { 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home = {
-    username = "leo";
-    homeDirectory = "/home/leo";
+    username = userSettings.name;
+    homeDirectory = "/home/${userSettings.name}";
   };
 
   # This value determines the Home Manager release that your configuration is
