@@ -4,6 +4,7 @@
   imports =
     [
       ./hardware-configuration.nix
+      ../../system/hyprland/hyprland.nix
     ];
   
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -12,6 +13,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "testbox";
+  services.qemuGuest.enable = true;
   networking.networkmanager.enable = true;
 
   time.timeZone = localeSettings.timezone;
@@ -23,7 +25,6 @@
   };
 
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
   virtualisation.libvirtd.enable = true;
 
   environment.systemPackages = with pkgs; [
