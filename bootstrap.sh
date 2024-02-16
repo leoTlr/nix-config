@@ -4,10 +4,8 @@ set -eu
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-device="/dev/vdb" # changed in vm
-lukspw="1234" # changed in vm
-
-loadkeys de
+device="${1:?device not set}"
+lukspw="${2:?lukspw not set}"
 
 echo "### Partitioning ${device}"
 ${SCRIPT_DIR}/partition.sh ${device} ${lukspw}
