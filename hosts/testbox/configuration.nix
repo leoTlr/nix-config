@@ -4,6 +4,7 @@
   imports =
     [
       ./hardware-configuration.nix
+      ../../system/vmguest.nix
       ../../system/hyprland/hyprland.nix
     ];
   
@@ -13,7 +14,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "testbox";
-  services.qemuGuest.enable = true;
   networking.networkmanager.enable = true;
 
   time.timeZone = localeSettings.timezone;
@@ -25,22 +25,16 @@
   };
 
   sound.enable = true;
-  virtualisation.libvirtd.enable = true;
 
   environment.systemPackages = with pkgs; [
     vim
     git
-    libvirt # testbox
-    opentofu # testbox
   ];
 
   users.users.${userSettings.name} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "libvirtd" ];
     initialPassword = "1234";
-    # packages = with pkgs; [
-    #   foo
-    # ];
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,

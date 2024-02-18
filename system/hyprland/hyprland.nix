@@ -5,22 +5,8 @@
     ./pipewire.nix
     ./wayland.nix
     ./dbus.nix
+    ../greetd.nix
   ];
-
-  services.greetd = {
-    enable = true;
-
-    # https://man.sr.ht/~kennylevinsen/greetd/
-    settings = {
-      default_session = {
-        # env var can be omitted if not in VM, see https://wiki.hyprland.org/Getting-Started/Quick-start/
-        command = ''sh -c "WLR_RENDERER_ALLOW_SOFTWARE=1 ${pkgs.hyprland}/bin/Hyprland"'';
-        user = "${userSettings.name}";
-      };
-    };
-
-  };
-  #environment.systemPackages = [ pkgs.greetd.tuigreet ];
 
   environment.systemPackages = with pkgs; [
     polkit
@@ -36,5 +22,10 @@
     };
     portalPackage = pkgs.xdg-desktop-portal-hyprland;
   };
+
+  greetd.command = if config.isVmGuest then
+    ''sh -c "WLR_RENDERER_ALLOW_SOFTWARE=1 ${pkgs.hyprland}/bin/Hyprland"''
+    else
+    "${pkgs.hyprland}/bin/Hyprland";
 
 }
