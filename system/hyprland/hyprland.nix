@@ -6,6 +6,7 @@
     ./wayland.nix
     ./dbus.nix
     ../greetd.nix
+    ./fonts.nix
   ];
 
   environment.systemPackages = with pkgs; [
