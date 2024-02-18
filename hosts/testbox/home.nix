@@ -1,10 +1,11 @@
-{ config, lib, pkgs, localeSettings, userSettings, ... }:
+{ config, lib, pkgs, localeSettings, userSettings, nix-colors, ... }:
 
 { 
 
   imports = [
     ../../user/git.nix
     ../../user/hyprland/hyprland.nix
+    nix-colors.homeManagerModules.default
   ];
   
   home = {
@@ -14,6 +15,7 @@
   };
 
   wm.modkey = "ALT";
+  colorScheme = nix-colors.colorSchemes.gruvbox-dark-medium;
   
   home.packages = with pkgs; [
     lf
@@ -22,5 +24,5 @@
   ];
 
   programs.home-manager.enable = true;
-  
+
 }

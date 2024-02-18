@@ -10,9 +10,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-colors.url = "github:misterio77/nix-colors";
+
   };
   
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, home-manager, nix-colors, ... }:
     let
       
       system = "x86_64-linux";
@@ -35,7 +37,7 @@
           inherit system;
           modules = [ ./hosts/testbox/configuration.nix ];
           specialArgs = {
-            inherit localeSettings userSettings;
+            inherit localeSettings userSettings nix-colors;
           };
         };
       };
@@ -45,7 +47,7 @@
           inherit pkgs;
           modules = [./hosts/testbox/home.nix ];
           extraSpecialArgs = {
-            inherit localeSettings userSettings;
+            inherit localeSettings userSettings nix-colors;
           };
         };
       };
