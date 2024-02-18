@@ -29,6 +29,11 @@
   environment.systemPackages = with pkgs; [
     vim
     git
+
+    (writeShellScriptBin "mount_repo" ''
+      mkdir /home/${userSettings.name}/localrepo
+      sudo mount -t 9p -o trans=virtio,r repo /home/${userSettings.name}/localrepo
+    '')
   ];
 
   users.users.${userSettings.name} = {
