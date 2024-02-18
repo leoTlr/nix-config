@@ -9,6 +9,7 @@ in
 
   imports = [
     ../gtk
+    ../waybar
   ];
 
   options.wm.modkey = lib.mkOption {
@@ -37,6 +38,7 @@ in
           #"dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
           #"systemctl --user start hyprland-session.target"
           "${pkgs.swaybg}/bin/swaybg --image ${wallpaper}"
+          "${pkgs.waybar}/bin/waybar"
         ];
 
         monitor = [ ",1920x1080@60,0x0,1" ];
