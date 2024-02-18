@@ -8,7 +8,7 @@ in
 { 
 
   imports = [
-    #
+    ../gtk
   ];
 
   options.wm.modkey = lib.mkOption {
