@@ -25,6 +25,7 @@ in
       kitty
       networkmanagerapplet
       swaybg
+      mako
     ];
 
     wayland.windowManager.hyprland = {
@@ -53,7 +54,7 @@ in
         "$modkey" = config.wm.modkey;
 
         master = {
-          no_gaps_when_only = true;
+          no_gaps_when_only = 1;
         };
 
         # bind modifiers
