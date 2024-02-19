@@ -10,6 +10,7 @@ in
   imports = [
     ../gtk
     ../waybar
+    ../kitty.nix
   ];
 
   options.wm.modkey = lib.mkOption {
