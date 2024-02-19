@@ -90,7 +90,7 @@
     };
 
     "custom/menu" = {
-      format = " ";
+      format = "";
       tooltip = false;
       on-click = "${pkgs.wofi}/bin/wofi --show drun";
     };
