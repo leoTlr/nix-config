@@ -3,6 +3,7 @@
 { 
 
   imports = [
+    ../../user/fish.nix
     ../../user/git.nix
     ../../user/hyprland/hyprland.nix
     nix-colors.homeManagerModules.default
@@ -16,12 +17,6 @@
 
   wm.modkey = "ALT";
   colorScheme = nix-colors.colorSchemes.gruvbox-dark-medium;
-  
-  home.packages = with pkgs; [
-    lf
-    bat
-    ripgrep
-  ];
 
   programs.home-manager.enable = true;
 

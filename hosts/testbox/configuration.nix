@@ -6,6 +6,7 @@
       ./hardware-configuration.nix
       ../../system/vmguest.nix
       ../../system/hyprland/hyprland.nix
+      ../../system/fish.nix
     ];
   
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
