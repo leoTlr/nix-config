@@ -12,6 +12,8 @@
       g = "git";
       ls = "eza";
       cat = "bat";
+      usw = "home-manager switch --flake";
+      ssw = "sudo nnixos-rebuild switch --flake";
     };
   };
 

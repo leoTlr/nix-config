@@ -88,6 +88,8 @@ in
           "bind = $modkey, mouse_up, workspace, e-1"
         ];
 
+        misc.force_default_wallpaper = 0;
+
       };
 
     };
