@@ -12,6 +12,11 @@
 
     nix-colors.url = "github:misterio77/nix-colors";
 
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
   
   outputs = inputs :
@@ -45,6 +50,8 @@
         };
 
         homeConfigurations = {
+          inherit cfgLib;
+          inherit commonSettings;
           "leo" = mkHome "x86_64-linux" ./hosts/testbox/home.nix;
         };
       };

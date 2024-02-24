@@ -8,7 +8,7 @@ in
   
   mkSystem = hostconfig:
     inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs outputs cfgLib commonSettings; };
+      specialArgs = { inherit inputs outputs commonSettings; };
       modules = [
         hostconfig
         outputs.nixosModules.default
@@ -18,7 +18,10 @@ in
   mkHome = sys: config:
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = pkgsFor sys;
-      extraSpecialArgs = { inherit inputs outputs cfgLib commonSettings; };
+      extraSpecialArgs = { 
+        inherit inputs outputs;
+        commonSettings = commonSettings // { system.arch = sys; };
+      };
       modules = [
         config
         outputs.homeManagerModules.default

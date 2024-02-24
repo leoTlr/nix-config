@@ -6,7 +6,7 @@ in
 
   imports = [
     ../../user
-    nix-colors.homeManagerModules.default
+    inputs.nix-colors.homeManagerModules.default
   ];
   
   home = {
@@ -16,7 +16,7 @@ in
   };
 
   wm.modkey = "ALT";
-  colorScheme = nix-colors.colorSchemes.gruvbox-dark-medium;
+  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
 
   programs.home-manager.enable = true;
 
