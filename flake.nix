@@ -14,7 +14,7 @@
 
   };
   
-  outputs = { ... }@inputs :
+  outputs = inputs :
     let
       cfgLib = import ./cfglib.nix { inherit inputs commonSettings; };
 

@@ -14,7 +14,7 @@
       # https://man.sr.ht/~kennylevinsen/greetd/
       settings = {
         default_session = {
-          command = config.greetd.command;
+          inherit (config.greetd) command;
           user = "${commonSettings.user.name}";
         };
       };

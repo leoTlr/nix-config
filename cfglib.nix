@@ -1,7 +1,7 @@
 { inputs, commonSettings, ... }@args:
 let
-  cfgLib = inputs.cfgLib;
-  outputs = inputs.self.outputs;
+  inherit (inputs) cfgLib;
+  inherit (inputs.self) outputs;
 in
 rec {
   

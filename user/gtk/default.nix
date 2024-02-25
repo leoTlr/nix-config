@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 let
   gruvboxPlus = import ./gruvbox-plus.nix {inherit pkgs;};
-in let
+
   cssContent = with config.colorScheme.colors; ''
     @define-color accent_color #${base0D};
     @define-color accent_bg_color mix(#${base0D}, #${base00},0.3);
@@ -87,16 +87,18 @@ in {
     ".local/share/icons/GruvboxPlus".source = "${gruvboxPlus}";
   };
 
-  gtk.enable = true;
+  gtk = {
+    enable = true;
 
-  gtk.theme.package = pkgs.adw-gtk3;
-  gtk.theme.name = "adw-gtk3";
+    theme.package = pkgs.adw-gtk3;
+    theme.name = "adw-gtk3";
 
-  #gtk.cursorTheme.package = pkgs.bibata-cursors;
-  #gtk.cursorTheme.name = "Bibata-Modern-Ice";
+    #cursorTheme.package = pkgs.bibata-cursors;
+    #cursorTheme.name = "Bibata-Modern-Ice";
 
-  gtk.iconTheme.package = gruvboxPlus;
-  gtk.iconTheme.name = "GruvboxPlus";
+    iconTheme.package = gruvboxPlus;
+    iconTheme.name = "GruvboxPlus";
+  };
 
   xdg.configFile."gtk-4.0/gtk.css" = {
     text = cssContent;

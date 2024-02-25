@@ -1,4 +1,4 @@
-{...}:
+_:
 let
   # https://github.com/manjaro-sway/desktop-settings/tree/sway/community/sway/usr/share/sway/templates
   waybarStyling = ''

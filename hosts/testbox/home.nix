@@ -1,6 +1,6 @@
 { config, lib, pkgs, inputs, commonSettings, ... }:
 let 
-  nix-colors = inputs.nix-colors;
+  inherit (inputs) nix-colors;
 in
 { 
 
