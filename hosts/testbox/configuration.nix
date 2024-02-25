@@ -1,15 +1,11 @@
-{ config, lib, pkgs, localeSettings, userSettings, ... }:
+{ config, lib, pkgs, inputs, outputs, cfgLib, commonSettings, ... }:
 
 {
   imports =
     [
       ./hardware-configuration.nix
-      ../../system/vmguest.nix
-      ../../system/hyprland/hyprland.nix
-      ../../system/fish.nix
+      ../../system
     ];
-  
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -17,12 +13,12 @@
   networking.hostName = "testbox";
   networking.networkmanager.enable = true;
 
-  time.timeZone = localeSettings.timezone;
+  time.timeZone = commonSettings.localization.timezone;
 
-  i18n.defaultLocale = localeSettings.locale;
+  i18n.defaultLocale = commonSettings.localization.locale;
   console = {
     font = "Lat2-Terminus16";
-    keyMap = localeSettings.keymap;
+    keyMap = commonSettings.localization.keymap;
   };
 
   sound.enable = true;
@@ -32,12 +28,12 @@
     git
 
     (writeShellScriptBin "mount_repo" ''
-      mkdir /home/${userSettings.name}/localrepo
-      sudo mount -t 9p -o trans=virtio,r repo /home/${userSettings.name}/localrepo
+      mkdir /home/${commonSettings.user.name}/localrepo
+      sudo mount -t 9p -o trans=virtio,r repo /home/${commonSettings.user.name}/localrepo
     '')
   ];
 
-  users.users.${userSettings.name} = {
+  users.users.${commonSettings.user.name} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "libvirtd" ];
     initialPassword = "1234";

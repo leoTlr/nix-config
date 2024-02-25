@@ -1,15 +1,13 @@
+{ pkgs, config, ... }:
+
 {
-  pkgs,
-  config,
-  ...
-}: {
   programs.kitty = {
     enable = true;
     font.name = "JetBrainsMono Nerd Font Mono";
     font.size = 15;
     
     #shellIntegration.enableZshIntegration = true;
-    
+
     settings = with config.colorScheme.colors; {
       enable_audio_bell = "no";
 

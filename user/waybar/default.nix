@@ -1,8 +1,5 @@
-{
-  pkgs,
-  config,
-  ...
-}: let
+{ pkgs, config, ... }:
+let
   scripts = import ./scripts.nix {inherit pkgs;};
 
   workspaces = {

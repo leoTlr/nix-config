@@ -1,13 +1,16 @@
-{ pkgs, localeSettings, ... }:
+{ pkgs, commonSettings, ... }:
 
 {
-  environment.systemPackages = [ pkgs.wayland ];
+  environment.systemPackages = with pkgs; [ 
+    wayland
+    xwayland 
+  ];
 
   # Configure xwayland
   services.xserver = {
     enable = true;
     xkb = {
-      layout = localeSettings.keymap;
+      layout = commonSettings.localization.keymap;
       variant = "";
     };
     

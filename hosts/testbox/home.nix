@@ -1,17 +1,17 @@
-{ config, lib, pkgs, localeSettings, userSettings, nix-colors, ... }:
-
+{ config, lib, pkgs, inputs, commonSettings, ... }:
+let 
+  nix-colors = inputs.nix-colors;
+in
 { 
 
   imports = [
-    ../../user/fish.nix
-    ../../user/git.nix
-    ../../user/hyprland/hyprland.nix
+    ../../user
     nix-colors.homeManagerModules.default
   ];
   
   home = {
-    username = userSettings.name;
-    homeDirectory = "/home/${userSettings.name}";
+    username = commonSettings.user.name;
+    homeDirectory = "/home/${commonSettings.user.name}";
     stateVersion = "23.11";
   };
 

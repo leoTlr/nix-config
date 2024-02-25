@@ -1,4 +1,4 @@
-{lib, config, pkgs, localeSettings, ... }:
+{lib, config, pkgs, commonSettings, ... }:
 let
    wallpaper = builtins.path {
       path = ./cody_foreman_the_rebuild_1920x1080.jpg;
@@ -46,7 +46,7 @@ in
         monitor = [ ",1920x1080@60,0x0,1" ];
 
         input = {
-          kb_layout = localeSettings.keymap;
+          kb_layout = commonSettings.localization.keymap;
           repeat_delay = 200;
           repeat_rate = 60;
         };

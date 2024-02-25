@@ -1,6 +1,6 @@
-{pkgs, userSettings, ...}:
+{ pkgs, commonSettings, ... }:
 
 {
   programs.fish.enable = true;
-  users.users."${userSettings.name}".shell = pkgs.fish;
+  users.users."${commonSettings.user.name}".shell = pkgs.fish;
 }

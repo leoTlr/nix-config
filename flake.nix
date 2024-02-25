@@ -14,44 +14,38 @@
 
   };
   
-  outputs = { self, nixpkgs, home-manager, nix-colors, ... }:
+  outputs = { ... }@inputs :
     let
-      
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      cfgLib = import ./cfglib.nix { inherit inputs commonSettings; };
 
-      localeSettings = {
-        locale = "en_IE.UTF-8";
-        timezone = "Europe/Berlin";
-        keymap = "de";
+      # shared between system and homeManager configs
+      commonSettings = {
+
+        localization = {
+          locale = "en_IE.UTF-8";
+          timezone = "Europe/Berlin";
+          keymap = "de";
+        };
+
+        user = {
+          name = "leo";
+        };
+
       };
+    in 
+      with cfgLib; {
 
-      userSettings = {
-        name = "leo";
-      };
+        homeManagerModules.default = ./user;
+        nixosModules.default = ./system;
 
-    in {
-      
-      nixosConfigurations = {
-        testbox = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [ ./hosts/testbox/configuration.nix ];
-          specialArgs = {
-            inherit localeSettings userSettings nix-colors;
-          };
+        nixosConfigurations = {
+          inherit cfgLib;
+          inherit commonSettings;
+          testbox = mkSystem ./hosts/testbox/configuration.nix;
+        };
+
+        homeConfigurations = {
+          "leo" = mkHome "x86_64-linux" ./hosts/testbox/home.nix;
         };
       };
-
-      homeConfigurations = {
-        "${userSettings.name}" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [./hosts/testbox/home.nix ];
-          extraSpecialArgs = {
-            inherit localeSettings userSettings nix-colors;
-          };
-        };
-      };
-
-    };
-  
 }

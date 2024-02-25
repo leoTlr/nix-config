@@ -1,4 +1,4 @@
-{config, lib, userSettings, ...}:
+{config, lib, commonSettings, ...}:
 
 { 
   options.greetd.command = lib.mkOption {
@@ -15,7 +15,7 @@
       settings = {
         default_session = {
           command = config.greetd.command;
-          user = "${userSettings.name}";
+          user = "${commonSettings.user.name}";
         };
       };
 

@@ -1,4 +1,4 @@
-{ config, pkgs, userSettings, ... }:
+{ pkgs, config, commonSettings, ... }:
 
 {
   imports = [
@@ -13,7 +13,6 @@
     polkit
     xdg-desktop-portal-hyprland
     dconf
-    xwayland
   ];
   
   programs.hyprland = {

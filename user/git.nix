@@ -1,11 +1,11 @@
-{ config, pkgs, userSettings, ... }:
+{ config, pkgs, commonSettings, ... }:
 
 {
   home.packages = [ pkgs.git ];
 
   programs.git = {
     enable = true;
-    userName = userSettings.name;
+    userName = commonSettings.user.name;
 
     extraConfig = {
       rebase = {

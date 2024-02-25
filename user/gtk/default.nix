@@ -1,8 +1,5 @@
-{
-  pkgs,
-  config,
-  ...
-}: let
+{ pkgs, config, ... }:
+let
   gruvboxPlus = import ./gruvbox-plus.nix {inherit pkgs;};
 in let
   cssContent = with config.colorScheme.colors; ''
