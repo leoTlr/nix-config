@@ -1,16 +1,16 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 
-{
-  programs.kitty = {
-    enable = true;
-    font.name = "JetBrainsMono Nerd Font Mono";
-    font.size = 15;
-    
-    #shellIntegration.enableZshIntegration = true;
+let
+  kittyBaseSettings= {
+    enable_audio_bell = "no";
+    allow_remote_control = "no";
+    listen_on = "unix:/tmp/kitty";
+    shell_integration = "enabled";
+  };
 
-    settings = with config.colorScheme.colors; {
-      enable_audio_bell = "no";
-
+  kittyColorSettings =
+    if ! config.kitty.enableNixColors then {}
+    else with config.colorScheme.colors; {
       cursor = "#${base06}";
       cursor_text_color = "background";
 
@@ -63,10 +63,23 @@
       # = "white (fg4/fg3)";
       color7 = "#${base05}";
       color15 = "#${base06}";
+    };
+in
 
-      allow_remote_control = "no";
-      listen_on = "unix:/tmp/kitty";
-      shell_integration = "enabled";
+{ 
+  options.kitty.enableNixColors = lib.mkOption {
+    type = lib.types.bool;
+    default = true;
+    description = "Use github:misterio77/nix-colors for theming";
+  };
+
+  config = {
+    programs.kitty = {
+      enable = true;
+      font.name = "JetBrainsMono Nerd Font Mono";
+      font.size = 15;
+
+      settings = kittyBaseSettings // kittyColorSettings;
     };
   };
 }
