@@ -28,6 +28,8 @@ in
       mako
     ];
 
+    gtk.theming.enable = true;
+
     wayland.windowManager.hyprland = {
       enable = true;
       package = pkgs.hyprland;
