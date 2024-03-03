@@ -18,23 +18,28 @@ in
       default = config.gtk.theming.enable;
       description = "Use github:misterio77/nix-colors for theming";
     };
+
+    icons.gruvboxplus.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = config.gtk.theming.enable;
+      description = "Use GruvboxPlus icon theme";
+    };
+
   };
 
-  config = {
+  config.gtk = lib.mkIf config.gtk.theming.enable {
+    enable = true;
 
-    home.file = {
-      ".local/share/icons/GruvboxPlus".source = "${gruvboxPlus}";
-    };
+    theme.package = pkgs.adw-gtk3;
+    theme.name = "adw-gtk3";
+  } // lib.mkIf config.gtk.icons.gruvboxplus.enable {
+    iconTheme.package = gruvboxPlus;
+    iconTheme.name = "GruvboxPlus";
+  };
 
-    gtk = {
-      enable = true;
-
-      theme.package = pkgs.adw-gtk3;
-      theme.name = "adw-gtk3";
-
-      iconTheme.package = gruvboxPlus;
-      iconTheme.name = "GruvboxPlus";
-    };
+  config.home.file = lib.mkIf config.gtk.icons.gruvboxplus.enable {
+    # todo: use xdg
+    ".local/share/icons/GruvboxPlus".source = "${gruvboxPlus}";
   };
   
   config.xdg.configFile = lib.mkIf config.gtk.nixcolors.enable {
