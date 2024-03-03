@@ -1,6 +1,6 @@
 { pkgs, config, lib, ... }:
 let
-  gruvboxPlus = import ./gruvbox-plus.nix {inherit pkgs;};
+  gruvboxPlus = import ./gruvbox-plus.nix { inherit pkgs; };
   cssContent = import ./css.nix { inherit config; };
 in 
 {
@@ -27,28 +27,32 @@ in
 
   };
 
-  config.gtk = lib.mkIf config.gtk.theming.enable {
-    enable = true;
+  config = {
 
-    theme.package = pkgs.adw-gtk3;
-    theme.name = "adw-gtk3";
-  } // lib.mkIf config.gtk.icons.gruvboxplus.enable {
-    iconTheme.package = gruvboxPlus;
-    iconTheme.name = "GruvboxPlus";
-  };
+    gtk = lib.mkIf config.gtk.theming.enable {
+      enable = true;
 
-  config.home.file = lib.mkIf config.gtk.icons.gruvboxplus.enable {
-    # todo: use xdg
-    ".local/share/icons/GruvboxPlus".source = "${gruvboxPlus}";
-  };
+      theme.package = pkgs.adw-gtk3;
+      theme.name = "adw-gtk3";
+    } // lib.mkIf config.gtk.icons.gruvboxplus.enable {
+      iconTheme.package = gruvboxPlus;
+      iconTheme.name = "GruvboxPlus";
+    };
+
+    home.file = lib.mkIf config.gtk.icons.gruvboxplus.enable {
+      # todo: use xdg
+      ".local/share/icons/GruvboxPlus".source = "${gruvboxPlus}";
+    };
   
-  config.xdg.configFile = lib.mkIf config.gtk.nixcolors.enable {
-    "gtk-4.0/gtk.css" = {
-      text = cssContent;
+    xdg.configFile = lib.mkIf config.gtk.nixcolors.enable {
+      "gtk-4.0/gtk.css" = {
+        text = cssContent;
+      };
+      "gtk-3.0/gtk.css" = {
+        text = cssContent;
+      };
     };
-    "gtk-3.0/gtk.css" = {
-      text = cssContent;
-    };
+  
   };
   
 }

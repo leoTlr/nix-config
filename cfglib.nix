@@ -2,8 +2,9 @@
 let
   inherit (inputs) cfgLib;
   inherit (inputs.self) outputs;
+  pkgsFor = sys: inputs.nixpkgs.legacyPackages.${sys};
 in
-rec {
+{
   
   mkSystem = hostconfig:
     inputs.nixpkgs.lib.nixosSystem {
@@ -23,7 +24,5 @@ rec {
         outputs.homeManagerModules.default
       ];
     };
-
-  pkgsFor = sys: inputs.nixpkgs.legacyPackages.${sys};
 
 }
