@@ -17,6 +17,7 @@ in
 
   wm.modkey = "ALT";
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
+  firefox.enable = true;
 
   programs.home-manager.enable = true;
 
