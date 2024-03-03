@@ -5,7 +5,7 @@
     ./fish.nix
     ./git.nix
     ./hyprland/hyprland.nix
-    ./firefox.nix
+    ./firefox
   ];
 
 }
