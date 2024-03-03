@@ -10,7 +10,7 @@ in
   imports = [
     ../gtk
     ../waybar
-    ../kitty.nix
+    ../kitty
   ];
 
   options.wm.modkey = lib.mkOption {
@@ -28,6 +28,7 @@ in
       mako
     ];
 
+    kitty.enable = true;
     gtk.theming.enable = true;
 
     wayland.windowManager.hyprland = {
