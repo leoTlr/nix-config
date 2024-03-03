@@ -1,5 +1,5 @@
-{ config }: 
-with config.colorScheme.colors; {
+{ config }: with config.colorScheme.palette;
+{
   cursor = "#${base06}";
   cursor_text_color = "background";
 
