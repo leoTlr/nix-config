@@ -6,6 +6,7 @@
     ./git.nix
     ./hyprland/hyprland.nix
     ./firefox
+    ./statix
   ];
 
 }
