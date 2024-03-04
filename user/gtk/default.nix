@@ -34,9 +34,11 @@ in
 
       theme.package = pkgs.adw-gtk3;
       theme.name = "adw-gtk3";
-    } // lib.mkIf config.gtk.icons.gruvboxplus.enable {
-      iconTheme.package = gruvboxPlus;
-      iconTheme.name = "GruvboxPlus";
+
+      iconTheme = lib.mkIf config.gtk.icons.gruvboxplus.enable {
+        package = gruvboxPlus;
+        name = "GruvboxPlus";
+      };
     };
 
     home.file = lib.mkIf config.gtk.icons.gruvboxplus.enable {
