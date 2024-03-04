@@ -7,6 +7,7 @@
     ./hyprland/hyprland.nix
     ./firefox
     ./statix
+    ./vscode
   ];
 
 }
