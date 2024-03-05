@@ -4,7 +4,7 @@
   imports = [
     ./fish.nix
     ./git
-    ./hyprland/hyprland.nix
+    ./hyprland
     ./firefox
     ./statix
     ./vscode
