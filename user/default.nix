@@ -3,7 +3,7 @@
 {
   imports = [
     ./fish.nix
-    ./git.nix
+    ./git
     ./hyprland/hyprland.nix
     ./firefox
     ./statix
