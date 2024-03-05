@@ -30,6 +30,7 @@ in
 
     kitty.enable = true;
     gtk.theming.enable = true;
+    waybar.enable = true;
 
     wayland.windowManager.hyprland = {
       enable = true;
