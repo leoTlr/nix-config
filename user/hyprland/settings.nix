@@ -13,6 +13,7 @@ in
     #"systemctl --user start hyprland-session.target"
     "${pkgs.swaybg}/bin/swaybg --image ${wallpaper}"
     "${pkgs.waybar}/bin/waybar"
+    "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
   ];
 
   monitor = [ ",1920x1080@60,0x0,1" ];

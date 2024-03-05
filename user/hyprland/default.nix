@@ -31,7 +31,6 @@ in
   config = lib.mkIf config.hyprland.enable {
 
     home.packages = with pkgs; [
-      networkmanagerapplet
       mako
     ];
 
