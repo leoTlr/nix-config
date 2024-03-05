@@ -1,4 +1,4 @@
-{lib, config, pkgs, commonSettings, ... }:
+{ lib, config, pkgs, commonSettings, ... }:
 let
   wallpaper = builtins.path {
     path = ./cody_foreman_the_rebuild_1920x1080.jpg;
@@ -13,13 +13,23 @@ in
     ../kitty
   ];
 
-  options.wm.modkey = lib.mkOption {
-    type = lib.types.str;
-    default = "SUPER";
-    example = "ALT";
+  options.hyprland = {
+
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Use hyprland wm";
+    };
+
+    modkey = lib.mkOption {
+      type = lib.types.str;
+      default = "SUPER";
+      example = "ALT";
+    };
+
   };
 
-  config = {
+  config = lib.mkIf config.hyprland.enable {
 
     home.packages = with pkgs; [
       kitty
@@ -55,7 +65,7 @@ in
           repeat_rate = 60;
         };
 
-        "$modkey" = config.wm.modkey;
+        "$modkey" = config.hyprland.modkey;
 
         master = {
           no_gaps_when_only = 1;

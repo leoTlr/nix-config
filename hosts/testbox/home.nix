@@ -15,7 +15,10 @@ in
     stateVersion = "23.11";
   };
 
-  wm.modkey = "ALT";
+  hyprland = {
+    enable = true;
+    modkey = "ALT";
+  };
   colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
   firefox.enable = true;
   statix.enable = true;
