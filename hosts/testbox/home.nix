@@ -20,6 +20,7 @@ in
   firefox.enable = true;
   statix.enable = true;
   vscode.enable = true;
+  git.enable = true;
 
   programs.home-manager.enable = true;
 
