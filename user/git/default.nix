@@ -2,6 +2,7 @@
 let
   gitConfig = import ./gitconfig.nix {};
   gitAliases = import ./aliases.nix {};
+  gitIgnore = import ./gitignore.nix {};
 in
 { 
   options.git = {
@@ -18,6 +19,12 @@ in
       description = "Manage git aliases";
     };
 
+    ignore.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = config.git.enable;
+      description = "Manage git ignores";
+    };
+
   };
 
   config = lib.mkIf config.git.enable {
@@ -29,6 +36,7 @@ in
 
       extraConfig = gitConfig;
       aliases = lib.mkIf config.git.aliases.enable gitAliases;
+      ignores = lib.mkIf config.git.ignore.enable gitIgnore;
     };
   };
 }
