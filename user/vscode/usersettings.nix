@@ -1,9 +1,11 @@
 _:
 
 { 
-  files.autoSave = "afterDelay";
-  files.autoSaveDelay = 1500;
-  files.trimTrailingWhitespace = true;
+  files= { 
+    autoSave = "afterDelay";
+    autoSaveDelay = 1500;
+    trimTrailingWhitespace = true;
+  };
 
   diffEditor.ignoreTrimWhitespace = false;
 
