@@ -1,6 +1,5 @@
 { pkgs, config, ... }:
 let
-  #scripts = import ./scripts.nix {inherit pkgs;};
   waybarConfig = import ./config.nix { inherit pkgs; };
   waybarCss = import ./styling.nix {};
 in 
