@@ -1,9 +1,9 @@
 {lib, config, pkgs, commonSettings, ... }:
 let
-   wallpaper = builtins.path {
-      path = ./cody_foreman_the_rebuild_1920x1080.jpg;
-      name = "wallpaper_fhd";
-    };
+  wallpaper = builtins.path {
+    path = ./cody_foreman_the_rebuild_1920x1080.jpg;
+    name = "wallpaper_fhd";
+  };
 in
 { 
 
