@@ -1,7 +1,6 @@
 _:
-let
-  # https://github.com/manjaro-sway/desktop-settings/tree/sway/community/sway/usr/share/sway/templates
-  waybarStyling = ''
+# https://github.com/manjaro-sway/desktop-settings/tree/sway/community/sway/usr/share/sway/templates
+''
 /* -----------------------------------------------------------------------------
  * Keyframes
  * -------------------------------------------------------------------------- */
@@ -203,8 +202,4 @@ window#waybar {
 #custom-valent.dangerously-empty {
     color: @warning_color;
 }
-'';
-in 
-{
-  programs.waybar.style = waybarStyling;
-}
+''
