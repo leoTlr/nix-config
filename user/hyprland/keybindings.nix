@@ -57,4 +57,14 @@
     "$modkey SHIFT, 9,     movetoworkspace, 9"
     "$modkey SHIFT, 0,     movetoworkspace, 10"
   ];
+
+  bindel = [
+    ",XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+    ",XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+  ];
+   
+  bindl = [
+    ",XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  ];
+
 }
