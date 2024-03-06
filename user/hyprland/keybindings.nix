@@ -62,6 +62,11 @@
     ",XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
     ",XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
   ];
+
+  binde = [
+    ",XF86MonBrightnessDown,    exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%-"
+    ",XF86MonBrightnessUp,      exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%+"
+  ];
    
   bindl = [
     ",XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
