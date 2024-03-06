@@ -14,6 +14,7 @@ in
     "${pkgs.swaybg}/bin/swaybg --image ${wallpaper}"
     "${pkgs.waybar}/bin/waybar"
     "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
+    "${pkgs.mako}/bin/mako"
   ];
 
   monitor = [ ",1920x1080@60,0x0,1" ];

@@ -30,10 +30,6 @@ in
 
   config = lib.mkIf config.hyprland.enable {
 
-    home.packages = with pkgs; [
-      mako
-    ];
-
     kitty.enable = true;
     gtk.theming.enable = true;
     waybar.enable = true;
