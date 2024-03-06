@@ -26,7 +26,7 @@ in
   };
 
   master = {
-    no_gaps_when_only = 1;
+    no_gaps_when_only = true;
   };
 
   misc.force_default_wallpaper = 0;
