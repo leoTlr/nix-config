@@ -34,6 +34,15 @@ in
   git.enable = true;
   gpg.enable = true;
   sops.enable = true;
+  gammastep = {
+    enable = true;
+    temperature = { day = 5300; night = 2700; };
+    location = {
+      latPath = config.sops.secrets."ltlr/location/latitude".path;
+      lonPath = config.sops.secrets."ltlr/location/longitude".path;
+    };
+    systemdBindTarget = "hyprland-session.target";
+  };
 
   programs.home-manager.enable = true;
 

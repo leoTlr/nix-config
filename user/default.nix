@@ -10,6 +10,7 @@
     ./vscode
     ./gpg.nix
     ./sops.nix
+    ./gammastep.nix
   ];
 
 }
