@@ -20,6 +20,9 @@ in
     };
   };
 
+  sops.secrets."ltlr/location/latitude" = {};
+  sops.secrets."ltlr/location/longitude" = {};
+
   hyprland = {
     enable = true;
     modkey = "ALT";
