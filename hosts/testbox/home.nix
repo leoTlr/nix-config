@@ -1,18 +1,42 @@
 { config, lib, pkgs, inputs, commonSettings, ... }:
 let 
   inherit (inputs) nix-colors;
+  homeDir = "/home/${commonSettings.user.name}";
 in
 { 
 
   imports = [
     ../../user
     inputs.nix-colors.homeManagerModules.default
+    inputs.sops-nix.homeManagerModules.sops
   ];
   
   home = {
     username = commonSettings.user.name;
-    homeDirectory = "/home/${commonSettings.user.name}";
+    homeDirectory = homeDir;
     stateVersion = "23.11";
+
+    sessionVariables = {
+      EDITOR = "vim";
+    };
+  };
+
+  programs.gpg.enable = true;
+  services.gpg-agent = {
+    enable = true;
+    enableFishIntegration = true;
+    pinentryFlavor = "curses";
+  };
+  home.packages = [ pkgs.pinentry-curses ];
+
+  sops = {
+    defaultSopsFile = "../../secrets/users/${commonSettings.user.name}.yaml";
+    defaultSopsFormat = "yaml";
+
+    gnupg = {
+      home = "${homeDir}/.gnupg";
+      sshKeyPaths = [];
+    };
   };
 
   hyprland = {

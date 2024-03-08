@@ -1,0 +1,7 @@
+keys:
+  - &ltlr 93822605C442D674624431B92F394641FD9E298A
+
+creation_rules:
+  - key_groups:
+    - pgp:
+      - *ltlr
