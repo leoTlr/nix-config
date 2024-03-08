@@ -21,14 +21,6 @@ in
     };
   };
 
-  programs.gpg.enable = true;
-  services.gpg-agent = {
-    enable = true;
-    enableFishIntegration = true;
-    pinentryFlavor = "curses";
-  };
-  home.packages = [ pkgs.pinentry-curses ];
-
   sops = {
     defaultSopsFile = "../../secrets/users/${commonSettings.user.name}.yaml";
     defaultSopsFormat = "yaml";
@@ -48,6 +40,7 @@ in
   statix.enable = true;
   vscode.enable = true;
   git.enable = true;
+  gpg.enable = true;
 
   programs.home-manager.enable = true;
 

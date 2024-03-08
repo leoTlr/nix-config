@@ -8,6 +8,7 @@
     ./firefox
     ./statix
     ./vscode
+    ./gpg.nix
   ];
 
 }
