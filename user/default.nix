@@ -9,6 +9,7 @@
     ./statix
     ./vscode
     ./gpg.nix
+    ./sops.nix
   ];
 
 }

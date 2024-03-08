@@ -8,7 +8,6 @@ in
   imports = [
     ../../user
     inputs.nix-colors.homeManagerModules.default
-    inputs.sops-nix.homeManagerModules.sops
   ];
   
   home = {
@@ -18,16 +17,6 @@ in
 
     sessionVariables = {
       EDITOR = "vim";
-    };
-  };
-
-  sops = {
-    defaultSopsFile = "../../secrets/users/${commonSettings.user.name}.yaml";
-    defaultSopsFormat = "yaml";
-
-    gnupg = {
-      home = "${homeDir}/.gnupg";
-      sshKeyPaths = [];
     };
   };
 
@@ -41,6 +30,7 @@ in
   vscode.enable = true;
   git.enable = true;
   gpg.enable = true;
+  sops.enable = true;
 
   programs.home-manager.enable = true;
 
