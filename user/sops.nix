@@ -25,6 +25,10 @@
     };
 
     home.packages = [ pkgs.sops ];
+    # restart sops-nix automatically after home-manager switch
+    home.activation.setupEtc = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      /run/current-system/sw/bin/systemctl --user start sops-nix
+    '';
 
     gpg.enable = true;
   
