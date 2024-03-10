@@ -12,6 +12,8 @@
       g = "git";
       ls = "eza";
       cat = "bat";
+      sys = "systemctl";
+      sysu = "systemctl --user";
     };
   };
 
