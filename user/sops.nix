@@ -1,11 +1,28 @@
 { config, lib, pkgs, inputs, ... }:
-
+let 
+  showSecret = (pkgs.writeShellScriptBin "show_secret" ''
+    #!/usr/bin/env bash
+    secret=''${1:?secret name not defined}
+    echo "${config.sops.defaultSymlinkPath}/''${secret}"
+    cat ${config.sops.defaultSymlinkPath}/''${secret}
+  '');
+in
 { 
   
-  options.sops.enable = lib.mkOption {
-    type = lib.types.bool;
-    default = false;
-    description = "Enable sops";
+  options.sops = {
+    
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable sops";
+    };
+
+    showSecretScript.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = config.sops.enable;
+      description = "Enable script show_secret SECRET_NAME";
+    };
+
   };
 
   imports = [
@@ -29,7 +46,10 @@
       };
     };
 
-    home.packages = [ pkgs.sops ];
+    home.packages = [ 
+      pkgs.sops 
+      (if config.sops.showSecretScript.enable then showSecret else null)
+    ];
     # restart sops-nix automatically after home-manager switch
     home.activation.setupEtc = config.lib.dag.entryAfter [ "writeBoundary" ] ''
       /run/current-system/sw/bin/systemctl --user start sops-nix
