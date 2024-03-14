@@ -20,8 +20,10 @@ in
     };
   };
 
-  sops.secrets."ltlr/location/latitude" = {};
-  sops.secrets."ltlr/location/longitude" = {};
+  sops.secrets = {
+    "ltlr/location/latitude" = {};
+    "ltlr/location/longitude" = {};
+  };
 
   hyprland = {
     enable = true;

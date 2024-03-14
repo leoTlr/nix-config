@@ -1,11 +1,11 @@
 { config, lib, pkgs, inputs, ... }:
 let 
-  showSecret = (pkgs.writeShellScriptBin "show_secret" ''
+  showSecret = pkgs.writeShellScriptBin "show_secret" ''
     #!/usr/bin/env bash
     secret=''${1:?secret name not defined}
     echo "${config.sops.defaultSymlinkPath}/''${secret}"
     cat ${config.sops.defaultSymlinkPath}/''${secret}
-  '');
+  '';
 in
 { 
   
