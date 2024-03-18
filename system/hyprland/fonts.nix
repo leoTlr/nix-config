@@ -1,14 +1,21 @@
-{pkgs, ...}:
+{ config, pkgs, lib, ... }:
 
 {
+  options.customFonts.enable = lib.mkOption {
+    type = lib.types.bool;
+    default = false;
+    description = "Configure fonts";
+  };
   
-  fonts = {
+  config.fonts = lib.mkIf config.customFonts.enable {
+    
     packages = with pkgs; [
       # only dl specific fonts from nerdfonts repo
       (pkgs.nerdfonts.override {fonts = ["JetBrainsMono" "FiraCode"];})
     ];
 
     enableDefaultPackages = true;
+
     fontconfig = {
       defaultFonts = {
         monospace = ["JetBrainsMono Nerd Font Mono"];
@@ -16,6 +23,7 @@
         serif = ["JetBrainsMono Nerd Font"];
       };
     };
+    
   }; 
   
 }

@@ -23,6 +23,8 @@
 
   sound.enable = true;
   isVmGuest = true;
+  customFonts.enable = true;
+  hyprland.enable = true;
 
   environment.systemPackages = with pkgs; [
     vim
