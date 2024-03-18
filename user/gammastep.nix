@@ -60,8 +60,10 @@ in
     systemd.user.services.gammastep = {
 
       Unit = {
-        Wants = bindUnits;
         After = bindUnits;
+      };
+      Install = {
+        WantedBy = bindUnits;
       };
       
       Service = {
