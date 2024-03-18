@@ -1,12 +1,19 @@
 {config, lib, commonSettings, ...}:
 
 { 
-  options.greetd.command = lib.mkOption {
-    type = lib.types.str;
-    example = ''''${pkgs.hyprland}/bin/Hyprland'';
+  options.greetd = {
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Use greetd login-manager";
+    };
+    command = lib.mkOption {
+      type = lib.types.str;
+      example = ''''${pkgs.hyprland}/bin/Hyprland'';
+    };
   };
 
-  config = {
+  config = lib.mkIf config.greetd.enable {
 
     services.greetd = {
       enable = true;

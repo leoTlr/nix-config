@@ -23,9 +23,12 @@
     portalPackage = pkgs.xdg-desktop-portal-hyprland;
   };
 
-  greetd.command = if config.isVmGuest then
+  greetd = {
+    enable = true;
+    command = if config.isVmGuest then
     ''sh -c "WLR_RENDERER_ALLOW_SOFTWARE=1 ${pkgs.hyprland}/bin/Hyprland"''
     else
     "${pkgs.hyprland}/bin/Hyprland";
+  };
 
 }
