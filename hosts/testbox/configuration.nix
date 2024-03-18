@@ -22,6 +22,7 @@
   };
 
   sound.enable = true;
+  isVmGuest = true;
 
   environment.systemPackages = with pkgs; [
     vim
