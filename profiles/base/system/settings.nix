@@ -16,13 +16,7 @@ in
     networkmanager.enable = true;
   };
 
-  time.timeZone = cfg.localization.timezone;
-
-  i18n.defaultLocale = cfg.localization.locale;
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = cfg.localization.keymap;
-  };
+  syslib.localization.enable = true;
   syslib.customFonts.enable = true;
 
   environment.systemPackages = with pkgs; [
