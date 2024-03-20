@@ -23,7 +23,7 @@ in
     font = "Lat2-Terminus16";
     keyMap = cfg.localization.keymap;
   };
-  customFonts.enable = true;
+  syslib.customFonts.enable = true;
 
   environment.systemPackages = with pkgs; [
     vim
@@ -35,10 +35,15 @@ in
     '')
   ];
 
+  programs.fish.enable = true;
+
   users.users.${cfg.system.mainUserName} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "libvirtd" ];
     initialPassword = "1234"; # to be changed on first login
+    shell = pkgs.fish;
   };
+
+  services.qemuGuest.enable = cfg.system.isVmGuest;
 
 }

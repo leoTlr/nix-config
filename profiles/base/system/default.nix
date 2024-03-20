@@ -4,9 +4,7 @@ let
 in
 {
   imports = [
-    ../../../system/fish.nix
-    ../../../system/fonts.nix
-    ../../../system/vmguest.nix
+    ../../../system
   ];
 
   options.profiles.base = import ./interface.nix { inherit lib; };

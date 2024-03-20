@@ -1,11 +1,12 @@
-{ pkgs, system, config, commonSettings, ... }:
+_:
 
 {
   imports = [
-    ./hyprland/hyprland.nix
-    ./vmguest.nix
-    ./fish.nix
+    ./dbus.nix
     ./fonts.nix
+    ./greetd.nix
+    ./hyprland.nix
+    ./pipewire.nix
+    ./wayland.nix
   ];
-
 }

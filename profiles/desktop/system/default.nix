@@ -5,7 +5,6 @@ in
 {
   imports = [
     ../../../profiles/base/system
-    ../../../system/hyprland/hyprland.nix
   ];
 
   options.profiles.desktop = {
@@ -20,7 +19,7 @@ in
     profiles.base.enable = true;
 
     sound.enable = true;
-    hyprland.enable = true;
+    syslib.hyprland.enable = true;
   };
 
 }

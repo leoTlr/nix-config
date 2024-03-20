@@ -1,13 +1,13 @@
 { config, pkgs, lib, ... }:
 
 {
-  options.customFonts.enable = lib.mkOption {
+  options.syslib.customFonts.enable = lib.mkOption {
     type = lib.types.bool;
     default = false;
     description = "Configure fonts";
   };
   
-  config.fonts = lib.mkIf config.customFonts.enable {
+  config.fonts = lib.mkIf config.syslib.customFonts.enable {
     
     packages = with pkgs; [
       # only dl specific fonts from nerdfonts repo
@@ -23,7 +23,7 @@
         serif = ["JetBrainsMono Nerd Font"];
       };
     };
-    
+
   }; 
   
 }
