@@ -1,4 +1,4 @@
-{ pkgs, system, inputs, config, lib, commonSettings, ... }:
+_:
 
 {
   imports = [

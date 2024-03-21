@@ -2,13 +2,13 @@
 
 { 
   
-  options.gpg.enable = lib.mkOption {
+  options.homelib.gpg.enable = lib.mkOption {
     type = lib.types.bool;
     default = false;
     description = "Enable gpg and gpg-agent";
   };
 
-  config = {
+  config = lib.mkIf config.homelib.gpg.enable {
   
     programs.gpg.enable = true;
     

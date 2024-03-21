@@ -1,7 +1,7 @@
 { config, pkgs }:
 
 { 
-  "$modkey" = config.hyprland.modkey;
+  "$modkey" = config.homelib.hyprland.modkey;
 
   # bind modifiers
   # l -> locked, aka. works also when an input inhibitor (e.g. a lockscreen) is active.

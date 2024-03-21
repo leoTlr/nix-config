@@ -1,5 +1,6 @@
 { config, lib, pkgs, inputs, ... }:
-let 
+let
+  cfg = config.homelib.sops;
   showSecret = pkgs.writeShellScriptBin "show_secret" ''
     #!/usr/bin/env bash
     secret=''${1:?secret name not defined}
@@ -9,7 +10,7 @@ let
 in
 { 
   
-  options.sops = {
+  options.homelib.sops = {
     
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -19,7 +20,7 @@ in
 
     showSecretScript.enable = lib.mkOption {
       type = lib.types.bool;
-      default = config.sops.enable;
+      default = cfg.enable;
       description = "Enable script show_secret SECRET_NAME";
     };
 
@@ -29,7 +30,7 @@ in
     inputs.sops-nix.homeManagerModules.sops
   ];
 
-  config = lib.mkIf config.sops.enable {
+  config = lib.mkIf cfg.enable {
 
     sops = {
       defaultSopsFile = ../secrets.yaml;
@@ -48,14 +49,14 @@ in
 
     home.packages = [ 
       pkgs.sops 
-      (if config.sops.showSecretScript.enable then showSecret else null)
+      (if cfg.showSecretScript.enable then showSecret else null)
     ];
     # restart sops-nix automatically after home-manager switch
     home.activation.setupEtc = config.lib.dag.entryAfter [ "writeBoundary" ] ''
       /run/current-system/sw/bin/systemctl --user start sops-nix
     '';
 
-    gpg.enable = true;
+    homelib.gpg.enable = true;
     xdg.enable = true; # required for defaultSymlinkPath workaround
   
   };

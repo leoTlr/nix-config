@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  cfg = config.gammastep;
+  cfg = config.homelib.gammastep;
   bindUnits = 
     [ "sops-nix.service" ] ++ (
       if cfg.systemdBindTarget != null 
@@ -9,7 +9,7 @@ let
     );
 in
 {
-  options.gammastep = {
+  options.homelib.gammastep = {
 
     enable = lib.mkOption {
       type = lib.types.bool;

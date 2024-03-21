@@ -1,5 +1,6 @@
 { pkgs, config, lib, ... }:
 let
+  cfg = config.homelib.vscode;
   userSettings = import ./usersettings.nix {};
   extensions = with pkgs.vscode-extensions; [
     eamodio.gitlens
@@ -11,13 +12,13 @@ let
 in
 {
   
-  options.vscode.enable = lib.mkOption {
+  options.homelib.vscode.enable = lib.mkOption {
     type = lib.types.bool;
     default = false;
     description = "Use vscode editor";
   };
   
-  config = lib.mkIf config.vscode.enable {
+  config = lib.mkIf cfg.enable {
     
     programs.vscode = {
       enable = true;

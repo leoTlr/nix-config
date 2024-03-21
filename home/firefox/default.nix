@@ -1,6 +1,7 @@
 { inputs, lib, config, commonSettings, ... }:
 
 let
+  cfg = config.homelib.firefox; 
   settings = import ./settings.nix {};
   extensions = with inputs.firefox-addons.packages."${commonSettings.system.arch}"; [
     ublock-origin
@@ -12,7 +13,7 @@ let
   ];
 in
 {
-  options.firefox = {
+  options.homelib.firefox = {
 
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -22,21 +23,21 @@ in
 
     extensions.enable = lib.mkOption {
       type = lib.types.bool;
-      default = config.firefox.enable;
+      default = cfg.enable;
       description = "Manage firefox addons";
     };
 
   };
 
   config = {
-    programs.firefox = lib.mkIf config.firefox.enable {
+    programs.firefox = lib.mkIf cfg.enable {
       enable = true;
 
       profiles = {
         default = {
           id = 0;
           inherit settings;
-          extensions = lib.mkIf config.firefox.extensions.enable extensions;
+          extensions = lib.mkIf cfg.extensions.enable extensions;
         };
       };
     };

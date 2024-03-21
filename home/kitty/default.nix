@@ -1,9 +1,10 @@
 { pkgs, config, lib, ... }:
 let
+  cfg = config.homelib.kitty;
   kittyColorSettings = import ./colors.nix { inherit config; };
 in
 { 
-  options.kitty = {
+  options.homelib.kitty = {
 
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -13,13 +14,13 @@ in
     
     nixcolors.enable = lib.mkOption {
       type = lib.types.bool;
-      default = config.kitty.enable;
+      default = cfg.enable;
       description = "Use github:misterio77/nix-colors for theming";
     };
   
   };
 
-  config.programs.kitty = lib.mkIf config.kitty.enable {
+  config.programs.kitty = lib.mkIf cfg.enable {
     enable = true;
     font.name = "JetBrainsMono Nerd Font Mono";
     font.size = 15;
@@ -29,7 +30,7 @@ in
       allow_remote_control = "no";
       listen_on = "unix:/tmp/kitty";
       shell_integration = "enabled";
-    } // lib.mkIf config.kitty.nixcolors.enable kittyColorSettings;
+    } // lib.mkIf cfg.nixcolors.enable kittyColorSettings;
   
   };
   

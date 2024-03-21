@@ -1,5 +1,6 @@
 { lib, config, pkgs, commonSettings, ... }:
 let
+  cfg = config.homelib.hyprland;
   hyprlandSettings = import ./settings.nix { 
     inherit config pkgs commonSettings;
   };
@@ -12,7 +13,7 @@ in
     ../kitty
   ];
 
-  options.hyprland = {
+  options.homelib.hyprland = {
 
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -28,11 +29,11 @@ in
 
   };
 
-  config = lib.mkIf config.hyprland.enable {
+  config = lib.mkIf cfg.enable {
 
-    kitty.enable = true;
-    gtk.theming.enable = true;
-    waybar.enable = true;
+    homelib.kitty.enable = true;
+    homelib.gtk.theming.enable = true;
+    homelib.waybar.enable = true;
 
     wayland.windowManager.hyprland = {
       enable = true;
