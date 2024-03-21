@@ -45,7 +45,7 @@
     in 
       with cfgLib; {
 
-        homeManagerModules.default = ./user;
+        homeManagerModules.default = ./home;
         nixosModules.default = ./system;
 
         nixosConfigurations = {

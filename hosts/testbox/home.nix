@@ -6,7 +6,7 @@ in
 { 
 
   imports = [
-    ../../user
+    ../../home
     inputs.nix-colors.homeManagerModules.default
   ];
   
