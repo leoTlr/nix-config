@@ -8,7 +8,7 @@ in
   home = {
     username = cfg.home.userName;
     homeDirectory = cfg.home.dir;
-    stateVersion = cfg.home.stateVersion;
+    inherit (cfg.home) stateVersion;
 
     sessionVariables = {
       EDITOR = "vim";

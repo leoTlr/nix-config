@@ -16,11 +16,13 @@ in
     networkmanager.enable = true;
   };
 
-  syslib.localization.enable = true;
-  syslib.customFonts.enable = true;
-  syslib.nh = {
-    enable = true;
-    flakePath = /home/${cfg.system.mainUserName}/localrepo;
+  syslib = {
+    localization.enable = true;
+    customFonts.enable = true;
+    nh = {
+      enable = true;
+      flakePath = /home/${cfg.system.mainUserName}/localrepo;
+    };
   };
 
   environment.systemPackages = with pkgs; [

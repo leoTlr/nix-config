@@ -31,9 +31,11 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    homelib.kitty.enable = true;
-    homelib.gtk.theming.enable = true;
-    homelib.waybar.enable = true;
+    homelib = {
+      kitty.enable = true;
+      gtk.theming.enable = true;
+      waybar.enable = true;
+    };
 
     wayland.windowManager.hyprland = {
       enable = true;
