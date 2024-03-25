@@ -15,11 +15,9 @@
     services.gpg-agent = {
       enable = true;
       enableFishIntegration = true;
-      pinentryFlavor = "curses";
+      pinentryPackage = pkgs.pinentry-curses;
     };
-
-    home.packages = [ pkgs.pinentry-curses ];
-  
+    
   };
 
 }
