@@ -1,54 +1,25 @@
-{ config, lib, pkgs, inputs, commonSettings, ... }:
-let 
-  inherit (inputs) nix-colors;
+{ config, commonSettings, ... }:
+let
   homeDir = "/home/${commonSettings.user.name}";
 in
 { 
 
   imports = [
-    ../../home
-    inputs.nix-colors.homeManagerModules.default
+    ../../profiles/desktop/home
   ];
   
-  home = {
-    username = commonSettings.user.name;
-    homeDirectory = homeDir;
-    stateVersion = "23.11";
-
-    sessionVariables = {
-      EDITOR = "vim";
+  profiles.base = {
+    home = {
+      userName = commonSettings.user.name;
+      dir = homeDir;
+      stateVersion = "23.11";
     };
+    
+    system.isVmGuest = true;
+
+    inherit (commonSettings) localization;
   };
 
-  sops.secrets = {
-    "ltlr/location/latitude" = {};
-    "ltlr/location/longitude" = {};
-  };
-
-  
-  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
-  homelib = {
-    hyprland = {
-      enable = true;
-      modkey = "ALT";
-    };
-    firefox.enable = true;
-    statix.enable = true;
-    vscode.enable = true;
-    git.enable = true;
-    gpg.enable = true;
-    sops.enable = true;
-    gammastep = {
-      enable = true;
-      temperature = { day = 5300; night = 2700; };
-      location = {
-        latPath = config.sops.secrets."ltlr/location/latitude".path;
-        lonPath = config.sops.secrets."ltlr/location/longitude".path;
-      };
-      systemdBindTarget = "hyprland-session.target";
-    };
-  };
-
-  programs.home-manager.enable = true;
+  profiles.desktop.enable = true;
 
 }

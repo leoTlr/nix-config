@@ -1,9 +1,10 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, inputs, ... }:
 let
   cfg = config.homelib.kitty;
   kittyColorSettings = import ./colors.nix { inherit config; };
 in
 { 
+ 
   options.homelib.kitty = {
 
     enable = lib.mkOption {
