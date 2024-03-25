@@ -18,6 +18,10 @@ in
 
   syslib.localization.enable = true;
   syslib.customFonts.enable = true;
+  syslib.nh = {
+    enable = true;
+    flakePath = /home/${cfg.system.mainUserName}/localrepo;
+  };
 
   environment.systemPackages = with pkgs; [
     vim

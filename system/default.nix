@@ -7,6 +7,7 @@ _:
     ./greetd.nix
     ./hyprland.nix
     ./localization.nix
+    ./nh.nix
     ./pipewire.nix
     ./wayland.nix
   ];
