@@ -10,11 +10,19 @@ in
   ];
 
   options.profiles.desktop = {
+    
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
       description = "Treat host as desktop";
-    }; 
+    };
+
+    colorScheme = lib.mkOption {
+      # one of https://github.com/tinted-theming/schemes/tree/spec-0.11/base16
+      type = lib.types.str;
+      default = "gruvbox-dark-medium";
+    };
+    
   };
 
   config = {
@@ -25,7 +33,7 @@ in
       "${basecfg.home.userName}/location/longitude" = {};
     };
 
-    colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
+    colorScheme = inputs.nix-colors.colorSchemes.${cfg.colorScheme};
 
     homelib = {
       firefox.enable = true;
