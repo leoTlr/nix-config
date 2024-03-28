@@ -18,10 +18,11 @@
   };
 
   home.packages = with pkgs; [
-    lf
-    bat
-    ripgrep
-    eza
+    lf # terminal file manager
+    bat # cat
+    ripgrep # grep
+    eza # ls
+    tealdeer # tldr client in rustx
   ];
 
 }
