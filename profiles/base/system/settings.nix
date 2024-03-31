@@ -17,8 +17,14 @@ in
   };
 
   syslib = {
+    users.mainUser = {
+      name = cfg.system.mainUserName;
+      shell = pkgs.fish;
+    };
+
     localization.enable = true;
     customFonts.enable = true;
+
     nh = {
       enable = true;
       flakePath = /home/${cfg.system.mainUserName}/localrepo;
@@ -31,13 +37,6 @@ in
   ];
 
   programs.fish.enable = true;
-
-  users.users.${cfg.system.mainUserName} = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" "libvirtd" ];
-    initialPassword = "1234"; # to be changed on first login
-    shell = pkgs.fish;
-  };
 
   services.qemuGuest.enable = cfg.system.isVmGuest;
 

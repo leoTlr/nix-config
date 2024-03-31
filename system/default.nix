@@ -9,6 +9,7 @@ _:
     ./localization.nix
     ./nh.nix
     ./pipewire.nix
+    ./users.nix
     ./wayland.nix
   ];
 }
