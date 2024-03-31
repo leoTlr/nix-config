@@ -61,7 +61,7 @@ resource "libvirt_domain" "nixos_testbox" {
     #
     # Inside the VM mount with:
     # sudo mount -t 9p -o trans=virtio,version=9p2000.L,rw repo /some/dir
-    source   = "${abspath(path.module)}/.."
+    source   = "${abspath(path.module)}/../.."
     target   = "repo"
     readonly = false
   }
