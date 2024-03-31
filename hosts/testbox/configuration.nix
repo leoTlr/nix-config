@@ -1,4 +1,4 @@
-{ config, commonSettings, ... }:
+{ config, pkgs, commonSettings, ... }:
 
 {
   
@@ -20,6 +20,13 @@
   };
 
   profiles.desktop.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    (writeShellScriptBin "mount_repo" ''
+      mkdir /home/leo/localrepo
+      sudo mount -t 9p -o trans=virtio,r repo /home/leo/localrepo
+    '')
+  ];
 
 }
 

@@ -28,11 +28,6 @@ in
   environment.systemPackages = with pkgs; [
     vim
     git
-
-    (writeShellScriptBin "mount_repo" ''
-      mkdir /home/${cfg.system.mainUserName}/localrepo
-      sudo mount -t 9p -o trans=virtio,r repo /home/${cfg.system.mainUserName}/localrepo
-    '')
   ];
 
   programs.fish.enable = true;
