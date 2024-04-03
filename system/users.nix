@@ -16,17 +16,36 @@ in
         type = lib.types.listOf lib.types.str;
         default = [ "wheel" "networkmanager" ];
       };
+      passwordHashPath = lib.mkOption {
+        type = lib.types.nullOr lib.types.path;
+        description = ''
+          Path to file containing "username:hashedpw" hashed pw (created with mkpasswd -s).
+        '';
+        default = null;
+      };
+    };
+
+    mutable = lib.mkOption {
+      type = lib.types.bool;
+      description = ''
+        Whether users can be modified with f.e. passwd
+        If this is set to false, passwordHashPath has to be defined per user
+      '';
+      default = true;
     };
 
   };
 
   config = {
+
+    users.mutableUsers = cfg.mutable;
     
     users.users.${cfg.mainUser.name} = {
       isNormalUser = true;
       extraGroups = cfg.mainUser.extraGroups;
       shell = cfg.mainUser.shell;
-      initialPassword = "1234"; # to be changed on first login
+      initialPassword = lib.mkIf cfg.mutable "1234"; # to be changed on first login
+      hashedPasswordFile = lib.mkIf (cfg.mainUser.passwordHashPath!=null) cfg.mainUser.passwordHashPath;
     };
 
   };

@@ -14,6 +14,14 @@
     mainUser = {
       name = lib.mkOption {
         type = lib.types.str;
+      };
+      passwordHashPath = lib.mkOption {
+        type = lib.types.nullOr lib.types.path;
+        description = ''
+          Path to file containing "username:hashedpw" hashed pw (created with mkpasswd -s).
+        '';
+        default = null;
+      };
     };
     stateVersion = lib.mkOption {
       type = lib.types.str;
