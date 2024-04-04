@@ -18,7 +18,7 @@ in
 
   syslib = {
     users.mainUser = {
-      name = cfg.system.mainUserName;
+      inherit (cfg.system.mainUser) name;
       shell = pkgs.fish;
     };
 
@@ -27,7 +27,7 @@ in
 
     nh = {
       enable = true;
-      flakePath = /home/${cfg.system.mainUserName}/localrepo;
+      flakePath = /home/${cfg.system.mainUser.name}/localrepo;
     };
   };
 

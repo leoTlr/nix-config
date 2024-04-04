@@ -1,6 +1,7 @@
 { config, lib, ... }:
 let
   cfg = config.profiles.desktop;
+  basecfg = config.profiles.base;
 in
 {
   imports = [
@@ -19,7 +20,11 @@ in
     profiles.base.enable = true;
 
     sound.enable = true;
-    syslib.hyprland.enable = true;
+    syslib.hyprland = {
+      enable = true;
+      inherit (basecfg.system) isVmGuest;
+      user = basecfg.system.mainUser.name;
+    };
   };
 
 }

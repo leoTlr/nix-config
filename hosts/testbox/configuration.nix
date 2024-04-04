@@ -11,7 +11,7 @@
 
     system = {
       hostName = "testbox";
-      mainUserName = commonSettings.user.name;
+      mainUser.name = commonSettings.user.name;
       stateVersion = "23.11";
       isVmGuest = true;
     };

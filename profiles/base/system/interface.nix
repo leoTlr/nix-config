@@ -11,8 +11,9 @@
     hostName = lib.mkOption {
       type = lib.types.str;
     };
-    mainUserName = lib.mkOption {
-      type = lib.types.str;
+    mainUser = {
+      name = lib.mkOption {
+        type = lib.types.str;
     };
     stateVersion = lib.mkOption {
       type = lib.types.str;

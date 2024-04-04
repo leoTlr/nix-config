@@ -1,5 +1,7 @@
 { pkgs, config, lib, commonSettings, ... }:
-
+let
+  cfg = config.syslib.hyprland;
+in
 { 
   options.syslib.hyprland = {
     enable = lib.mkOption {
@@ -7,9 +9,18 @@
       default = false;
       description = "Use hyprland window manager";
     };
+    isVmGuest = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether hyprland runs in a VM";
+    };
+    user = lib.mkOption {
+      type = lib.types.str;
+      description = "Name of the user under which greetd starts Hyprland";
+    };
   };
   
-  config = lib.mkIf config.syslib.hyprland.enable {
+  config = lib.mkIf cfg.enable {
 
     environment.systemPackages = with pkgs; [
       polkit
@@ -33,11 +44,11 @@
       };
       greetd = {
         enable = true;
-        command = if config.profiles.base.system.isVmGuest then
+        command = if cfg.isVmGuest then
         ''sh -c "WLR_RENDERER_ALLOW_SOFTWARE=1 ${pkgs.hyprland}/bin/Hyprland"''
         else
         "${pkgs.hyprland}/bin/Hyprland";
-        userName = config.profiles.base.system.mainUserName;
+        userName = cfg.user;
       };
     };
     
