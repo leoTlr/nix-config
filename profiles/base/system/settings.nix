@@ -18,14 +18,10 @@ in
   };
 
   # https://github.com/Mic92/sops-nix?tab=readme-ov-file#setting-a-users-password
-  sops = {
-    defaultSopsFile = ../../../secrets.yaml;
-    defaultSopsFormat = "yaml";
-    gnupg.home = "/home/${cfg.system.mainUser.name}/.gnupg";
-    secrets."${cfg.system.mainUser.name}/passwordHash".neededForUsers = true;
-  };
+  sops.secrets."${cfg.system.mainUser.name}/passwordHash".neededForUsers = true;
 
   syslib = {
+
     users = {
       mutable = false;
       mainUser = {
@@ -37,6 +33,11 @@ in
 
     localization.enable = true;
     customFonts.enable = true;
+    
+    sops = {
+      enable = true;
+      gnupgHome = "/home/${cfg.system.mainUser.name}/.gnupg";
+    };
 
     nh = {
       enable = true;
