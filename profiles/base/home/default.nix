@@ -26,13 +26,23 @@ in
       };
     };
 
+    gitInfo = {
+      name = lib.mkOption {
+        type = lib.types.str;
+        default = cfg.userName;
+      };
+      email = lib.mkOption {
+        type = lib.types.str;
+      };
+    };
+
     system = {
       isVmGuest = lib.mkOption {
         type = lib.types.bool;
         default = false;
       };
     };
-    
+
     localization = {
       locale = lib.mkOption {
         type = lib.types.str;

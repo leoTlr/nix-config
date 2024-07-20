@@ -1,8 +1,8 @@
 { config, ... }:
-let 
+let
   cfg = config.profiles.base;
 in
-{ 
+{
   programs.home-manager.enable = true;
 
   home = {
@@ -16,7 +16,13 @@ in
   };
 
   homelib = {
-    git.enable = true;
+    git = {
+      enable = true;
+      commitInfo = {
+        name = cfg.gitInfo.name;
+        email = cfg.gitInfo.email;
+      };
+    };
     gpg.enable = true;
     statix.enable = true;
     sops.enable = true;

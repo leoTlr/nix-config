@@ -1,11 +1,11 @@
 { config, pkgs, lib, commonSettings, ... }:
 let
-  cfg = config.homelib.git; 
+  cfg = config.homelib.git;
   gitConfig = import ./gitconfig.nix {};
   gitAliases = import ./aliases.nix {};
   gitIgnore = import ./gitignore.nix {};
 in
-{ 
+{
   options.homelib.git = {
 
     enable = lib.mkOption {
@@ -26,6 +26,18 @@ in
       description = "Manage git ignores";
     };
 
+    commitInfo = {
+      name = lib.mkOption {
+        type = lib.types.str;
+        default = commonSettings.userName;
+        description = "User name for commits";
+      };
+      email = lib.mkOption {
+        type = lib.types.str;
+        description = "User email for commits";
+      };
+    };
+
   };
 
   config = lib.mkIf cfg.enable {
@@ -33,7 +45,8 @@ in
 
     programs.git = {
       enable = true;
-      userName = commonSettings.user.name;
+      userName = cfg.commitInfo.name;
+      userEmail = cfg.commitInfo.email;
 
       extraConfig = gitConfig;
       aliases = lib.mkIf cfg.aliases.enable gitAliases;
