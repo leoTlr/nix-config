@@ -41,7 +41,7 @@ in
 
     nh = {
       enable = true;
-      flakePath = /home/${cfg.system.mainUser.name}/localrepo;
+      flakePath = "/home/${cfg.system.mainUser.name}/localrepo";
     };
   };
 
