@@ -1,6 +1,6 @@
 { config, pkgs }:
 
-{ 
+{
   "$modkey" = config.homelib.hyprland.modkey;
 
   # bind modifiers
@@ -16,6 +16,7 @@
     "$modkey, Q,            killactive,"
     "$modkey SHIFT, M,      exit,"
     "$modkey SHIFT, F,      togglefloating,"
+    "$modkey, E,            togglegroup"
     "$modkey, F,            fullscreen,"
     "$modkey, D,            exec, ${pkgs.wofi}/bin/wofi --show drun"
 
@@ -67,7 +68,7 @@
     ",XF86MonBrightnessDown,    exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%-"
     ",XF86MonBrightnessUp,      exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%+"
   ];
-   
+
   bindl = [
     ",XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
   ];
