@@ -14,7 +14,6 @@ in
       dir = homeDir;
       stateVersion = "23.11";
     };
-    system.isVmGuest = true;
     gitInfo = {
       name = "leoTlr";
       email = "ltlr+github@posteo.de";
