@@ -23,7 +23,7 @@ in
   syslib = {
 
     users = {
-      mutable = false;
+      mutable = if cfg.system.mainUser.passwordHashPath == null then true else false;
       mainUser = {
         inherit (cfg.system.mainUser) name;
         shell = pkgs.fish;

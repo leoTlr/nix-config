@@ -52,12 +52,14 @@
           inherit cfgLib;
           inherit commonSettings;
           testbox = mkSystem ./hosts/testbox/configuration.nix;
+          t14 = mkSystem ./hosts/t14/configuration.nix;
         };
 
         homeConfigurations = {
           inherit cfgLib;
           inherit commonSettings;
-          "leo" = mkHome "x86_64-linux" ./hosts/testbox/home.nix;
+          "leo@testbox" = mkHome "x86_64-linux" ./hosts/testbox/home.nix;
+          "leo@t14" = mkHome "x86_64-linux" ./hosts/t14/home.nix;
         };
       };
 }
