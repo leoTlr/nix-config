@@ -5,17 +5,23 @@ cryptpassword=${2:?cryptpassword must be set}
 
 echo -e "### Formatting device $device"
 sgdisk --clear "${device}" 
-sgdisk --new 1::+512MiB --typecode 1:ef00 --change-name 1:boot "${device}" 
-sgdisk --new 2::0       --typecode 2:8300 --change-name 2:nixos "${device}"
+sgdisk --new 1::+512MiB --typecode 1:ef00 --change-name 1:boot  "${device}" 
+sgdisk --new 2::-32GiB  --typecode 2:8300 --change-name 2:nixos "${device}"
+sgdisk --new 3::0       --typecode 2:8200 --change-name 3:swap  "${device}"
 
 part_boot="$(ls ${device}* | grep -E "^${device}p?1$")"
 part_root="$(ls ${device}* | grep -E "^${device}p?2$")"
+part_swap="$(ls ${device}* | grep -E "^${device}p?3$")"
 
 echo "boot part: ${part_boot}"
 echo "root part: ${part_root}"
+echo "swap part: ${part_swap}"
 
-echo -e "\n### Creating efi partition"
+echo -e "\n### Creating efi"
 mkfs.vfat -n "NIXBOOT" -F 32 "${part_boot}"
+echo -e "\n### Creating swap"
+mkswap -L "swap" "${part_swap}"
+swapon "${part_swap}"
 
 echo -e "\n### Creating cryptroot"
 luks_device_name="cryptroot"
