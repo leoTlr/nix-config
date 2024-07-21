@@ -1,5 +1,5 @@
 { config, pkgs, ... }:
-let 
+let
   cfg = config.profiles.base;
 in
 {
@@ -33,7 +33,7 @@ in
 
     localization.enable = true;
     customFonts.enable = true;
-    
+
     sops = {
       enable = true;
       gnupgHome = "/home/${cfg.system.mainUser.name}/.gnupg";
@@ -41,7 +41,7 @@ in
 
     nh = {
       enable = true;
-      flakePath = "/home/${cfg.system.mainUser.name}/localrepo";
+      flakePath = "/home/${cfg.system.mainUser.name}/nix-config";
     };
   };
 

@@ -1,7 +1,7 @@
 { config, pkgs, commonSettings, ... }:
 
 {
-  
+
   imports = [
     ./hardware-configuration.nix
     ../../profiles/desktop/system
@@ -23,8 +23,8 @@
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "mount_repo" ''
-      mkdir /home/leo/localrepo
-      sudo mount -t 9p -o trans=virtio,r repo /home/leo/localrepo
+      mkdir /home/leo/nix-config
+      sudo mount -t 9p -o trans=virtio,r repo /home/leo/nix-config
     '')
   ];
 
