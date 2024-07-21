@@ -13,13 +13,12 @@ in
       type = lib.types.bool;
       default = false;
       description = "Treat host as desktop";
-    }; 
+    };
   };
 
   config = {
     profiles.base.enable = true;
 
-    sound.enable = true;
     syslib.hyprland = {
       enable = true;
       inherit (basecfg.system) isVmGuest;
