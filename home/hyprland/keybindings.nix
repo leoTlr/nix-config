@@ -1,7 +1,9 @@
-{ config, pkgs }:
-
+{ config, lib, pkgs }:
+let
+  cfg = config.homelib.hyprland;
+in
 {
-  "$modkey" = config.homelib.hyprland.modkey;
+  "$modkey" = cfg.modkey;
 
   # bind modifiers
   # l -> locked, aka. works also when an input inhibitor (e.g. a lockscreen) is active.
@@ -57,6 +59,8 @@
     "$modkey SHIFT, 8,     movetoworkspace, 8"
     "$modkey SHIFT, 9,     movetoworkspace, 9"
     "$modkey SHIFT, 0,     movetoworkspace, 10"
+  ] ++ lib.optionals cfg.screenLock [
+    "$modkey, L,           exec, ${config.homelib.screenlock.lock.command}"
   ];
 
   bindel = [

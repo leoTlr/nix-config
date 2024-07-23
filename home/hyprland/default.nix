@@ -1,11 +1,11 @@
 { lib, config, pkgs, commonSettings, ... }:
 let
   cfg = config.homelib.hyprland;
-  hyprlandSettings = import ./settings.nix { 
-    inherit config pkgs commonSettings;
+  hyprlandSettings = import ./settings.nix {
+    inherit config lib pkgs commonSettings;
   };
 in
-{ 
+{
 
   imports = [
     ../gtk
@@ -27,6 +27,8 @@ in
       example = "ALT";
     };
 
+    screenLock = lib.mkEnableOption "screenLock";
+
   };
 
   config = lib.mkIf cfg.enable {
@@ -35,6 +37,10 @@ in
       kitty.enable = true;
       gtk.theming.enable = true;
       waybar.enable = true;
+      screenlock = lib.mkIf cfg.screenLock {
+        enable = true;
+        systemdBindTarget = "hyprland-session.target";
+      };
     };
 
     wayland.windowManager.hyprland = {

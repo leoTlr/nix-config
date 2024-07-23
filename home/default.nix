@@ -11,6 +11,7 @@ _:
     ./gpg.nix
     ./sops.nix
     ./gammastep.nix
+    ./screenlock.nix
   ];
 
 }

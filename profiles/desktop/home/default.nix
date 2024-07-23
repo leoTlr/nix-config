@@ -10,7 +10,7 @@ in
   ];
 
   options.profiles.desktop = {
-    
+
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -22,7 +22,7 @@ in
       type = lib.types.str;
       default = "gruvbox-dark-medium";
     };
-    
+
   };
 
   config = {
@@ -42,6 +42,7 @@ in
       hyprland = {
         enable = true;
         modkey = if config.profiles.base.system.isVmGuest then "ALT" else "SUPER";
+        screenLock = true;
       };
 
       gammastep = {
@@ -53,7 +54,6 @@ in
         systemdBindTarget = "hyprland-session.target";
       };
     };
-
   };
 
 }
