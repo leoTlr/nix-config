@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.homelib.screenlock;
+  color = config.colorScheme.palette;
 in
 {
   options.homelib.screenlock = {
@@ -24,7 +25,9 @@ in
             "--indicator" "--indicator-radius 100" "--indicator-thickness 6"
             "--effect-blur 14x10"
             "--effect-vignette 0.5:0.5"
-            "--ring-color bb00cc" "--key-hl-color 880033" "--line-color 00000000" "--inside-color 00000088" "--separator-color 00000000"
+            "--ring-color ${color.base0B}" "--key-hl-color ${color.base08}"
+            "--line-color ${color.base00}" "--inside-color ${color.base01}"
+            "--separator-color ${color.base00}" "--text-color ${color.base0C}"
             "--grace 2"
             "--fade-in 0.7"
         ];
