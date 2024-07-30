@@ -19,8 +19,8 @@ in
     git = {
       enable = true;
       commitInfo = {
-        name = cfg.gitInfo.name;
-        email = cfg.gitInfo.email;
+        inherit (cfg.gitInfo) name;
+        inherit (cfg.gitInfo) email;
       };
     };
     gpg.enable = true;

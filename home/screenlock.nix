@@ -59,11 +59,11 @@ in
       timeouts = [
         {
           timeout = cfg.lock.waitSec;
-          command = cfg.lock.command;
+          inherit (cfg.lock) command;
         }
         {
           timeout = cfg.sleep.waitSec;
-          command = cfg.sleep.command;
+          inherit (cfg.sleep) command;
         }
       ];
       systemdTarget = cfg.systemdBindTarget;

@@ -42,8 +42,8 @@ in
     
     users.users.${cfg.mainUser.name} = {
       isNormalUser = true;
-      extraGroups = cfg.mainUser.extraGroups;
-      shell = cfg.mainUser.shell;
+      inherit (cfg.mainUser) extraGroups;
+      inherit (cfg.mainUser) shell;
       initialPassword = lib.mkIf cfg.mutable "1234"; # to be changed on first login
       hashedPasswordFile = lib.mkIf (cfg.mainUser.passwordHashPath!=null) cfg.mainUser.passwordHashPath;
     };

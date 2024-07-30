@@ -2,7 +2,7 @@
 let
   cfg = config.syslib.nh;
 in
-{ 
+{
   # https://github.com/viperML/nh
   options.syslib.nh = {
     enable = lib.mkEnableOption "nh";
