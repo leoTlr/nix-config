@@ -1,7 +1,7 @@
 { config, lib, pkgs, ...}:
 
-{ 
-  
+{
+
   options.homelib.gpg.enable = lib.mkOption {
     type = lib.types.bool;
     default = false;
@@ -9,15 +9,18 @@
   };
 
   config = lib.mkIf config.homelib.gpg.enable {
-  
-    programs.gpg.enable = true;
-    
+
+    programs.gpg = {
+      enable = true;
+      mutableKeys = true;
+    };
+
     services.gpg-agent = {
       enable = true;
       enableFishIntegration = true;
       pinentryPackage = pkgs.pinentry-curses;
     };
-    
+
   };
 
 }
