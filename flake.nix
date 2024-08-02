@@ -1,10 +1,9 @@
 {
   description = "Personal config preferences";
-  
+
   inputs = {
-    
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,45 +20,36 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
-  
-  outputs = inputs :
-    let
-      cfgLib = import ./cfglib.nix { inherit inputs commonSettings; };
 
-      # shared between system and homeManager configs
-      commonSettings = {
+  outputs = inputs: let
+    cfgLib = import ./cfglib.nix {inherit inputs commonSettings;};
 
-        localization = {
-          locale = "en_IE.UTF-8";
-          timezone = "Europe/Berlin";
-          keymap = "de";
-        };
-
-        user = {
-          name = "leo";
-        };
-
+    # shared between system and homeManager configs
+    commonSettings = {
+      localization = {
+        locale = "en_IE.UTF-8";
+        timezone = "Europe/Berlin";
+        keymap = "de";
       };
-    in 
-      with cfgLib; {
 
-        homeManagerModules.default = ./home;
-        nixosModules.default = ./system;
-
-        nixosConfigurations = {
-          inherit cfgLib;
-          inherit commonSettings;
-          testbox = mkSystem ./hosts/testbox/configuration.nix;
-          t14 = mkSystem ./hosts/t14/configuration.nix;
-        };
-
-        homeConfigurations = {
-          inherit cfgLib;
-          inherit commonSettings;
-          "leo@testbox" = mkHome "x86_64-linux" ./hosts/testbox/home.nix;
-          "leo@t14" = mkHome "x86_64-linux" ./hosts/t14/home.nix;
-        };
+      user = {
+        name = "leo";
       };
+    };
+  in
+    with cfgLib; {
+      homeManagerModules.default = ./home;
+      nixosModules.default = ./system;
+
+      nixosConfigurations = {
+        testbox = mkSystem "testbox";
+        t14 = mkSystem "t14";
+      };
+
+      homeConfigurations = {
+        "leo@testbox" = mkHome "x86_64-linux" "testbox";
+        "leo@t14" = mkHome "x86_64-linux" "t14";
+      };
+    };
 }

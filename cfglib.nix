@@ -1,29 +1,28 @@
-{ inputs, commonSettings, ... }@args:
+{ inputs, commonSettings, ... }:
 let
-  inherit (inputs) cfgLib;
   inherit (inputs.self) outputs;
   pkgsFor = sys: inputs.nixpkgs.legacyPackages.${sys};
 in
 {
-  
-  mkSystem = hostconfig:
+
+  mkSystem = configName:
     inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs outputs commonSettings; };
+      specialArgs = { inherit inputs outputs commonSettings configName; };
       modules = [
-        hostconfig
+        (./. + "/hosts/${configName}/configuration.nix")
         outputs.nixosModules.default
       ];
     };
 
-  mkHome = sys: config:
+  mkHome = sys: configName:
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = pkgsFor sys;
-      extraSpecialArgs = { 
-        inherit inputs outputs;
+      extraSpecialArgs = {
+        inherit inputs outputs configName;
         commonSettings = commonSettings // { system.arch = sys; };
       };
       modules = [
-        config
+        (./. + "/hosts/${configName}/home.nix")
         outputs.homeManagerModules.default
       ];
     };
