@@ -26,6 +26,14 @@ in
     gpg.enable = true;
     statix.enable = true;
     sops.enable = true;
+    just = {
+      enable = true;
+      nixBuild = {
+        enable = true;
+        homeConfiguration = cfg.home.configName;
+        hostConfiguration = cfg.system.configName;
+      };
+    };
   };
 
 }

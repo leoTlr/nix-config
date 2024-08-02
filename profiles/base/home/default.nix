@@ -24,6 +24,10 @@ in
       stateVersion = lib.mkOption {
         type = lib.types.str;
       };
+      configName = lib.mkOption {
+        type = lib.types.string;
+        description = "Name of the homeConfiguration used";
+      };
     };
 
     gitInfo = {
@@ -40,6 +44,10 @@ in
       isVmGuest = lib.mkOption {
         type = lib.types.bool;
         default = false;
+      };
+      configName = lib.mkOption {
+        type = lib.types.string;
+        description = "Name of the system configuration used";
       };
     };
 

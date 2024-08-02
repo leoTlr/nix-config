@@ -1,7 +1,7 @@
-{ config, pkgs, commonSettings, ... }:
+{ config, pkgs, commonSettings, configName, ... }:
 
 {
-  
+
   imports = [
     ./hardware-configuration.nix
     ../../profiles/desktop/system
@@ -13,6 +13,7 @@
       hostName = "lt-t14";
       mainUser.name = commonSettings.user.name;
       stateVersion = "23.11";
+      inherit configName;
     };
 
     inherit (commonSettings) localization;
