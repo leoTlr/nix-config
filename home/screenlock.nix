@@ -33,6 +33,40 @@ in
         ];
       };
     };
+    displayDim = {
+      waitSec = lib.mkOption {
+        type = lib.types.ints.positive;
+        description = "Seconds until the screens dim";
+        default = cfg.lock.waitSec - 30;
+      };
+      command = lib.mkOption {
+        type = lib.types.str;
+        description = "Command to dim the screens";
+        default = "${pkgs.brightnessctl}/bin/brightnessctl set 30-";
+      };
+      resumeCommand = lib.mkOption {
+        type = lib.types.str;
+        description = "Command to revert dimming the screens";
+        default = "${pkgs.brightnessctl}/bin/brightnessctl set 30+";
+      };
+    };
+    displayOff = {
+      waitSec = lib.mkOption {
+        type = lib.types.ints.positive;
+        description = "Seconds until the screens turn off";
+        default = cfg.lock.waitSec + 120;
+      };
+      command = lib.mkOption {
+        type = lib.types.str;
+        description = "Command to turn off the screens";
+        default = "hyprctl dispatch dpms off";
+      };
+      resumeCommand = lib.mkOption {
+        type = lib.types.str;
+        description = "Command to turn off the screens";
+        default = "hyprctl dispatch dpms on";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -49,11 +83,20 @@ in
           event = "lock";
           inherit (cfg.lock) command;
         }
+
       ];
       timeouts = [
         {
+          timeout = cfg.displayDim.waitSec;
+          inherit (cfg.displayDim) command resumeCommand;
+        }
+        {
           timeout = cfg.lock.waitSec;
           inherit (cfg.lock) command;
+        }
+        {
+          timeout = cfg.displayOff.waitSec;
+          inherit (cfg.displayOff) command resumeCommand;
         }
       ];
       systemdTarget = cfg.systemdBindTarget;
