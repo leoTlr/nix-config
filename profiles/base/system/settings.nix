@@ -48,6 +48,7 @@ in
   environment.systemPackages = with pkgs; [
     vim
     git
+    python3
   ];
 
   programs.fish.enable = true;
