@@ -33,18 +33,6 @@ in
         ];
       };
     };
-    sleep = {
-      waitSec = lib.mkOption {
-        type = lib.types.ints.positive;
-        description = "Seconds until the pc enters sleep";
-        default = 600;
-      };
-      command = lib.mkOption {
-        type = lib.types.str;
-        description = "Command to execute for pc to sleep";
-        default = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
-      };
-    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -56,14 +44,16 @@ in
 
     services.swayidle = {
       enable = true;
+      events = [
+        {
+          event = "lock";
+          inherit (cfg.lock) command;
+        }
+      ];
       timeouts = [
         {
           timeout = cfg.lock.waitSec;
           inherit (cfg.lock) command;
-        }
-        {
-          timeout = cfg.sleep.waitSec;
-          inherit (cfg.sleep) command;
         }
       ];
       systemdTarget = cfg.systemdBindTarget;
