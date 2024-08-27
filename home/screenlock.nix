@@ -28,7 +28,7 @@ in
             "--ring-color ${color.base0B}" "--key-hl-color ${color.base08}"
             "--line-color ${color.base00}" "--inside-color ${color.base01}"
             "--separator-color ${color.base00}" "--text-color ${color.base0C}"
-            "--grace 2"
+            #"--grace 2"
             "--fade-in 0.7"
         ];
       };
