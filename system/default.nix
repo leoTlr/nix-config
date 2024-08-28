@@ -2,6 +2,7 @@ _:
 
 {
   imports = [
+    ./bluetooth.nix
     ./dbus.nix
     ./fonts.nix
     ./greetd.nix

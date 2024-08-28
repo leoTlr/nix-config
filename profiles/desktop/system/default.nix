@@ -14,15 +14,19 @@ in
       default = false;
       description = "Treat host as desktop";
     };
+    bluetooth.enable = lib.mkEnableOption "bluetooth";
   };
 
   config = {
     profiles.base.enable = true;
 
-    syslib.hyprland = {
-      enable = true;
-      inherit (basecfg.system) isVmGuest;
-      user = basecfg.system.mainUser.name;
+    syslib = {
+      hyprland = {
+        enable = true;
+        inherit (basecfg.system) isVmGuest;
+        user = basecfg.system.mainUser.name;
+      };
+      bluetooth.enable = cfg.bluetooth.enable;
     };
   };
 
