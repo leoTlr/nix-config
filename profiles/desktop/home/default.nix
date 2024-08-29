@@ -1,4 +1,4 @@
-{ config, lib, inputs, ... }:
+{ config, lib, inputs, pkgs, ... }:
 let
   cfg = config.profiles.desktop;
   basecfg = config.profiles.base;
@@ -54,6 +54,11 @@ in
         systemdBindTarget = "hyprland-session.target";
       };
     };
+
+    home.packages = with pkgs; [
+      trilium-desktop
+    ];
+
   };
 
 }
