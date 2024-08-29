@@ -11,11 +11,7 @@ _:
   can = "commit --amend --no-edit";
   co = "checkout";
   com = "checkout main";
-  coft = ''!f() { git checkout feature/''${1:?no branch name given}; }; f'';
-  cobf = ''!f() { git checkout bugfix/''${1:?no branch name given}; }; f'';
   cob = "checkout -b";
-  cobft = ''!f() { git checkout -b feature/''${1:?no branch name given}; }; f'';
-  cobbf = ''!f() { git checkout -b bugfix/''${1:?no branch name given}; }; f'';
   del = "branch -d";
   delf = "branch -D";
   delr = ''!f() { git push origin :''${1:?no branch name given}; }; f'';
@@ -26,6 +22,7 @@ _:
   l = "lg 5";
   ll = "lg 10";
   lm = "!git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30 main~1..HEAD";
+  rb = "rebase";
   rbm = "rebase main";
   rbi = "rebase -i";
   rbim = "rebase -i main";
@@ -39,8 +36,11 @@ _:
   ms = "merge --squash";
   mc = "merge --continue";
   ma = "merge --abort";
+  bis = "bisect start";
+  big = "bisect good";
+  bib = "bisect bad";
+  bir = "bisect reset";
   gone-check = ''! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' '';
   gone-clean = ''! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D'';
-  clone-branches = "! git branch -a | sed -n \"/\\/HEAD /d; /\\/master$/d; /remotes/p;\" | xargs -L1 git checkout -t";
   unstage = "! git restore --staged $(git reporoot)";
 }
