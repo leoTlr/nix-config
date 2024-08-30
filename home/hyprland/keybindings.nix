@@ -1,4 +1,4 @@
-{ config, pkgs }:
+{ config, lib, pkgs }:
 let
   cfg = config.homelib.hyprland;
 
@@ -33,7 +33,7 @@ in
     "$modkey, F,            fullscreen,"
     "$modkey, R,            exec, ${pkgs.hyprland}/bin/hyprctl reload"
     "$modkey, D,            exec, ${pkgs.wofi}/bin/wofi --show drun"
-    "$modkey, L,            exec, ${config.homelib.swaylock.lock.command}"
+    "$modkey, L,            exec, ${lib.getExe pkgs.hyprlock}"
 
     "$modkey, left,         movefocus, l"
     "$modkey, right,        movefocus, r"

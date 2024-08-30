@@ -12,5 +12,10 @@
     programs.dconf = {
       enable = true;
     };
+
+    services.logind.extraConfig = ''
+      IdleAction=lock
+    '';
+
   };
 }
