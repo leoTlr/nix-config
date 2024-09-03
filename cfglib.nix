@@ -2,27 +2,30 @@
 let
   inherit (inputs.self) outputs;
   pkgsFor = sys: inputs.nixpkgs.legacyPackages.${sys};
+  homeConfigName = user: host: "${user}@${host}";
 in
 {
 
-  mkSystem = configName:
+  mkSystem = hostConfig:
     inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs outputs commonSettings configName; };
+      specialArgs = { inherit inputs outputs commonSettings hostConfig; };
       modules = [
-        (./. + "/hosts/${configName}/configuration.nix")
+        (./. + "/hosts/${hostConfig}/configuration.nix")
         outputs.nixosModules.default
       ];
     };
 
-  mkHome = sys: configName:
+  mkHome = sys: hostConfig: user:
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = pkgsFor sys;
       extraSpecialArgs = {
-        inherit inputs outputs configName;
+        inherit inputs outputs;
+        homeConfig = homeConfigName user hostConfig;
+        sysConfig = hostConfig;
         commonSettings = commonSettings // { system.arch = sys; };
       };
       modules = [
-        (./. + "/hosts/${configName}/home.nix")
+        (./. + "/hosts/${hostConfig}/home.nix")
         outputs.homeManagerModules.default
       ];
     };

@@ -1,4 +1,4 @@
-{ config, commonSettings, configName, ... }:
+{ config, commonSettings, sysConfig, homeConfig, ... }:
 let
   homeDir = "/home/${commonSettings.user.name}";
 in
@@ -13,8 +13,9 @@ in
       userName = commonSettings.user.name;
       dir = homeDir;
       stateVersion = "23.11";
-      inherit configName;
+      configName = homeConfig;
     };
+    system.configName = sysConfig;
     gitInfo = {
       name = "leoTlr";
       email = "ltlr+github@posteo.de";

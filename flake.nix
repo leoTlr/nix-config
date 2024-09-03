@@ -48,8 +48,8 @@
       };
 
       homeConfigurations = {
-        "leo@testbox" = mkHome "x86_64-linux" "testbox";
-        "leo@t14" = mkHome "x86_64-linux" "t14";
+        "leo@testbox" = mkHome "x86_64-linux" "testbox" "leo";
+        "leo@t14" = mkHome "x86_64-linux" "t14" "leo";
       };
     };
 }

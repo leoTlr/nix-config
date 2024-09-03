@@ -1,4 +1,4 @@
-{ config, pkgs, commonSettings, configName, ... }:
+{ config, pkgs, commonSettings, ... }:
 
 {
 
@@ -13,7 +13,6 @@
       hostName = "lt-t14";
       mainUser.name = commonSettings.user.name;
       stateVersion = "23.11";
-      inherit configName;
     };
 
     inherit (commonSettings) localization;
