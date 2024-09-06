@@ -12,6 +12,7 @@ _:
     ./sops.nix
     ./gammastep.nix
     ./screenlock.nix
+    ./mako.nix
   ];
 
 }
