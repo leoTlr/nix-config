@@ -59,12 +59,12 @@ in
       command = lib.mkOption {
         type = lib.types.str;
         description = "Command to turn off the screens";
-        default = "hyprctl dispatch dpms off";
+        default = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
       };
       resumeCommand = lib.mkOption {
         type = lib.types.str;
         description = "Command to turn off the screens";
-        default = "hyprctl dispatch dpms on";
+        default = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
       };
     };
   };
