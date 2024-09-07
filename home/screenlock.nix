@@ -69,21 +69,21 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-
-    # There is waylock which is supposed to be more secure than swaylock
-    # but it doesnt work with hyprland: https://codeberg.org/ifreund/waylock/issues/82
-
-    home.packages = [ pkgs.swayidle pkgs.swaylock-effects ];
-
-    services.swayidle = {
-      enable = true;
+  config =
+    let
+      # used until swayidle home-manager module is more configurable
+      mkTimeout = t:
+        [ "timeout" (toString t.timeout) (lib.escapeShellArg t.command) ]
+        ++ lib.optionals (t.resumeCommand != null) [
+          "resume"
+          (lib.escapeShellArg t.resumeCommand)
+        ];
+      mkEvent = e: [ e.event (lib.escapeShellArg e.command) ];
       events = [
         {
           event = "lock";
           inherit (cfg.lock) command;
         }
-
       ];
       timeouts = [
         {
@@ -93,13 +93,71 @@ in
         {
           timeout = cfg.lock.waitSec;
           inherit (cfg.lock) command;
+          resumeCommand = null;
         }
         {
           timeout = cfg.displayOff.waitSec;
           inherit (cfg.displayOff) command resumeCommand;
         }
       ];
-      systemdTarget = cfg.systemdBindTarget;
-   };
+      args = (lib.concatMap mkTimeout timeouts) ++ (lib.concatMap mkEvent events);
+    in
+    lib.mkIf cfg.enable {
+
+    # There is waylock which is supposed to be more secure than swaylock
+    # but it doesnt work with hyprland: https://codeberg.org/ifreund/waylock/issues/82
+
+    home.packages = [ pkgs.swayidle pkgs.swaylock-effects ];
+
+    # currently unused in favor of custom systemd unit to prevent a bug
+  #   services.swayidle = {
+  #     enable = true;
+  #     events = [
+  #       {
+  #         event = "lock";
+  #         inherit (cfg.lock) command;
+  #       }
+
+  #     ];
+  #     timeouts = [
+  #       {
+  #         timeout = cfg.displayDim.waitSec;
+  #         inherit (cfg.displayDim) command resumeCommand;
+  #       }
+  #       {
+  #         timeout = cfg.lock.waitSec;
+  #         inherit (cfg.lock) command;
+  #       }
+  #       {
+  #         timeout = cfg.displayOff.waitSec;
+  #         inherit (cfg.displayOff) command resumeCommand;
+  #       }
+  #     ];
+  #     systemdTarget = cfg.systemdBindTarget;
+  #  };
+
+    # used until home-manager-module makes generated systemd unit customizable (see https://github.com/nix-community/home-manager/pull/5817)
+    # Problem is 'swayidle -w' option in systemd unit. It makes me having to unlock twice with certain timeouts.
+    # taken from https://github.com/nix-community/home-manager/blob/master/modules/services/swayidle.nix
+    systemd.user.services.swayidle = {
+      Unit = {
+        Description = "Idle manager for Wayland";
+        Documentation = "man:swayidle(1)";
+        ConditionEnvironment = "WAYLAND_DISPLAY";
+        PartOf = [ "graphical-session.target" ];
+      };
+
+      Service = {
+        Type = "simple";
+        Restart = "always";
+        # swayidle executes commands using "sh -c", so the PATH needs to contain a shell.
+        Environment = [ "PATH=${lib.makeBinPath [ pkgs.bash ]}" ];
+        ExecStart =
+          "${pkgs.swayidle}/bin/swayidle ${lib.concatStringsSep " " args}";
+      };
+
+      Install = { WantedBy = [ cfg.systemdBindTarget ]; };
+    };
+
   };
 }
