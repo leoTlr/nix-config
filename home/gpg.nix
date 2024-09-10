@@ -18,6 +18,7 @@
     services.gpg-agent = {
       enable = true;
       enableFishIntegration = true;
+      enableScDaemon = false;
       pinentryPackage = pkgs.pinentry-curses;
     };
 
