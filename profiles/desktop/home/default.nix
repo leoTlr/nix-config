@@ -57,7 +57,15 @@ in
 
     home.packages = with pkgs; [
       trilium-desktop
+      btop
     ];
+
+    # there is also services.poweralertd which seems more maintained
+    # but it requires upower which I'd need to include in system profile
+    services.batsignal = {
+      enable = true;
+      extraArgs = [ "-w 20" "-c 10" "-d 5" "-p" ];
+    };
 
   };
 
