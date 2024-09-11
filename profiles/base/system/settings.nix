@@ -24,9 +24,6 @@ in
     networkmanager.enable = true;
   };
 
-  # https://github.com/Mic92/sops-nix?tab=readme-ov-file#setting-a-users-password
-  sops.secrets."${cfg.system.mainUser.name}/passwordHash".neededForUsers = true;
-
   syslib = {
 
     users = {
@@ -34,17 +31,11 @@ in
       mainUser = {
         inherit (cfg.system.mainUser) name;
         shell = pkgs.fish;
-        passwordHashPath = config.sops.secrets."${cfg.system.mainUser.name}/passwordHash".path;
       };
     };
 
     localization.enable = true;
     customFonts.enable = true;
-
-    sops = {
-      enable = true;
-      gnupgHome = "/home/${cfg.system.mainUser.name}/.gnupg";
-    };
 
     nh = {
       enable = true;
