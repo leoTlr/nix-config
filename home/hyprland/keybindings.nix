@@ -1,6 +1,17 @@
 { config, lib, pkgs }:
 let
   cfg = config.homelib.hyprland;
+
+
+  vol = ammount: "${pkgs.swayosd}/bin/swayosd-client --output-volume ${ammount} --max-volume 100";
+  vol_up = vol "+5";
+  vol_down = vol "-5";
+  vol_mute = vol "mute-toggle";
+
+  brightness = ammount: "${pkgs.swayosd}/bin/swayosd-client --brightness ${ammount}";
+  brightness_up = brightness "+3";
+  brightness_down = brightness "-3";
+
 in
 {
   "$modkey" = cfg.modkey;
@@ -64,17 +75,17 @@ in
   ];
 
   bindel = [
-    ",XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-    ",XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+    ",XF86AudioRaiseVolume, exec, ${vol_up}"
+    ",XF86AudioLowerVolume, exec, ${vol_down}"
   ];
 
   binde = [
-    ",XF86MonBrightnessDown,    exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%-"
-    ",XF86MonBrightnessUp,      exec, ${pkgs.brightnessctl}/bin/brightnessctl set 5%+"
+    ",XF86MonBrightnessDown,    exec, ${brightness_down}"
+    ",XF86MonBrightnessUp,      exec,  ${brightness_up}"
   ];
 
   bindl = [
-    ",XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    ",XF86AudioMute, exec, ${vol_mute}"
   ];
 
 }

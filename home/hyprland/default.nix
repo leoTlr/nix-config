@@ -44,6 +44,13 @@ in
       };
     };
 
+    # volume/brightness notification
+    # alternative: https://github.com/heyjuvi/avizo
+    services.swayosd = {
+      enable = true;
+      topMargin = 0.9;
+    };
+
     wayland.windowManager.hyprland = {
       enable = true;
       package = pkgs.hyprland;
