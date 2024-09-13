@@ -29,8 +29,9 @@ in
     "$modkey, Q,            killactive,"
     "$modkey SHIFT, M,      exit,"
     "$modkey SHIFT, F,      togglefloating,"
-    "$modkey, E,            togglegroup"
+    "$modkey, E,            togglegroup,"
     "$modkey, F,            fullscreen,"
+    "$modkey, R,            exec, ${pkgs.hyprland}/bin/hyprctl reload"
     "$modkey, D,            exec, ${pkgs.wofi}/bin/wofi --show drun"
 
     "$modkey, left,         movefocus, l"
@@ -38,10 +39,10 @@ in
     "$modkey, up,           movefocus, u"
     "$modkey, down,         movefocus, d"
 
-    "$modkey SHIFT, left,   movewindow, l"
-    "$modkey SHIFT, right,  movewindow, r"
-    "$modkey SHIFT, up,     movewindow, u"
-    "$modkey SHIFT, down,   movewindow, d"
+    "$modkey SHIFT, left,   movewindoworgroup, l"
+    "$modkey SHIFT, right,  movewindoworgroup, r"
+    "$modkey SHIFT, up,     movewindoworgroup, u"
+    "$modkey SHIFT, down,   movewindoworgroup, d"
 
     # Switch to workspace using number row
     "$modkey, 1,            workspace, 1"
