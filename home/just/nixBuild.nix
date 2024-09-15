@@ -15,6 +15,7 @@ home:
   git add --all .
   nh home switch --configuration ${c.homeConfiguration} --ask
 
+alias u := update
 update: && sys home
   nix flake update
 

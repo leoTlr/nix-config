@@ -14,6 +14,9 @@
       cat = "bat";
       sys = "systemctl";
       sysu = "systemctl --user";
+      jctl = "journalctl";
+      jctlu = "journalctl --user-unit";
+      nsp = "nix-shell -p";
     };
   };
 
@@ -22,7 +25,7 @@
     bat # cat
     ripgrep # grep
     eza # ls
-    tealdeer # tldr client in rustx
+    tealdeer # tldr client in rust
   ];
 
 }

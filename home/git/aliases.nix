@@ -12,6 +12,7 @@ _:
   co = "checkout";
   com = "checkout main";
   cob = "checkout -b";
+  ds = "diff --staged";
   del = "branch -d";
   delf = "branch -D";
   delr = ''!f() { git push origin :''${1:?no branch name given}; }; f'';
