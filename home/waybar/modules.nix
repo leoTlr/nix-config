@@ -1,5 +1,5 @@
 { pkgs }:
-let 
+let
   workspaces = {
     format = "{icon}";
     format-icons = {
@@ -12,7 +12,7 @@ let
     };
     on-click = "activate";
     # persistent_workspaces = { "*" = 10; };
-  }; 
+  };
 in
 {
 
@@ -47,7 +47,7 @@ in
   };
 
   battery = {
-    interval = 30;
+    interval = 1;
     states = {
       warning = 30;
       critical = 15;
