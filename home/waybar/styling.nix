@@ -1,6 +1,19 @@
-_:
+{ config }:
+let
+    color = config.colorScheme.palette;
+
+    mkColor = base: "#${color."base0${toString base}"}";
+in
 # https://github.com/manjaro-sway/desktop-settings/tree/sway/community/sway/usr/share/sway/templates
 ''
+
+@define-color background_color          ${mkColor "1"};
+@define-color error_color               ${mkColor "8"};
+@define-color theme_bg_color            ${mkColor "0"};
+@define-color theme_selected_bg_color   ${mkColor "4"};
+@define-color warning_color             ${mkColor "A"};
+
+
 /* -----------------------------------------------------------------------------
  * Keyframes
  * -------------------------------------------------------------------------- */

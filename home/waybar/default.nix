@@ -2,8 +2,8 @@
 let
   cfg = config.homelib.waybar;
   waybarConfig = import ./config.nix { inherit pkgs; };
-  waybarCss = import ./styling.nix {};
-in 
+  waybarCss = import ./styling.nix { inherit config; };
+in
 {
 
   options.homelib.waybar.enable = lib.mkOption {
@@ -19,5 +19,5 @@ in
       style = waybarCss;
     };
   };
-  
+
 }
