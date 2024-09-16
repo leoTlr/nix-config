@@ -37,7 +37,7 @@ in
       kitty.enable = true;
       gtk.theming.enable = true;
       waybar.enable = true;
-      mako.enable = true;
+      dunst.enable = true;
       screenlock = lib.mkIf cfg.screenLock {
         enable = true;
         systemdBindTarget = "hyprland-session.target";

@@ -14,7 +14,6 @@ in
     "${pkgs.swaybg}/bin/swaybg --image ${wallpaper}"
     "${pkgs.waybar}/bin/waybar"
     "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
-    "${pkgs.mako}/bin/mako"
   ];
 
   # TODO: move def out of here into host/profile config
