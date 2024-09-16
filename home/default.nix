@@ -2,6 +2,7 @@ _:
 
 {
   imports = [
+    ./dunst.nix
     ./fish.nix
     ./git
     ./hyprland
