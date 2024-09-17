@@ -25,7 +25,7 @@ in
         type = lib.types.str;
       };
       configName = lib.mkOption {
-        type = lib.types.string;
+        type = lib.types.str;
         description = "Name of the homeConfiguration used";
       };
     };
@@ -46,7 +46,7 @@ in
         default = false;
       };
       configName = lib.mkOption {
-        type = lib.types.string;
+        type = lib.types.str;
         description = "Name of the system configuration used";
       };
     };
