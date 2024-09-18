@@ -14,7 +14,7 @@ in
       waitSec = lib.mkOption {
         type = lib.types.ints.positive;
         description = "Seconds until the screenlock activates";
-        default = 120;
+        default = 240;
       };
       command = lib.mkOption {
         type = lib.types.str;
