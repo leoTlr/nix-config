@@ -1,8 +1,8 @@
-{ pkgs, config, lib, commonSettings, ... }:
+{ pkgs, config, lib, ... }:
 let
   cfg = config.syslib.hyprland;
 in
-{ 
+{
   options.syslib.hyprland = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -19,14 +19,14 @@ in
       description = "Name of the user under which greetd starts Hyprland";
     };
   };
-  
+
   config = lib.mkIf cfg.enable {
 
     environment.systemPackages = with pkgs; [
       polkit
       xdg-desktop-portal-hyprland
     ];
-  
+
     programs.hyprland = {
       enable = true;
       xwayland = {
@@ -51,8 +51,7 @@ in
         userName = cfg.user;
       };
     };
-    
+
   };
-  
 
 }

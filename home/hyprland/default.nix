@@ -1,8 +1,8 @@
-{ lib, config, pkgs, commonSettings, ... }:
+{ lib, config, pkgs, userConfig, ... }:
 let
   cfg = config.homelib.hyprland;
   hyprlandSettings = import ./settings.nix {
-    inherit config lib pkgs commonSettings;
+    inherit config lib pkgs userConfig;
   };
 in
 {

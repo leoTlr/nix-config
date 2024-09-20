@@ -23,28 +23,15 @@
   };
 
   outputs = inputs: let
-    cfgLib = import ./cfglib.nix {inherit inputs commonSettings;};
-
-    # shared between system and homeManager configs
-    commonSettings = {
-      localization = {
-        locale = "en_IE.UTF-8";
-        timezone = "Europe/Berlin";
-        keymap = "de";
-      };
-
-      user = {
-        name = "leo";
-      };
-    };
+    cfgLib = import ./cfglib.nix {inherit inputs;};
   in
     with cfgLib; {
       homeManagerModules.default = ./home;
       nixosModules.default = ./system;
 
       nixosConfigurations = {
-        testbox = mkSystem "testbox";
-        t14 = mkSystem "t14";
+        testbox = mkSystem "testbox" "leo";
+        t14 = mkSystem "t14" "leo";
       };
 
       homeConfigurations = {

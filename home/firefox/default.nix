@@ -1,9 +1,9 @@
-{ inputs, lib, config, commonSettings, ... }:
+{ inputs, lib, config, ... }:
 
 let
-  cfg = config.homelib.firefox; 
+  cfg = config.homelib.firefox;
   settings = import ./settings.nix {};
-  extensions = with inputs.firefox-addons.packages."${commonSettings.system.arch}"; [
+  extensions = with inputs.firefox-addons.packages."x86_64-linux"; [
     ublock-origin
     decentraleyes
     cookie-autodelete
@@ -42,5 +42,5 @@ in
       };
     };
   };
-  
+
 }

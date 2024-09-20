@@ -1,6 +1,6 @@
-{config, lib, commonSettings, ...}:
+{config, lib, ...}:
 
-{ 
+{
   options.syslib.greetd = {
     enable = lib.mkOption {
       type = lib.types.bool;

@@ -1,4 +1,4 @@
-{ inputs, commonSettings, ... }:
+{ inputs, ... }:
 let
   inherit (inputs.self) outputs;
   pkgsFor = sys: inputs.nixpkgs.legacyPackages.${sys};
@@ -6,9 +6,12 @@ let
 in
 {
 
-  mkSystem = hostConfig:
+  mkSystem = hostConfig: user:
     inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs outputs commonSettings hostConfig; };
+      specialArgs = {
+        inherit inputs outputs hostConfig;
+        userConfig = import (./. + "/users/${user}.nix") {};
+      };
       modules = [
         (./. + "/hosts/${hostConfig}/configuration.nix")
         outputs.nixosModules.default
@@ -22,7 +25,7 @@ in
         inherit inputs outputs;
         homeConfig = homeConfigName user hostConfig;
         sysConfig = hostConfig;
-        commonSettings = commonSettings // { system.arch = sys; };
+        userConfig = import (./. + "/users/${user}.nix") {};
       };
       modules = [
         (./. + "/hosts/${hostConfig}/home.nix")

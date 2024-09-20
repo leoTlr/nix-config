@@ -1,4 +1,4 @@
-{ config, pkgs, commonSettings, ... }:
+{ pkgs, userConfig, ... }:
 
 {
 
@@ -11,12 +11,12 @@
 
     system = {
       hostName = "testbox";
-      mainUser.name = commonSettings.user.name;
+      mainUser.name = userConfig.userName;
       stateVersion = "23.11";
       isVmGuest = true;
     };
 
-    inherit (commonSettings) localization;
+    inherit (userConfig) localization;
   };
 
   profiles.desktop.enable = true;

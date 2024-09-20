@@ -1,4 +1,4 @@
-{ config, pkgs, commonSettings, ... }:
+{ userConfig, ... }:
 
 {
 
@@ -11,11 +11,11 @@
 
     system = {
       hostName = "lt-t14";
-      mainUser.name = commonSettings.user.name;
+      mainUser.name = userConfig.userName;
       stateVersion = "23.11";
     };
 
-    inherit (commonSettings) localization;
+    inherit (userConfig) localization;
   };
 
   profiles.desktop.enable = true;

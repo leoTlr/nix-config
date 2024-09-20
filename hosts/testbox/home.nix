@@ -1,23 +1,23 @@
-{ config, commonSettings, ... }:
+{ userConfig, ... }:
 let
-  homeDir = "/home/${commonSettings.user.name}";
+  homeDir = "/home/${userConfig.userName}";
 in
-{ 
+{
 
   imports = [
     ../../profiles/desktop/home
   ];
-  
+
   profiles.base = {
     home = {
-      userName = commonSettings.user.name;
+      userName = userConfig.userName;
       dir = homeDir;
       stateVersion = "23.11";
     };
-    
+
     system.isVmGuest = true;
 
-    inherit (commonSettings) localization;
+    inherit (userConfig) localization;
   };
 
   profiles.desktop.enable = true;
