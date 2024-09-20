@@ -1,4 +1,4 @@
-{ userConfig, ... }:
+{ ... }:
 
 {
 
@@ -11,11 +11,9 @@
 
     system = {
       hostName = "lt-t14";
-      mainUser.name = userConfig.userName;
       stateVersion = "23.11";
     };
 
-    inherit (userConfig) localization;
   };
 
   profiles.desktop.enable = true;

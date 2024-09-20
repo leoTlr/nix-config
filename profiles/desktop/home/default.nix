@@ -43,6 +43,7 @@ in
         enable = true;
         modkey = if config.profiles.base.system.isVmGuest then "ALT" else "SUPER";
         screenLock = true;
+        keyMap = basecfg.localization.keymap;
       };
 
       gammastep = {

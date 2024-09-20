@@ -1,8 +1,8 @@
-{ lib, config, pkgs, userConfig, ... }:
+{ lib, config, pkgs, ... }:
 let
   cfg = config.homelib.hyprland;
   hyprlandSettings = import ./settings.nix {
-    inherit config lib pkgs userConfig;
+    inherit config lib pkgs;
   };
 in
 {
@@ -25,6 +25,11 @@ in
       type = lib.types.str;
       default = "SUPER";
       example = "ALT";
+    };
+
+    keyMap = lib.mkOption {
+      type = lib.types.str;
+      example = "de";
     };
 
     screenLock = lib.mkEnableOption "screenLock";

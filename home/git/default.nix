@@ -1,4 +1,4 @@
-{ config, pkgs, lib, userConfig, ... }:
+{ config, pkgs, lib, ... }:
 let
   cfg = config.homelib.git;
   gitConfig = import ./gitconfig.nix {};
@@ -29,13 +29,11 @@ in
     commitInfo = {
       name = lib.mkOption {
         type = lib.types.str;
-        default = userConfig.userName;
         description = "User name for commits";
       };
       email = lib.mkOption {
         type = lib.types.str;
         description = "User email for commits";
-        default = userConfig.email;
       };
       signKey = lib.mkOption {
         type = lib.types.nullOr lib.types.str;

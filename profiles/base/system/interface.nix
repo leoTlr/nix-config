@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, userConfig, ... }:
 
 {
   enable = lib.mkOption {
@@ -14,6 +14,7 @@
     mainUser = {
       name = lib.mkOption {
         type = lib.types.str;
+        default = userConfig.userName;
       };
       passwordHashPath = lib.mkOption {
         type = lib.types.nullOr lib.types.path;
@@ -33,16 +34,19 @@
       default = false;
     };
   };
-  
+
   localization = {
     locale = lib.mkOption {
       type = lib.types.str;
+      default = userConfig.localization.locale;
     };
     timezone = lib.mkOption {
       type = lib.types.str;
+      default = userConfig.localization.timezone;
     };
     keymap = lib.mkOption {
       type = lib.types.str;
+      default = userConfig.localization.keymap;
     };
   };
 

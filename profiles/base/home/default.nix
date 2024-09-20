@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, userConfig, ... }:
 let
   cfg = config.profiles.base;
 in
@@ -17,9 +17,11 @@ in
     home = {
       userName = lib.mkOption {
         type = lib.types.str;
+        default = userConfig.userName;
       };
       dir = lib.mkOption {
         type = lib.types.path;
+        default = "/home/${cfg.home.userName}";
       };
       stateVersion = lib.mkOption {
         type = lib.types.str;
@@ -27,20 +29,6 @@ in
       configName = lib.mkOption {
         type = lib.types.str;
         description = "Name of the homeConfiguration used";
-      };
-    };
-
-    gitInfo = {
-      name = lib.mkOption {
-        type = lib.types.str;
-        default = cfg.userName;
-      };
-      email = lib.mkOption {
-        type = lib.types.str;
-      };
-      signKey = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
       };
     };
 
@@ -58,16 +46,19 @@ in
     localization = {
       locale = lib.mkOption {
         type = lib.types.str;
+        default = userConfig.localization.locale;
       };
       timezone = lib.mkOption {
         type = lib.types.str;
+        default = userConfig.localization.timezone;
       };
       keymap = lib.mkOption {
         type = lib.types.str;
+        default = userConfig.localization.keymap;
       };
     };
   };
 
-  config = import ./settings.nix { inherit config pkgs; };
+  config = import ./settings.nix { inherit lib config pkgs userConfig; };
 
 }

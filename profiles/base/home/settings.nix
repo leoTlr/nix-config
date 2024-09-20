@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, userConfig, ... }:
 let
   cfg = config.profiles.base;
 in
@@ -19,7 +19,17 @@ in
     git = {
       enable = true;
       commitInfo = {
-        inherit (cfg.gitInfo) name email signKey;
+        name =
+          if (builtins.hasAttr "userName" userConfig.git)
+          then userConfig.git.userName
+          else cfg.home.userName;
+        email =
+          if (builtins.hasAttr "email" userConfig.git)
+          then userConfig.git.email
+          else userConfig.email;
+        signKey =
+          lib.mkIf (builtins.hasAttr "signKey" userConfig.git)
+          userConfig.git.signKey;
       };
     };
     gpg.enable = true;

@@ -1,7 +1,5 @@
-{ userConfig, ... }:
-let
-  homeDir = "/home/${userConfig.userName}";
-in
+{ sysConfig, homeConfig, ... }:
+
 {
 
   imports = [
@@ -10,14 +8,13 @@ in
 
   profiles.base = {
     home = {
-      userName = userConfig.userName;
-      dir = homeDir;
       stateVersion = "23.11";
+      configName = homeConfig;
     };
-
-    system.isVmGuest = true;
-
-    inherit (userConfig) localization;
+    system = {
+      configName = sysConfig;
+      isVmGuest = true;
+    };
   };
 
   profiles.desktop.enable = true;
