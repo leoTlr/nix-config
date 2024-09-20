@@ -34,6 +34,8 @@ _:
   ps = "push";
   psf = "push --force-with-lease";
   pl = "pull";
+  m = "merge";
+  md = ''!f() { git merge ''${1?no branch name given} && git branch -d ''${1?no branch name given}; }; f'';
   ms = "merge --squash";
   mc = "merge --continue";
   ma = "merge --abort";
