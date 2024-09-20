@@ -19,8 +19,7 @@ in
     git = {
       enable = true;
       commitInfo = {
-        inherit (cfg.gitInfo) name;
-        inherit (cfg.gitInfo) email;
+        inherit (cfg.gitInfo) name email signKey;
       };
     };
     gpg.enable = true;

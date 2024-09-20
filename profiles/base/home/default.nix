@@ -38,6 +38,10 @@ in
       email = lib.mkOption {
         type = lib.types.str;
       };
+      signKey = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+      };
     };
 
     system = {

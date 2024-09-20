@@ -19,6 +19,7 @@ in
     gitInfo = {
       name = "leoTlr";
       email = "ltlr+github@posteo.de";
+      signKey = "17F0A6278F9E22B4A846DAEAE0CF76180D567EDF";
   };
 
     inherit (commonSettings) localization;

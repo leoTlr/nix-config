@@ -36,6 +36,11 @@ in
         type = lib.types.str;
         description = "User email for commits";
       };
+      signKey = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "Enable commit signing with given gpg key";
+      };
     };
 
   };
@@ -51,6 +56,11 @@ in
       extraConfig = gitConfig;
       aliases = lib.mkIf cfg.aliases.enable gitAliases;
       ignores = lib.mkIf cfg.ignore.enable gitIgnore;
+
+      signing = lib.mkIf (cfg.commitInfo.signKey != null) {
+        key = cfg.commitInfo.signKey;
+        signByDefault = true;
+      };
     };
   };
 }
