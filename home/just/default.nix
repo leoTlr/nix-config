@@ -33,7 +33,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [ pkgs.just ];
     home.file."${cfg.nixBuild.path}" = lib.mkIf cfg.nixBuild.enable {
-      text = import ./nixBuild.nix { inherit cfg; };
+      text = import ./nixBuild.nix { inherit cfg pkgs; };
     };
   };
 }
