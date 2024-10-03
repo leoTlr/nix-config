@@ -10,6 +10,10 @@
     };
 
     nix-colors.url = "github:misterio77/nix-colors";
+    hyprcursor-phinger ={
+      url = "github:jappie3/hyprcursor-phinger";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";

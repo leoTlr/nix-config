@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 let
   cfg = config.homelib.hyprland;
   hyprlandSettings = import ./settings.nix {
@@ -11,6 +11,7 @@ in
     ../gtk
     ../waybar
     ../kitty
+    inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
   ];
 
   options.homelib.hyprland = {
@@ -33,7 +34,6 @@ in
     };
 
     screenLock = lib.mkEnableOption "screenLock";
-
   };
 
   config = lib.mkIf cfg.enable {
@@ -55,6 +55,8 @@ in
       enable = true;
       topMargin = 0.9;
     };
+
+    programs.hyprcursor-phinger.enable = true;
 
     wayland.windowManager.hyprland = {
       enable = true;
