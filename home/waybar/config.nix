@@ -16,7 +16,7 @@ in
 
   modules-right = [
     "network"
-    "systemd-failed-units"
+    "custom/waybar-systemd-indicator"
     "bluetooth"
     "pulseaudio#microphone"
     "backlight"

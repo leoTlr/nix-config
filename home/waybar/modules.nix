@@ -1,5 +1,6 @@
 { pkgs }:
 let
+  customScripts = import ./scripts { inherit pkgs; };
   workspaces = {
     format = "{icon}";
     format-icons = {
@@ -19,13 +20,13 @@ in
   "wlr/workspaces" = workspaces;
   "hyprland/workspaces" = workspaces;
 
-  "systemd-failed-units" = {
-    interval = 10;
-    hide-on-ok = false;
-	  format= "{nr_failed} ✗";
-	  format-ok = "{nr_failed} ✓";
-	  system= true;
-	  user = true;
+  "custom/waybar-systemd-indicator" = {
+    exec = "${customScripts}/bin/waybar-systemd-indicator";
+    exec-on-event = true;
+    format = "{}";
+    tooltip = true;
+    return-type = "json";
+    interval = 3;
   };
 
   bluetooth = {
