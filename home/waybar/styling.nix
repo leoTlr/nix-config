@@ -215,4 +215,10 @@ window#waybar {
 #custom-valent.dangerously-empty {
     color: @warning_color;
 }
+
+#systemd-failed-units.degraded {
+    color: @error_color;
+    animation-name: blink-error;
+    animation-duration: 2s;
+}
 ''

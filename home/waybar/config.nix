@@ -16,6 +16,7 @@ in
 
   modules-right = [
     "network"
+    "systemd-failed-units"
     "bluetooth"
     "pulseaudio#microphone"
     "backlight"

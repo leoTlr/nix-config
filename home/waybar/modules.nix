@@ -19,6 +19,15 @@ in
   "wlr/workspaces" = workspaces;
   "hyprland/workspaces" = workspaces;
 
+  "systemd-failed-units" = {
+    interval = 10;
+    hide-on-ok = false;
+	  format= "{nr_failed} ✗";
+	  format-ok = "{nr_failed} ✓";
+	  system= true;
+	  user = true;
+  };
+
   bluetooth = {
     format = "";
     format-connected = " {num_connections}";
