@@ -26,12 +26,11 @@
     };
   };
 
-  outputs = inputs: let
-    cfgLib = import ./cfglib.nix {inherit inputs;};
+  outputs = inputs@{ self, ... }:
+  let
+    cfgLib = import ./cfglib.nix { inherit inputs; };
   in
     with cfgLib; {
-      homeManagerModules.default = ./home;
-      nixosModules.default = ./system;
 
       nixosConfigurations = {
         testbox = mkSystem "testbox" "leo";
