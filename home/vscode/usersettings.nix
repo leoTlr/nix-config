@@ -1,7 +1,7 @@
-_:
+{ pkgs }:
 
-{ 
-  files= { 
+{
+  files= {
     autoSave = "afterDelay";
     autoSaveDelay = 1500;
     trimTrailingWhitespace = true;
@@ -10,6 +10,8 @@ _:
   diffEditor.ignoreTrimWhitespace = false;
 
   # https://github.com/nix-community/vscode-nix-ide
-  nix.enableLanguageServer = true;
-  nix.serverPath = "nixd";
+  nix = {
+    enableLanguageServer = true;
+    serverPath = "${pkgs.nixd}/bin/nixd";
+  };
 }

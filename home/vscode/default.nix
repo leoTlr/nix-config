@@ -1,7 +1,7 @@
 { pkgs, config, lib, ... }:
 let
   cfg = config.homelib.vscode;
-  userSettings = import ./usersettings.nix {};
+  userSettings = import ./usersettings.nix { inherit pkgs; };
   extensions = with pkgs.vscode-extensions; [
     eamodio.gitlens
     mhutchie.git-graph
