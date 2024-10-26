@@ -1,7 +1,12 @@
 { pkgs }:
 let
   customScripts = import ./scripts { inherit pkgs; };
-  workspaces = {
+  hyprlandWorkspaceIconAttrs = import ./workspaceIcons.nix {};
+in
+{
+
+  # sway etc
+  "wlr/workspaces"  = {
     format = "{icon}";
     format-icons = {
       "1" = "";
@@ -14,11 +19,18 @@ let
     on-click = "activate";
     # persistent_workspaces = { "*" = 10; };
   };
-in
-{
 
-  "wlr/workspaces" = workspaces;
-  "hyprland/workspaces" = workspaces;
+  "hyprland/workspaces" = {
+    # https://github.com/Alexays/Waybar/wiki/Module:-Hyprland#workspaces
+    all-outputs = false;
+    on-scroll-up = "${pkgs.hyprland}/bin/hyprctl dispatch workspace e+1";
+    on-scroll-down = "${pkgs.hyprland}/bin/hyprctl dispatch workspace e-1";
+
+    format = "[{name} {windows} ]";
+    format-window-separator = "  ";
+    window-rewrite-default = "";
+    window-rewrite = hyprlandWorkspaceIconAttrs;
+  };
 
   "custom/waybar-systemd-indicator" = {
     exec = "${customScripts}/bin/waybar-systemd-indicator";
