@@ -30,6 +30,12 @@ in
     format-window-separator = "  ";
     window-rewrite-default = "";
     window-rewrite = hyprlandWorkspaceIconAttrs;
+    persistent_workspaces = {
+      # TODO: move to host config
+      "eDP-1" = [ 1 ];
+      "DP-6" = [ 2 ];
+      "DP-7" = [ 3 ];
+    };
   };
 
   "custom/waybar-systemd-indicator" = {
