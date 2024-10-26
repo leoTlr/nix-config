@@ -35,7 +35,7 @@ in
   "custom/waybar-systemd-indicator" = {
     exec = "${customScripts}/bin/waybar-systemd-indicator";
     exec-on-event = true;
-    format = "{}";
+    format = " {}";
     tooltip = true;
     return-type = "json";
     interval = 3;
@@ -147,6 +147,14 @@ in
   tray = {
     icon-size = 15;
     spacing = 5;
+  };
+
+  idle_inhibitor = {
+    format = "{icon}";
+    format-icons = {
+      activated = "  ";
+      deactivated = "  ";
+    };
   };
 
 }

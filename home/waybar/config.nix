@@ -16,6 +16,7 @@ in
 
   modules-right = [
     "network"
+    "idle_inhibitor"
     "custom/waybar-systemd-indicator"
     "bluetooth"
     "pulseaudio#microphone"
