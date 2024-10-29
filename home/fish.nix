@@ -18,8 +18,10 @@
       jctlu = "journalctl --user-unit";
       nsp = "nix-shell -p";
     };
-    shellInit =
-      "function digs; dig +short $argv[1] | uniq | head -n1; end";
+    shellInit = ''
+      function digs; dig +short $argv[1] | uniq | head -n1; end
+      function mkcd; mkdir $argv[1] && cd $argv[1]; end
+    '';
   };
 
   home.packages = with pkgs; [
@@ -29,6 +31,7 @@
     eza # ls
     tealdeer # tldr client in rust
     dig
+    fd # find
     btop
     killall
   ];

@@ -58,12 +58,15 @@ in
       enable = true;
       flavor = "ms";
     };
+    zed.enable = false;
 
   };
 
   home.packages = with pkgs; [
     openshift
     podprobes
+    ansible
+    ansible-lint
   ];
 
 }
