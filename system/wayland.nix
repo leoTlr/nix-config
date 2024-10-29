@@ -2,16 +2,19 @@
 let
   cfg = config.syslib.wayland;
 in
-{ 
+{
 
-  options.syslib.wayland = {
-    enable = lib.mkEnableOption "wayland";
-    xwayland.enable = lib.mkEnableOption "xwayland";
+  options.syslib.wayland = with lib; {
+    enable = mkEnableOption "wayland";
+    xwayland = {
+      enable = mkEnableOption "xwayland";
+      keymap = mkOption { type=types.str; };
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    
-    environment.systemPackages = with pkgs; [ 
+
+    environment.systemPackages = with pkgs; [
       wayland
     ] ++ (if cfg.xwayland.enable then [ xwayland ] else []);
 
@@ -19,7 +22,7 @@ in
     services.xserver = lib.mkIf cfg.xwayland.enable {
       enable = true;
       xkb = {
-        layout = config.profiles.base.localization.keymap;
+        layout = cfg.xwayland.keymap;
         variant = "";
       };
     };

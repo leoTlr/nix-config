@@ -4,14 +4,16 @@ This is the config of my personal desktop linux systems (not yet ready to switch
 ## Structure
 ### flake.nix
 - entrypoint
+- declares external dependencies
 ### system/home
 - place for system-wide or /home-level nix modules
 - defines interfaces for single builing blocks/packages/tools
-### profiles
-- combines system and home-manager modules into reusable profiles
 ### hosts
 - contains host-specific info (i.e. hardware-configuration)
-- uses profiles to configure new hosts with minimal effort
+- defines which modules from home/syslib are used on the specific hosts
+### users
+- declares values specific to a user instead of a host
+- shared between home- and syslib -> single source of truth
 
 ## Install
 >[!NOTE]

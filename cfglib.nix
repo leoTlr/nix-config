@@ -15,6 +15,7 @@ in
       };
       modules = [
         (./. + "/hosts/${hostConfig}/configuration.nix")
+        (./. + "/hosts/${hostConfig}/hardware-configuration.nix")
         nixosModules.default
       ];
     };
