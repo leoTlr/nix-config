@@ -33,12 +33,10 @@
     with cfgLib; {
 
       nixosConfigurations = {
-        testbox = mkSystem "testbox" "leo";
         t14 = mkSystem "t14" "leo";
       };
 
       homeConfigurations = {
-        "leo@testbox" = mkHome "x86_64-linux" "testbox" "leo";
         "leo@t14" = mkHome "x86_64-linux" "t14" "leo";
       };
     };
