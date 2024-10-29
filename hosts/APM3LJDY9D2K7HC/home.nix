@@ -38,7 +38,10 @@
     };
 
     firefox.enable = false; # maybe later, for now this is company-managed
-    vscode.enable = true;
+    vscode = {
+      enable = true;
+      flavor = "ms";
+    };
 
   };
 

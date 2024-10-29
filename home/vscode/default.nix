@@ -10,17 +10,28 @@ let
 in
 {
 
-  options.homelib.vscode.enable = lib.mkOption {
-    type = lib.types.bool;
-    default = false;
-    description = "Use vscode editor";
+  options.homelib.vscode = with lib; {
+    enable = mkEnableOption "vscode editor";
+    flavor = mkOption {
+      type = types.enum [ "foss" "ms" ];
+      default = "foss";
+      description = "The build of vscode to use";
+    };
   };
 
   config = lib.mkIf cfg.enable {
 
+    # mac workaround
+    nixpkgs.config = lib.mkIf (cfg.flavor == "ms") {
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "vscode" ];
+    };
+
     programs.vscode = {
       enable = true;
-      package = pkgs.vscodium;
+      package =
+        if cfg.flavor == "ms"
+        then pkgs.vscode
+        else pkgs.vscodium;
       inherit extensions userSettings;
     };
 
