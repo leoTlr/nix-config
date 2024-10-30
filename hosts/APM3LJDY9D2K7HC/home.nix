@@ -3,6 +3,7 @@
 {
 
   programs.home-manager.enable = true;
+  settings.experimental-features = [ "nix-command" "flakes" ];
 
   home = {
     username = userConfig.userName;
@@ -46,7 +47,7 @@
   };
 
   home.packages = with pkgs; [
-    #btop
+    openshift
   ];
 
 }
