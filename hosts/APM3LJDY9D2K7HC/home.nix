@@ -3,8 +3,11 @@
 {
 
   programs.home-manager.enable = true;
-  settings.experimental-features = [ "nix-command" "flakes" ];
-
+  nix = {
+    settings.experimental-features = [ "nix-command" "flakes" ];
+    package = pkgs.nix;
+  };
+  
   home = {
     username = userConfig.userName;
     homeDirectory = "/Users/${userConfig.userName}";
