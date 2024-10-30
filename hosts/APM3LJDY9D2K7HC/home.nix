@@ -7,7 +7,7 @@
     settings.experimental-features = [ "nix-command" "flakes" ];
     package = pkgs.nix;
   };
-  
+
   home = {
     username = userConfig.userName;
     homeDirectory = "/Users/${userConfig.userName}";
@@ -28,6 +28,7 @@
         inherit (userConfig) email;
         #inherit (userConfig.git) signKey;
       };
+      configOverwritePaths = [ "git/.gitconfig" ];
     };
     gpg.enable = false;
     statix.enable = true;
