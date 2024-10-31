@@ -15,6 +15,7 @@ _:
     ./just
     ./screenlock.nix
     ./mako.nix
+    ./zed.nix
   ];
 
 }

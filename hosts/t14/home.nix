@@ -43,6 +43,7 @@
 
     firefox.enable = true;
     vscode.enable = true;
+    zed.enable = true;
 
     hyprland = {
       enable = true;
