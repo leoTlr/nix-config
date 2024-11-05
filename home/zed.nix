@@ -43,6 +43,7 @@ in
           light = "Gruvbox Light";
         };
         languages.Nix.tab_size = 2;
+        terminal.env.EDITOR = "${pkgs.zed-editor}/bin/zeditor --wait";
       };
     };
 
