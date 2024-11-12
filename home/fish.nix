@@ -23,12 +23,14 @@
   };
 
   home.packages = with pkgs; [
-    lf # terminal file manager
+    broot # terminal file picker
     bat # cat
     ripgrep # grep
     eza # ls
     tealdeer # tldr client in rust
     dig
+    btop
+    killall
   ];
 
 }

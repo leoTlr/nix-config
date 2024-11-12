@@ -63,7 +63,7 @@
 
   home.packages = with pkgs; [
     trilium-desktop
-    btop
+    signal-desktop
   ];
 
   # there is also services.poweralertd which seems more maintained
