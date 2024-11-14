@@ -46,6 +46,8 @@
   home.packages = with pkgs; [
     ansible
     ansible-lint
+    keepassxc
+    keepassxc-go # cli
   ];
 
 }
