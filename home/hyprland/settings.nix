@@ -29,14 +29,18 @@ in
     repeat_delay = 200;
     repeat_rate = 60;
   };
-
-  master = {
-    no_gaps_when_only = true;
-  };
-
-  dwindle = {
-    no_gaps_when_only = true;
-  };
+  
+  # smart gaps (https://wiki.hyprland.org/Configuring/Workspace-Rules/#smart-gaps)
+  workspace = [
+    "w[tv1], gapsout:0, gapsin:0"
+    "f[1], gapsout:0, gapsin:0"
+  ];
+  windowrulev2 = [
+    "bordersize 0, floating:0, onworkspace:w[tv1]"
+    "rounding 0, floating:0, onworkspace:w[tv1]"
+    "bordersize 0, floating:0, onworkspace:f[1]"
+    "rounding 0, floating:0, onworkspace:f[1]"
+  ]; # /smart gaps
 
   misc.force_default_wallpaper = 0;
 } // keybindings
