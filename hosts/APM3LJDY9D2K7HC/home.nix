@@ -1,5 +1,16 @@
 { inputs, pkgs, sysConfig, homeConfig, userConfig, ... }:
-
+let
+  podprobes = pkgs.writeShellApplication {
+    name = "podprobes";
+    runtimeInputs = [ pkgs.jq pkgs.openshift ];
+    text = ''
+      pod=''${1:?'no pod name defined'}
+      namespace=''${2:-'default'}
+      oc -n "$namespace" get pod "$pod" -o json \
+      | jq '.spec.containers.[] | {readinessProbe, livenessProbe, startupProbe}'
+    '';
+  };
+in
 {
 
   programs.home-manager.enable = true;
@@ -52,6 +63,7 @@
 
   home.packages = with pkgs; [
     openshift
+    podprobes
   ];
 
 }
