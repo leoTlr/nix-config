@@ -40,7 +40,10 @@ in
     "rounding 0, floating:0, onworkspace:w[tv1]"
     "bordersize 0, floating:0, onworkspace:f[1]"
     "rounding 0, floating:0, onworkspace:f[1]"
-  ]; # /smart gaps
+    # /smart gaps
+  
+    "idleinhibit fullscreen, class:.*" # prevent screenlock if fullscreen
+  ];
 
   misc.force_default_wallpaper = 0;
 } // keybindings
