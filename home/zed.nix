@@ -33,7 +33,7 @@ in
           git_gutter = "tracked_files"; # "tracked_files"|"hide"
           inline_blame = {
             enabled = true;
-            delay_ms = "250";
+            delay_ms = 250;
             show_commit_summary = true;
           };
         };
@@ -44,6 +44,13 @@ in
         };
         languages.Nix.tab_size = 2;
         terminal.env.EDITOR = "${pkgs.zed-editor}/bin/zeditor --wait";
+        bindings."cmd-shift-g" = [
+                "workspace::SendKeystrokes"
+                ": new center terminal enter ${pkgs.lazygit}/bin/lazygit enter"
+                
+                # Note: non-vim users would have to do something like below to open the command palette...
+                # "cmd-shift-p new center terminal enter lazygit enter"
+              ];
       };
     };
 
