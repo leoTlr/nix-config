@@ -17,6 +17,7 @@ in
         (./. + "/hosts/${hostConfig}/configuration.nix")
         (./. + "/hosts/${hostConfig}/hardware-configuration.nix")
         nixosModules.default
+        (_: { nixpkgs.overlays = (import ./overlays {}); })
       ];
     };
 
@@ -32,6 +33,7 @@ in
       modules = [
         (./. + "/hosts/${hostConfig}/home.nix")
         homeManagerModules.default
+        (_: { nixpkgs.overlays = (import ./overlays {}); })
       ];
     };
 
