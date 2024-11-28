@@ -6,16 +6,15 @@
     default = false;
     description = "Configure custom fonts";
   };
-  
+
   config = lib.mkIf config.syslib.customFonts.enable {
 
     console.font = "Lat2-Terminus16";
 
     fonts = {
-    
-      packages = with pkgs; [
-        # only dl specific fonts from nerdfonts repo
-        (pkgs.nerdfonts.override {fonts = ["JetBrainsMono" "FiraCode"];})
+
+      packages = with pkgs.nerd-fonts; [
+        jetbrains-mono fira-code
       ];
 
       enableDefaultPackages = true;
@@ -27,9 +26,9 @@
           serif = ["JetBrainsMono Nerd Font"];
         };
       };
-    
+
     };
 
-  }; 
-  
+  };
+
 }

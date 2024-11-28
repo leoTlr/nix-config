@@ -7,6 +7,10 @@ let
     mhutchie.git-graph
     jnoortheen.nix-ide
   ];
+
+  # pkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+  #   "vscode-extension-mhutchie-git-graph"
+  # ];
 in
 {
 
@@ -22,8 +26,11 @@ in
   config = lib.mkIf cfg.enable {
 
     # mac workaround
-    nixpkgs.config = lib.mkIf (cfg.flavor == "ms") {
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "vscode" ];
+    nixpkgs.config = {
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+        "vscode-extension-mhutchie-git-graph"
+        (if cfg.flavor == "ms" then  "vscode" else null)
+      ];
     };
 
     programs.vscode = {
