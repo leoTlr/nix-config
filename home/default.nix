@@ -7,6 +7,7 @@ _:
     ./git
     ./hyprland
     ./firefox
+    ./k8stools.nix
     ./statix
     ./vscode
     ./gpg.nix
