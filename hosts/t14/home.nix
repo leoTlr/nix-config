@@ -70,7 +70,7 @@
   # but it requires upower which I'd need to include in nixosConfiguration
   services.batsignal = {
     enable = true;
-    extraArgs = [ "-w 20" "-c 10" "-d 5" "-p" ];
+    extraArgs = [ "-w 20" "-c 10" "-d 5" "-p" "-e" ];
   };
 
 }
