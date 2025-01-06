@@ -29,6 +29,7 @@ _:
   rbim = "rebase -i main";
   rbc = "rebase --continue";
   rba = "rebase --abort";
+  rhh = "reset --hard HEAD";
   pop = "reset HEAD~1 --mixed";
   popf = "reset HEAD~1 --hard";
   ps = "push";
