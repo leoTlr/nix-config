@@ -47,7 +47,7 @@ in
         bindings."cmd-shift-g" = [
                 "workspace::SendKeystrokes"
                 ": new center terminal enter ${pkgs.lazygit}/bin/lazygit enter"
-                
+
                 # Note: non-vim users would have to do something like below to open the command palette...
                 # "cmd-shift-p new center terminal enter lazygit enter"
               ];

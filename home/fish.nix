@@ -12,6 +12,7 @@
       g = "git";
       ls = "eza";
       cat = "bat";
+      gcat = "bat -pp";
       sys = "systemctl";
       sysu = "systemctl --user";
       jctl = "journalctl";
