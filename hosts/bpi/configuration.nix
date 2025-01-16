@@ -41,9 +41,10 @@ in
       };
     };
 
-    ssh = {
+    sshd = {
       enable = true;
-      authorizedKeys.${userConfig.userName} = [ "ssh-rsa AAAAB3NzaC1yc2etc/etc/etcjwrsh8e596z6J0l7 example@host" ];
+      authorizedKeys.${userConfig.userName} =
+        [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBTJPFx24iMt77z4a6unaq7EBMy8Hj+28vCZAJCbwdMi" ];
     };
 
     localization = {
