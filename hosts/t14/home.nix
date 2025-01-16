@@ -64,6 +64,7 @@
   home.packages = with pkgs; [
     trilium-desktop
     signal-desktop
+    bitwarden-cli
   ];
 
   # there is also services.poweralertd which seems more maintained
