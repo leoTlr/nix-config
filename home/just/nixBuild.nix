@@ -27,7 +27,7 @@ let
     alias h := home
     home:
       git add --all .
-      ${pkgs.nh}/bin/nh home switch --configuration ${cfg.homeConfiguration} --ask .
+      ${pkgs.nh}/bin/nh home switch --configuration ${cfg.homeConfiguration} --ask --backup-extension "bak" .
   '';
 
   flakeUpdateDeps = cfg:
