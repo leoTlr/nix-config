@@ -35,11 +35,7 @@
     sops.enable = false;
     just = {
       enable = true;
-      nixBuild = {
-        enable = true;
-        homeConfiguration = homeConfig;
-        hostConfiguration = sysConfig;
-      };
+      homeConfiguration = homeConfig;
     };
 
     firefox.enable = false; # maybe later, for now this is company-managed

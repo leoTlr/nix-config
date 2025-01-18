@@ -1,12 +1,9 @@
-{ cfg, pkgs, ... }:
+{ cfg, lib, pkgs, ... }:
 let
-  c = cfg.nixBuild;
   check_worktree = pkgs.writeShellApplication {
     name = "check_worktree";
     runtimeInputs = [ pkgs.git ];
     text = ''
-      #!/bin/env bash
-
       function exit_err {
         echo >&2 "Your worktree is dirty:"
         git status --porcelain=v1
@@ -18,26 +15,38 @@ let
       git diff-index --quiet HEAD -- || exit_err
     '';
   };
+
+  sysSwitch = ''
+    alias s := sys
+    sys:
+      git add --all .
+      ${pkgs.nh}/bin/nh os switch -H ${cfg.hostConfiguration} --ask .
+  '';
+
+  homeSwitch = ''
+    alias h := home
+    home:
+      git add --all .
+      ${pkgs.nh}/bin/nh home switch --configuration ${cfg.homeConfiguration} --ask .
+  '';
+
+  flakeUpdateDeps = cfg:
+    (if (cfg.hostConfiguration != null) then "sys " else "") +
+    (if (cfg.homeConfiguration != null) then "home" else "");
+
+  flakeUpdate = ''
+    alias u := update
+    update: && ${flakeUpdateDeps cfg}
+      ${check_worktree}/bin/check_worktree
+      nix flake update
+      git add flake.lock
+      git commit -m "system update"
+  '';
+
+  modules = [ "set working-directory := '${cfg.flakePath}'\n" ]
+    ++ (lib.optionals (cfg.hostConfiguration != null) [ sysSwitch ])
+    ++ (lib.optionals (cfg.homeConfiguration != null) [ homeSwitch ])
+    ++ [ flakeUpdate ];
 in
-''
-set working-directory := '${c.flakePath}'
 
-alias s := sys
-sys:
-  git add --all .
-  ${pkgs.nh}/bin/nh os switch -H ${c.hostConfiguration} --ask .
-
-alias h := home
-home:
-  git add --all .
-  ${pkgs.nh}/bin/nh home switch --configuration ${c.homeConfiguration} --ask .
-
-alias u := update
-update: && sys home
-  ${check_worktree}/bin/check_worktree
-  nix flake update
-  git add flake.lock
-  git commit -m "system update"
-
-''
-
+lib.strings.concatStringsSep "\n" modules

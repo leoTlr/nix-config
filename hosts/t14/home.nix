@@ -34,11 +34,8 @@
     sops.enable = true;
     just = {
       enable = true;
-      nixBuild = {
-        enable = true;
-        homeConfiguration = homeConfig;
-        hostConfiguration = sysConfig;
-      };
+      homeConfiguration = homeConfig;
+      hostConfiguration = sysConfig;
     };
 
     firefox.enable = true;
