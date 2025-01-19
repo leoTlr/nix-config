@@ -1,9 +1,10 @@
 { inputs, ... }:
 let
-  inherit (inputs.nixpkgs) lib; 
-  
+  inherit (inputs.nixpkgs) lib;
+
   pkgsFor = sys: inputs.nixpkgs.legacyPackages.${sys};
   homeConfigName = user: host: "${user}@${host}";
+
   homeManagerModules.default = ./home;
   nixosModules.default = ./system;
 
@@ -36,7 +37,17 @@ let
     (flatModules dir) ++ (dirModules dir);
 
   cfglib = { inherit nixModulesIn; };
-in
+
+  hostConfFile = isRequired: confType: sysName:
+    let
+      file = ./. + "/hosts/${sysName}/${confType}.nix";
+    in
+      if isRequired then [ file ]
+      else lib.optionals (lib.pathExists file) [ file ];
+  sysConfFile = hostConfFile true "configuration";
+  hwConfFile = hostConfFile false "hardware-configuration";
+  diskConfFile = hostConfFile false "disko";
+ in
 {
 
   mkSystem = hostConfig: user:
@@ -46,11 +57,13 @@ in
         userConfig = import (./. + "/users/${user}.nix") {};
       };
       modules = [
-        (./. + "/hosts/${hostConfig}/configuration.nix")
-        (./. + "/hosts/${hostConfig}/hardware-configuration.nix")
         nixosModules.default
-        (_: { nixpkgs.overlays = import ./overlays {}; })
-      ];
+        inputs.disko.nixosModules.default
+      ]
+      ++ (sysConfFile hostConfig)
+      ++ (hwConfFile hostConfig)
+      ++ (diskConfFile hostConfig)
+      ++ [ (_: { nixpkgs.overlays = import ./overlays {}; }) ];
     };
 
   mkHome = sys: hostConfig: user:
