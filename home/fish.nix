@@ -27,11 +27,19 @@
     broot # terminal file picker
     ripgrep # grep
     eza # ls
-    tealdeer # tldr client in rust
     dig
     fd # find
     btop
     killall
   ];
+
+  # tldr client in rust https://github.com/tealdeer-rs/tealdeer
+  programs.tealdeer = {
+    enable = true;
+    settings.updates = {
+      auto_update = true;
+      auto_update_interval_hours = 1;
+    };
+  };
 
 }
