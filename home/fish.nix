@@ -16,6 +16,7 @@
       jctl = "journalctl";
       jctlu = "journalctl --user-unit";
       nsp = "nix-shell -p";
+      rgf = "rg --files";
     };
     shellInit = ''
       function digs; dig +short $argv[1] | uniq | head -n1; end
@@ -31,6 +32,7 @@
     fd # find
     btop
     killall
+    jq
   ];
 
   # tldr client in rust https://github.com/tealdeer-rs/tealdeer
