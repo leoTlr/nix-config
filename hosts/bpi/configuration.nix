@@ -27,8 +27,13 @@ in
 
   systemd.network.networks."10-lan" = {
     enable = true;
-    matchConfig.Name = "lan";
-    networkConfig.DHCP = "ipv4";
+    matchConfig.Name = "enp1s0";
+    address = [
+      "192.168.1.50/24"
+    ];
+    routes = [
+      { Gateway = "192.168.1.1"; }
+    ];
   };
 
   syslib = {
