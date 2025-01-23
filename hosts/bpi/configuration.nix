@@ -6,7 +6,10 @@ in
 
   system.stateVersion = "24.11";
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      trusted-users = [ "@wheel" ];
+    };
     gc = {
       automatic = true;
       dates = "daily";
