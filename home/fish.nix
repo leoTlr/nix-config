@@ -11,8 +11,6 @@
       "..." = "cd ../..";
       g = "git";
       ls = "eza";
-      cat = "bat";
-      gcat = "bat -pp";
       sys = "systemctl";
       sysu = "systemctl --user";
       jctl = "journalctl";
@@ -27,7 +25,6 @@
 
   home.packages = with pkgs; [
     broot # terminal file picker
-    bat # cat
     ripgrep # grep
     eza # ls
     tealdeer # tldr client in rust
