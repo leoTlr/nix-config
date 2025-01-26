@@ -44,7 +44,7 @@
 
       nixosConfigurations = {
         t14 = mkSystem "t14" "leo";
-        bpi = mkSystem "bpi" "leo";
+        bee = mkSystem "bee" "leo";
       };
 
       homeConfigurations = {

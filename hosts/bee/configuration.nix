@@ -1,6 +1,6 @@
 { pkgs, userConfig, ... }:
 let
-  hostName = "bpi";
+  hostName = "bee";
 in
 {
 
