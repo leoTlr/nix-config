@@ -39,6 +39,55 @@ in
     ];
   };
 
+  security.sudo.wheelNeedsPassword = false;
+
+  services.adguardhome = {
+    enable = true;
+    mutableSettings = false;
+    openFirewall = true;
+    allowDHCP = false;
+    port = 3000;
+    host = "0.0.0.0";
+    settings = {
+      dhcp.enabled = false;
+      http.address = "192.168.1.50:3000";
+      dns = {
+        bind_hosts = [ "0.0.0.0" ];
+        port = 53;
+        ratelimit = 300;
+        upstream_dns = [
+          # DoH
+          "https://dns.quad9.net:443/dns-query"
+          "https://dns.cloudflare.com:443/dns-query"
+        ];
+        bootstrap_dns = [
+          "9.9.9.9"
+          "1.1.1.1"
+        ];
+      };
+      filters = [
+        {
+          name = "AdGuard DNS filter";
+          url = "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt";
+          enabled = true;
+        }
+        {
+          name = "AdAway Default Blocklist";
+          url = "https://adaway.org/hosts.txt";
+          enabled = true;
+        }
+        {
+          name = "OISD (Big)";
+          url = "https://big.oisd.nl";
+          enabled = true;
+        }
+      ];
+    };
+  };
+  networking.firewall.allowedUDPPorts = [ 53 ];
+  networking.nameservers = [ "127.0.0.1" ];
+  services.resolved.enable = false;
+
   syslib = {
 
     users = {
@@ -66,6 +115,8 @@ in
   environment.systemPackages = with pkgs; [
     vim
     git
+    dig
+    lsof
   ];
 
   programs.fish.enable = true;
