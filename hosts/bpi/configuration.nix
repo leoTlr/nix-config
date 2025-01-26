@@ -5,18 +5,6 @@ in
 {
 
   system.stateVersion = "24.11";
-  nix = {
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "@wheel" ];
-    };
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 30d";
-    };
-  };
-
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
@@ -89,6 +77,11 @@ in
   services.resolved.enable = false;
 
   syslib = {
+
+    nix = {
+      enable = true;
+      remoteManaged = true;
+    };
 
     users = {
       mutable = true;

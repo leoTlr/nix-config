@@ -5,14 +5,6 @@ in
 {
 
   system.stateVersion = "23.11";
-  nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 30d";
-    };
-  };
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -25,6 +17,8 @@ in
   };
 
   syslib = {
+
+    nix.enable = true;
 
     users = {
       mutable = true;
@@ -65,4 +59,3 @@ in
   services.fwupd.enable = true;
 
 }
-
