@@ -16,6 +16,11 @@ in
     networkmanager.enable = true;
   };
 
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+  };
+
   syslib = {
 
     nix.enable = true;

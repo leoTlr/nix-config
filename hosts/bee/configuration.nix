@@ -82,6 +82,11 @@ in
   networking.nameservers = [ "127.0.0.1" ];
   services.resolved.enable = false;
 
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+  };
+
   syslib = {
 
     nix = {
