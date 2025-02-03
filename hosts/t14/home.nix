@@ -8,10 +8,6 @@
     username = userConfig.userName;
     homeDirectory = "/home/${userConfig.userName}";
     stateVersion = "23.11";
-
-    sessionVariables = {
-      EDITOR = "vim";
-    };
   };
 
   colorScheme = inputs.nix-colors.colorSchemes."gruvbox-dark-medium";
@@ -40,7 +36,7 @@
 
     firefox.enable = true;
     vscode.enable = true;
-    zed.enable = true;
+    helix.enable = true;
 
     hyprland = {
       enable = true;

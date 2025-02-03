@@ -1,4 +1,4 @@
-{ inputs, pkgs, sysConfig, homeConfig, userConfig, ... }:
+{ inputs, pkgs, homeConfig, userConfig, ... }:
 
 {
 
@@ -12,10 +12,6 @@
     username = userConfig.userName;
     homeDirectory = "/Users/${userConfig.userName}";
     stateVersion = "24.05";
-
-    sessionVariables = {
-      EDITOR = "vim";
-    };
   };
 
   colorScheme = inputs.nix-colors.colorSchemes."gruvbox-dark-medium";
@@ -43,7 +39,7 @@
       enable = true;
       flavor = "ms";
     };
-    zed.enable = false;
+    helix.enable = true;
     k8stools.enable = true;
   };
 
