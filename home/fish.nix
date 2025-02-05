@@ -1,5 +1,17 @@
-{pkgs, ...}:
-
+{ pkgs, lib, ...}:
+let
+  linuxSettings = {
+    shellAliases = {
+      sys = "systemctl";
+      sysu = "systemctl --user";
+      jctl = "journalctl";
+      jctlu = "journalctl --user-unit";
+    };
+    packages = [
+      pkgs.isd # systemd tui
+    ];
+  };
+in
 {
   programs.fish = {
     enable = true;
@@ -11,13 +23,10 @@
       "..." = "cd ../..";
       g = "git";
       ls = "eza";
-      sys = "systemctl";
-      sysu = "systemctl --user";
-      jctl = "journalctl";
-      jctlu = "journalctl --user-unit";
+      la = "eza -lah";
       nsp = "nix-shell -p";
       rgf = "rg --files";
-    };
+    } // lib.optionalAttrs pkgs.stdenv.isLinux linuxSettings.shellAliases;
     shellInit = ''
       function digs; dig +short $argv[1] | uniq | head -n1; end
       function mkcd; mkdir $argv[1] && cd $argv[1]; end
@@ -33,8 +42,7 @@
     btop
     killall
     jq
-    isd # systemd tui
-  ];
+  ] ++ lib.optionals pkgs.stdenv.isLinux linuxSettings.packages;
 
   # tldr client in rust https://github.com/tealdeer-rs/tealdeer
   programs.tealdeer = {
