@@ -4,6 +4,12 @@ let
   homeConfigName = user: host: "${user}@${host}";
   homeManagerModules.default = ./home;
   nixosModules.default = ./system;
+
+  darwinModules =
+    inputs.nixpkgs.lib.optionals
+    (pkgsFor "aarch64-darwin").stdenv.isDarwin [
+      inputs.mac-app-util.homeManagerModules.default
+    ];
 in
 {
 
@@ -34,7 +40,7 @@ in
         (./. + "/hosts/${hostConfig}/home.nix")
         homeManagerModules.default
         (_: { nixpkgs.overlays = (import ./overlays {}); })
-      ];
+      ] ++ darwinModules;
     };
 
 }
