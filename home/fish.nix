@@ -33,6 +33,7 @@
     btop
     killall
     jq
+    isd # systemd tui
   ];
 
   # tldr client in rust https://github.com/tealdeer-rs/tealdeer
