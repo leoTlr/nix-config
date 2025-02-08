@@ -43,6 +43,7 @@ in
           indent-guides = {
             character = "╎";
             render = true;
+            skip-levels = 2;
           };
 
           lsp = {
@@ -71,6 +72,12 @@ in
           normal = {
             A-x = "extend_to_line_bounds";
             X = "select_line_above";
+
+            # buffer navigaion
+            "A-," = "goto_previous_buffer";
+            "A-." = "goto_next_buffer";
+            "A-w" = ":buffer-close";
+            "A-/" = "repeat_last_motion";
 
             # lazygit integration
             C-g = [
