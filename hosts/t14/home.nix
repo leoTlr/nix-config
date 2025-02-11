@@ -21,7 +21,7 @@
       enable = true;
       commitInfo = {
         name = userConfig.git.userName;
-        email = userConfig.email;
+        inherit (userConfig) email;
         inherit (userConfig.git) signKey;
       };
     };

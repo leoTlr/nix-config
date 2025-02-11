@@ -31,9 +31,9 @@
     };
   };
 
-  outputs = inputs@{ self, ... }:
+  outputs = { self, ... }:
   let
-    cfgLib = import ./cfglib.nix { inherit inputs; };
+    cfgLib = import ./cfglib.nix { inherit (self) inputs; };
   in
     with cfgLib; {
 

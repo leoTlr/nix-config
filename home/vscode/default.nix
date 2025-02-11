@@ -8,9 +8,6 @@ let
     jnoortheen.nix-ide
   ];
 
-  # pkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-  #   "vscode-extension-mhutchie-git-graph"
-  # ];
 in
 {
 

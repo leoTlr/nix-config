@@ -1,10 +1,10 @@
-{ pkgs, config, lib, inputs, ... }:
+{ config, lib, ... }:
 let
   cfg = config.homelib.kitty;
   kittyColorSettings = import ./colors.nix { inherit config; };
 in
-{ 
- 
+{
+
   options.homelib.kitty = {
 
     enable = lib.mkOption {
@@ -12,13 +12,13 @@ in
       default = false;
       description = "Use kitty as terminal emulator";
     };
-    
+
     nixcolors.enable = lib.mkOption {
       type = lib.types.bool;
       default = cfg.enable;
       description = "Use github:misterio77/nix-colors for theming";
     };
-  
+
   };
 
   config.programs.kitty = lib.mkIf cfg.enable {
@@ -32,7 +32,7 @@ in
       listen_on = "unix:/tmp/kitty";
       shell_integration = "enabled";
     } // lib.mkIf cfg.nixcolors.enable kittyColorSettings;
-  
+
   };
-  
+
 }

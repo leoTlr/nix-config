@@ -17,15 +17,15 @@ let
   nixModulesIn = with builtins; dir:
   let
     # i.e. $dir/foo.nix, $dir/bar.nix
-    flatModuleFilter = (base: name: type:
+    flatModuleFilter = base: name: type:
       if type == "regular" && (lib.hasSuffix ".nix" name) && (name != "default.nix")
       then base + ("/" + name)
-      else null);
+      else null;
     # i.e. $dir/foo/default.nix, $dir/bar/default.nix
-    dirModuleFilter = (base: name: type:
+    dirModuleFilter = base: name: type:
       if type == "directory" && (pathExists (base + "/${name}" + "/default.nix"))
       then base + "/${name}"
-      else null);
+      else null;
 
     modules = moduleFileFilter: dir:
       lib.filter (val: val != null)
@@ -49,7 +49,7 @@ in
         (./. + "/hosts/${hostConfig}/configuration.nix")
         (./. + "/hosts/${hostConfig}/hardware-configuration.nix")
         nixosModules.default
-        (_: { nixpkgs.overlays = (import ./overlays {}); })
+        (_: { nixpkgs.overlays = import ./overlays {}; })
       ];
     };
 
@@ -65,7 +65,7 @@ in
       modules = [
         (./. + "/hosts/${hostConfig}/home.nix")
         homeManagerModules.default
-        (_: { nixpkgs.overlays = (import ./overlays {}); })
+        (_: { nixpkgs.overlays = import ./overlays {}; })
       ] ++ darwinModules;
     };
 

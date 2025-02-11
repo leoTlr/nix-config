@@ -23,7 +23,7 @@ in
 
     programs.zed-editor = {
       enable = true;
-      extensions = cfg.extensions;
+      inherit (cfg) extensions;
 
       userSettings = {
         telemetry.metrics = false;
