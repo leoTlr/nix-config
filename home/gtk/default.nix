@@ -22,7 +22,7 @@ in
 
     icons.gruvboxplus.enable = lib.mkOption {
       type = lib.types.bool;
-      default = cfg.theming.enable;
+      default = false;
       description = "Use GruvboxPlus icon theme";
     };
 
