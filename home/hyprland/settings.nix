@@ -22,7 +22,7 @@ in
   ];
 
   # TODO: move def out of here into host/profile config
-  monitor = [ "eDP-1,1920x1080@60,0x0,1" "DP-4,1920x1080@60,1920x0,1" "DP-5,1920x1080@60,3840x0,1" ];
+  monitor = [ "eDP-1,1920x1080@60,0x0,1" "DP-1,1920x1080@60,1920x0,1" "DP-2,1920x1080@60,3840x0,1" ];
 
   input = {
     kb_layout = config.homelib.hyprland.keyMap;
