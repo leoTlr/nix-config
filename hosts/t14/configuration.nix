@@ -61,5 +61,7 @@ in
 
   programs.fish.enable = true;
 
+  services.fwupd.enable = true;
+
 }
 
