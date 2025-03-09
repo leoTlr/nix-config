@@ -51,7 +51,7 @@ in
       user = userConfig.userName;
     };
     bluetooth.enable = false;
-    displaylink.enable = true;
+    displaylink.enable = false;
   };
 
   environment.systemPackages = with pkgs; [
