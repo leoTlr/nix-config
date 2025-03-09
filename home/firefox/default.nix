@@ -37,7 +37,7 @@ in
         default = {
           id = 0;
           inherit settings;
-          extensions = lib.mkIf cfg.extensions.enable extensions;
+          extensions.packages = lib.mkIf cfg.extensions.enable extensions;
         };
       };
     };

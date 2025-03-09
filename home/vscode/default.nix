@@ -39,7 +39,9 @@ in
         if cfg.flavor == "ms"
         then pkgs.vscode
         else pkgs.vscodium;
-      inherit extensions userSettings;
+      profiles.default = {
+        inherit extensions userSettings;
+      };
     };
 
     home.packages = [ pkgs.nixd ];
