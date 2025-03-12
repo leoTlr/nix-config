@@ -33,7 +33,7 @@ in
       openshift
       podprobes
       podports
-      kubectx
+      kubectx fzf # optional dependency for kubectx
       k9s
       jq
     ];
