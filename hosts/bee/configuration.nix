@@ -83,7 +83,7 @@ in
   services.resolved.enable = false;
 
   services.tailscale = {
-    enable = true;
+    enable = false;
     openFirewall = true;
   };
 
