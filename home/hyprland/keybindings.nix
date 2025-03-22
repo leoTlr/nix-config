@@ -39,10 +39,17 @@ in
     "$modkey, up,           movefocus, u"
     "$modkey, down,         movefocus, d"
 
+    # move single windows in a workspace or between workspaces
     "$modkey SHIFT, left,   movewindoworgroup, l"
     "$modkey SHIFT, right,  movewindoworgroup, r"
     "$modkey SHIFT, up,     movewindoworgroup, u"
     "$modkey SHIFT, down,   movewindoworgroup, d"
+
+    # move a complete workspace with all its windows
+    "$modkey CTRL, left,   movecurrentworkspacetomonitor, l"
+    "$modkey CTRL, right,  movecurrentworkspacetomonitor, r"
+    "$modkey CTRL, up,     movecurrentworkspacetomonitor, u"
+    "$modkey CTRL, down,   movecurrentworkspacetomonitor, d"
 
     # Switch to workspace using number row
     "$modkey, 1,            workspace, 1"
