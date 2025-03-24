@@ -42,6 +42,7 @@
     helix.enable = true;
     k8stools.enable = true;
     ansibletools.enable = true;
+    kitty.enable = true;
   };
 
   home.packages = with pkgs; [
