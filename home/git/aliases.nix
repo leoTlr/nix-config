@@ -1,9 +1,27 @@
-_:
+{ pkgs, lib, ... }:
+let
+  pickBranch = pkgs.writeShellApplication {
+    name = "pickbranch";
+    runtimeInputs = with pkgs; [ git coreutils gawk fzf ];
+    text = ''
+      format_ref='%(align:30)%(color:yellow)%(refname:short)%(end)'
+      format_cdate='%(align:18)%(color:bold green)%(committerdate:relative)%(end)'
+      format_subject='%(align:55)%(color:blue)%(subject)%(end)'
+      format_author='%(align:18)%(color:magenta)%(authorname)%(color:reset)%(end)'
+      git for-each-ref --sort=-committerdate refs/heads \
+        --format="$format_ref | $format_cdate | $format_subject | $format_author" \
+      | fzf --layout=reverse --height=25% \
+      | awk -F "|" '{ print $1 }' \
+      | tr -d ' '
+    '';
+  };
+in
 {
   gl = "config --global -l";
   reporoot = "rev-parse --show-toplevel";
   s = "status -sb";
   st = "status";
+  sh = "show";
   aa = "add --all";
   c = "commit -m";
   cf = "commit --fixup";
@@ -12,12 +30,15 @@ _:
   co = "checkout";
   com = "checkout main";
   cob = "checkout -b";
+  sw = "switch";
+  sp = ''!git switch "$(${lib.getExe pickBranch})"'';
   ds = "diff --staged";
   del = "branch -d";
   delf = "branch -D";
   delr = ''!f() { git push origin :''${1:?no branch name given}; }; f'';
   delfr = ''!f() { git delr ''${1}; git delf $1; }; f'';
   br = "branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate";
+  pb = "!${lib.getExe pickBranch}";
   bclean = ''!f() { git branch --merged ''${1-main} | grep -v " ''${1-main}$" | xargs -r git branch -d; }; f'';
   lg = "!git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30 -n";
   l = "lg 5";

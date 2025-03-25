@@ -2,7 +2,7 @@
 let
   cfg = config.homelib.git;
   gitConfig = import ./gitconfig.nix {};
-  gitAliases = import ./aliases.nix {};
+  gitAliases = import ./aliases.nix { inherit pkgs lib; };
   gitIgnore = import ./gitignore.nix {};
 in
 {
