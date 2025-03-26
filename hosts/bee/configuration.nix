@@ -10,6 +10,8 @@ in
     efi.canTouchEfiVariables = true;
   };
 
+  environment.enableAllTerminfo = true;
+
   networking = {
     inherit hostName;
     firewall.enable = true;
