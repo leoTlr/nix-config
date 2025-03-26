@@ -1,6 +1,7 @@
 { pkgs, userConfig, ... }:
 let
   hostName = "bee";
+  ip = "192.168.1.50";
 in
 {
 
@@ -22,7 +23,7 @@ in
     enable = true;
     matchConfig.Name = "enp1s0";
     address = [
-      "192.168.1.50/24"
+      "${ip}/24"
     ];
     routes = [
       { Gateway = "192.168.1.1"; }
@@ -40,7 +41,7 @@ in
     host = "0.0.0.0";
     settings = {
       dhcp.enabled = false;
-      http.address = "192.168.1.50:3000";
+      http.address = "${ip}:3000";
       dns = {
         bind_hosts = [ "0.0.0.0" ];
         port = 53;
@@ -76,7 +77,7 @@ in
         # .home.arpa. shall be used for home networks as described in RFC8375
         # https://datatracker.ietf.org/doc/html/rfc8375
         { domain = "t14.home.arpa"; answer = "192.168.1.104"; } # FIXME: use static nw for t14, currently dhcp
-        { domain = "bee.home.arpa"; answer = "192.168.1.50"; }
+        { domain = "bee.home.arpa"; answer = ip; }
       ];
     };
   };
