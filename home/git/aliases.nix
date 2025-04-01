@@ -15,6 +15,16 @@ let
       | tr -d ' '
     '';
   };
+
+  pickCommitFromBranch = pkgs.writeShellApplication {
+    name = "pickCommitFromBranch";
+    runtimeInputs = with pkgs; [ git gawk fzf ];
+    text = ''
+      git log --pretty=format:"%h %d %s (%cr) [%an]" --abbrev-commit -30 main~1..HEAD \
+      | fzf --layout=reverse --height=25% \
+      | awk -F " " '{ print $1 }'
+    '';
+  };
 in
 {
   gl = "config --global -l";
@@ -25,6 +35,7 @@ in
   aa = "add --all";
   c = "commit -m";
   cf = "commit --fixup";
+  cfp = "! git cf $(${lib.getExe pickCommitFromBranch})";
   ca = "commit --amend";
   can = "commit --amend --no-edit";
   co = "checkout";
@@ -44,6 +55,7 @@ in
   l = "lg 5";
   ll = "lg 10";
   lm = "!git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30 main~1..HEAD";
+  lp = "! ${lib.getExe pickCommitFromBranch}";
   rb = "rebase";
   rbm = "rebase main";
   rbi = "rebase -i";
