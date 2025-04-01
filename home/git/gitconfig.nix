@@ -19,5 +19,11 @@ _:
   init = {
     defaultBranch = "main";
   };
+  core = {
+    whitespace = "trailing-space,space-before-tab";
+  };
+  apply = {
+    whitespace = "fix";
+  };
   
 }
