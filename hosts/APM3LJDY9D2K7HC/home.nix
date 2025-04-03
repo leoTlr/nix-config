@@ -40,7 +40,10 @@
       flavor = "ms";
     };
     helix.enable = true;
-    k8stools.enable = true;
+    k8stools = {
+      enable = true;
+      minikube.enable = true;
+    };
     ansibletools.enable = true;
     kitty.enable = true;
   };
