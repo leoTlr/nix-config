@@ -1,4 +1,4 @@
-{ config, lib, pkgs }:
+{ config, pkgs }:
 let
   cfg = config.homelib.hyprland;
 
@@ -33,6 +33,7 @@ in
     "$modkey, F,            fullscreen,"
     "$modkey, R,            exec, ${pkgs.hyprland}/bin/hyprctl reload"
     "$modkey, D,            exec, ${pkgs.wofi}/bin/wofi --show drun"
+    "$modkey, L,            exec, ${config.homelib.swaylock.lock.command}"
 
     "$modkey, left,         movefocus, l"
     "$modkey, right,        movefocus, r"
@@ -78,8 +79,6 @@ in
     "$modkey SHIFT, 8,     movetoworkspace, 8"
     "$modkey SHIFT, 9,     movetoworkspace, 9"
     "$modkey SHIFT, 0,     movetoworkspace, 10"
-  ] ++ lib.optionals cfg.screenLock [
-    "$modkey, L,           exec, ${config.homelib.screenlock.lock.command}"
   ];
 
   bindel = [

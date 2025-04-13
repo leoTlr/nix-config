@@ -40,7 +40,6 @@
 
     hyprland = {
       enable = true;
-      screenLock = true;
       keyMap = userConfig.localization.keymap;
     };
 

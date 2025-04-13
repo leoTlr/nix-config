@@ -1,11 +1,11 @@
 { config, lib, pkgs, ... }:
 let
-  cfg = config.homelib.screenlock;
+  cfg = config.homelib.swaylock;
   color = config.colorScheme.palette;
 in
 {
-  options.homelib.screenlock = {
-    enable = lib.mkEnableOption "screenlock";
+  options.homelib.swaylock = {
+    enable = lib.mkEnableOption "swaylock";
     systemdBindTarget = lib.mkOption {
       type = lib.types.str;
       default = "graphical-session-target";

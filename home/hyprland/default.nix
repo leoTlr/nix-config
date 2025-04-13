@@ -33,7 +33,6 @@ in
       example = "de";
     };
 
-    screenLock = lib.mkEnableOption "screenLock";
   };
 
   config = lib.mkIf cfg.enable {
@@ -43,9 +42,9 @@ in
       gtk.theming.enable = true;
       waybar.enable = true;
       dunst.enable = true;
-      screenlock = lib.mkIf cfg.screenLock {
+      swaylock = {
         enable = true;
-        systemdBindTarget = "hyprland-session.target";
+        systemdBindTarget = "hyprland-session-target";
       };
     };
 
