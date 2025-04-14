@@ -54,7 +54,7 @@
   };
 
   home.packages = with pkgs; [
-    trilium-desktop
+    trilium-next-desktop
     signal-desktop
     bitwarden-cli
   ];
