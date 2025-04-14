@@ -9,7 +9,6 @@ in
 {
   exec-once = [
     "systemctl --user import-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-    #"dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
     "systemctl --user start hyprland-session.target"
     "${pkgs.swaybg}/bin/swaybg --image ${wallpaper}"
     "${pkgs.waybar}/bin/waybar"
@@ -41,8 +40,6 @@ in
     "bordersize 0, floating:0, onworkspace:f[1]"
     "rounding 0, floating:0, onworkspace:f[1]"
     # /smart gaps
-  
-    "idleinhibit fullscreen, class:.*" # prevent screenlock if fullscreen
   ];
 
   misc.force_default_wallpaper = 0;
