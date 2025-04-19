@@ -68,20 +68,32 @@ in
       enable = true;
 
       settings = {
-
-        listener  = [
+        
+        listener  =
+        let
+          timeouts = rec {
+            dim = 180; # sec
+            lock = dim + 60;
+            displayOff = lock + 180;
+            suspend = displayOff + 360*2;
+          };
+        in
+        [
           { # dim screen before lock
-            timeout    = 180;
-            on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl set 30-";
-            on-resume  = "${pkgs.brightnessctl}/bin/brightnessctl set 30+";
+            timeout    = timeouts.dim;
+            on-timeout = "${lib.getExe pkgs.brightnessctl} set 30-";
+            on-resume  = "${lib.getExe pkgs.brightnessctl} set 30+";
           }
           { # lock screen
-            timeout = 240;
-            #on-timeout = "loginctl lock-session";
+            timeout = timeouts.lock;
             on-timeout = "${lib.getExe pkgs.hyprlock}";
           }
+          { # turn screen off
+            timeout = timeouts.displayOff;
+            on-timeout = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+            on-resume = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";          }
           { # suspend
-            timeout = 240 + 360;
+            timeout = timeouts.suspend;
             on-timeout = "systemctl suspend-then-hibernate";
           }
         ];
