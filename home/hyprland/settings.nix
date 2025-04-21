@@ -13,6 +13,7 @@ in
     "${pkgs.swaybg}/bin/swaybg --image ${wallpaper}"
     "${pkgs.waybar}/bin/waybar"
     "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
+    "[workspace 2 silent] ${lib.getExe pkgs.firefox}"
   ];
 
   env = [
