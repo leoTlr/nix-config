@@ -6,6 +6,23 @@ let
   };
 
   mkColor = base: "rgb(${config.colorscheme.palette."base0${toString base}"})";
+
+  handleMonitorConnect = pkgs.writeShellApplication {
+    name = "handle_monitor_connect";
+    text = ''
+      hyprland_socket="''${XDG_RUNTIME_DIR}/hypr/''${HYPRLAND_INSTANCE_SIGNATURE}/.socket2.sock"
+      handle_message() {
+        case $1 in monitoradded*)
+          echo "handling: $1"
+          hyprctl dispatch moveworkspacetomonitor "1 0"
+          hyprctl dispatch moveworkspacetomonitor "2 1"
+        esac
+      }
+      echo "listening to hyprland socket at $hyprland_socket ..."
+      ${lib.getExe pkgs.socat} -u -d --statistics "UNIX-CONNECT:$hyprland_socket" - \
+        | while read -r line; do handle_message "$line"; done
+    '';
+  };
 in
 {
 
@@ -51,6 +68,15 @@ in
     services.swayosd = {
       enable = true;
       topMargin = 0.9;
+    };
+
+    systemd.user.services.hyprWorkspacePinner = {
+      Unit = {
+        Description = "pinning hyprland workspaces to monitors";
+        ConditionEnvironment = [ "XDG_RUNTIME_DIR" "HYPRLAND_INSTANCE_SIGNATURE" ];
+      };
+      Service.ExecStart = lib.getExe handleMonitorConnect;
+      Install.WantedBy = [ "hyprland-session.target" ];
     };
 
     programs.hyprcursor-phinger.enable = true;
