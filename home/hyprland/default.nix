@@ -23,6 +23,17 @@ let
         | while read -r line; do handle_message "$line"; done
     '';
   };
+
+  hyprLogs = pkgs.writeShellApplication {
+    name = "hyprlogs";
+    runtimeInputs = with pkgs; [ eza fzf less ];
+    text = ''
+      LOGDIR="$XDG_RUNTIME_DIR/hypr/"
+      choice=$(eza -la --modified "$LOGDIR" | cut -d ' ' -f 4,5,6,7 | fzf --height="12%")
+      file=$(echo "$choice" | cut -d ' ' -f 4)
+      less "$LOGDIR/$file/hyprland.log"
+    '';
+  };
 in
 {
 
@@ -35,11 +46,7 @@ in
 
   options.homelib.hyprland = {
 
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Use hyprland wm";
-    };
+    enable = lib.mkEnableOption "custom hyprland desktop environment";
 
     modkey = lib.mkOption {
       type = lib.types.str;
@@ -52,9 +59,13 @@ in
       example = "de";
     };
 
+    debugMode = lib.mkEnableOption "hyprland debug mode";
+
   };
 
   config = lib.mkIf cfg.enable {
+
+    home.packages = lib.optionals cfg.debugMode [ hyprLogs ];
 
     homelib = {
       kitty.enable = true;

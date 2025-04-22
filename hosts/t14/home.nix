@@ -40,6 +40,7 @@
 
     hyprland = {
       enable = true;
+      debugMode = true;
       keyMap = userConfig.localization.keymap;
     };
 

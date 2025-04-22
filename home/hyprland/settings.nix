@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 let
+  cfg = config.homelib.hyprland;
+
   wallpaper = builtins.path {
     path = ./cody_foreman_the_rebuild_1920x1080.jpg;
     name = "wallpaper_fhd";
@@ -15,6 +17,11 @@ in
     "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"
     "[workspace 2 silent] ${lib.getExe pkgs.firefox}"
   ];
+
+  debug = {
+    disable_logs = !cfg.debugMode;
+    enable_stdout_logs = false;
+  };
 
   env = [
     "HYPRCURSOR_THEME,phinger-cursors-light-hyprcursor"
