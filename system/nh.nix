@@ -13,7 +13,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.sessionVariables.FLAKE = "${cfg.flakePath}";
+    environment.sessionVariables.NH_FLAKE = "${cfg.flakePath}";
     environment.systemPackages = [ pkgs.nh ];
   };
 }
