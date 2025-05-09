@@ -25,5 +25,7 @@ _:
   apply = {
     whitespace = "fix";
   };
-  
+
+  advice.forceDeleteBranch = false;
+
 }
