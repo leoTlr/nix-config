@@ -28,6 +28,7 @@
     gpg.enable = true;
     statix.enable = true;
     sops.enable = true;
+    bitwarden.enable = true;
     just = {
       enable = true;
       homeConfiguration = homeConfig;
@@ -57,7 +58,6 @@
   home.packages = with pkgs; [
     trilium-next-desktop
     signal-desktop
-    bitwarden-cli
   ];
 
   # there is also services.poweralertd which seems more maintained
