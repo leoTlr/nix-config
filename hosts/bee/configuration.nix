@@ -11,6 +11,12 @@ in
     efi.canTouchEfiVariables = true;
   };
 
+  boot.initrd = {
+    compressor = "zstd";
+    compressorArgs = ["-19" "-T0"];
+    systemd.enable = true;
+  };
+
   environment.enableAllTerminfo = true;
 
   networking = {
