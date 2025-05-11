@@ -28,7 +28,10 @@
     gpg.enable = true;
     statix.enable = true;
     sops.enable = true;
-    bitwarden.enable = true;
+    bitwarden = {
+      enable = true;
+      enableGui = true;
+    };
     just = {
       enable = true;
       homeConfiguration = homeConfig;
