@@ -50,6 +50,7 @@
       homeConfigurations = {
         "leo@t14" = mkHome "x86_64-linux" "t14" "leo";
         "ji09br@APM3LJDY9D2K7HC" = mkHome "aarch64-darwin" "APM3LJDY9D2K7HC" "ji09br";
+        "deck@deck" = mkHome "x86_64-linux" "deck" "deck";
       };
     };
 }
