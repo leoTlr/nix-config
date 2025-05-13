@@ -27,6 +27,7 @@ in
     programs.fish.shellAliases = {
       k = "kubectl";
       kx = "kubectx";
+      kc = "kubectx --current";
       kn = "kubens";
       ocl = "oc login --web";
     };
