@@ -57,6 +57,8 @@ in
   
   syslib = {
 
+    nfsmounts.enable = true;
+
     nix = {
       enable = true;
       remoteManaged = true;
