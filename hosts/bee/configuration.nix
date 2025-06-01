@@ -78,6 +78,7 @@ in
         # https://datatracker.ietf.org/doc/html/rfc8375
         { domain = "t14.home.arpa"; answer = "192.168.1.104"; } # FIXME: use static nw for t14, currently dhcp
         { domain = "bee.home.arpa"; answer = ip; }
+        { domain = "relaxo.home.arpa"; answer = "192.168.1.40"; }
       ];
     };
   };
