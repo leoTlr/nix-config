@@ -68,4 +68,7 @@
 
   programs.fish.enable = true;
 
+  services.qemuGuest.enable = true;
+  virtualisation.incus.agent.enable = true;
+
 }
