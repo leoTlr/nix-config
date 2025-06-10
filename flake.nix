@@ -46,6 +46,7 @@
         t14 = mkSystem "t14" "leo";
         bee = mkSystem "bee" "leo";
         liveiso = mkSystem "liveiso" "leo";
+        sparrow = mkSystem "sparrow" "leo";
       };
 
       homeConfigurations = {
