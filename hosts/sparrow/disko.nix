@@ -14,7 +14,6 @@ in
           partitions = {
             ESP = {
               label = "boot";
-              name = "ESP";
               size = "512M";
               type = "EF00";
               content = {
@@ -25,36 +24,20 @@ in
               };
             };
             rootfs = {
+              label = "nixos";
+              end = "-${builtins.toString swapSizeGB}GiB";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
+              };
+            };
+            swap = {
+              label = "swap";
               size = "100%";
               content = {
-                type = "btrfs";
-                extraArgs = [ "-L" "nixos" "-f" ];
-                subvolumes = {
-                  "/root" = {
-                    mountpoint = "/";
-                    mountOptions = ["subvol=root" "compress=zstd" "noatime"];
-                  };
-                  "/home" = {
-                    mountpoint = "/home";
-                    mountOptions = ["subvol=home" "compress=zstd" "noatime"];
-                  };
-                  "/nix" = {
-                    mountpoint = "/nix";
-                    mountOptions = ["subvol=nix" "compress=zstd" "noatime"];
-                  };
-                  "/persist" = {
-                    mountpoint = "/persist";
-                    mountOptions = ["subvol=persist" "compress=zstd" "noatime"];
-                  };
-                  "/log" = {
-                    mountpoint = "/var/log";
-                    mountOptions = ["subvol=log" "compress=zstd" "noatime"];
-                  };
-                  "/swap" = {
-                    mountpoint = "/swap";
-                    swap.swapfile.size = "${builtins.toString swapSizeGB}G";
-                  };
-                };
+                type = "swap";
+                discardPolicy = "both";
               };
             };
           };

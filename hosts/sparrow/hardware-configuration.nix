@@ -6,7 +6,7 @@
 {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
-    "${modulesPath}/virtualisation/incus-virtual-machine.nix"
+    "${modulesPath}/virtualisation/incus-virtual-machine.nix" # required by hypervisor
   ];
 
   boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "nvme" ];
@@ -16,13 +16,8 @@
 
   # overwrite imported incus-virtual-machine module for disko config
   fileSystems = {
-    "/boot" = {
-      device = lib.mkForce "/dev/disk/by-partlabel/boot";
-    };
-    "/" = {
-      fsType = lib.mkForce "btrfs";
-      device = lib.mkForce "/dev/disk/by-partlabel/disk-main-rootfs";
-    };
+    "/boot".device = lib.mkForce "/dev/disk/by-partlabel/boot";
+    "/".device = lib.mkForce "/dev/disk/by-partlabel/nixos";
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
