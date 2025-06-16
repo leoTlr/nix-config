@@ -65,6 +65,11 @@ in
       mounts = ["relaxo.home.arpa:/mnt/tank/media:/mnt/relaxo/media"];
     };
 
+    arrstack = {
+      enable = true;
+      #mediaDir =
+    };
+
   };
 
   environment.systemPackages = with pkgs; [
