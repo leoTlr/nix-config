@@ -55,28 +55,6 @@ in
     openFirewall = true;
   };
   
-  # playlist import is only one-way into navidrome. After that they only exist in navidrome db.
-  # Navidrome playlists can be edited and the canges sync back into navidrome db but not into files in music lib.
-  # To persist them maybe cronjob curl subsonic api and save the results outside of the music lib
-  # https://github.com/navidrome/navidrome/issues/105#issuecomment-660532791
-  #
-  # Workflow:
-  # - Manage music lib with picard
-  # - navidrome to host
-  # - subsonic client (i.e. symphony on android)
-  # - get updated playlists via subsonic api with cronjob and save somewhere else
-  #   - (or overwrite navidrome playlist load path)
-  
-  services.navidrome = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      Port = 4000;
-      Address = ip;
-      MusicFolder = "/persist/navidrome/music";
-    };
-  };
-
   syslib = {
 
     nix = {
