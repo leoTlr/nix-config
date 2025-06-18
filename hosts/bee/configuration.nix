@@ -32,59 +32,23 @@ in
 
   security.sudo.wheelNeedsPassword = false;
 
-  services.adguardhome = {
-    enable = true;
-    mutableSettings = false;
-    openFirewall = true;
-    allowDHCP = false;
-    port = 3000;
-    host = "0.0.0.0";
-    settings = {
-      dhcp.enabled = false;
-      http.address = "${ip}:3000";
-      dns = {
-        bind_hosts = [ "0.0.0.0" ];
-        port = 53;
-        ratelimit = 300;
-        upstream_dns = [
-          # DoH
-          "https://dns.quad9.net:443/dns-query"
-          "https://dns.cloudflare.com:443/dns-query"
-        ];
-        bootstrap_dns = [
-          "9.9.9.9"
-          "1.1.1.1"
-        ];
-      };
-      filters = [
-        {
-          name = "AdGuard DNS filter";
-          url = "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt";
-          enabled = true;
-        }
-        {
-          name = "AdAway Default Blocklist";
-          url = "https://adaway.org/hosts.txt";
-          enabled = true;
-        }
-        {
-          name = "OISD (Big)";
-          url = "https://big.oisd.nl";
-          enabled = true;
-        }
-      ];
-      filtering.rewrites = [
-        # .home.arpa. shall be used for home networks as described in RFC8375
-        # https://datatracker.ietf.org/doc/html/rfc8375
-        { domain = "t14.home.arpa"; answer = "192.168.1.104"; } # FIXME: use static nw for t14, currently dhcp
-        { domain = "bee.home.arpa"; answer = ip; }
-        { domain = "relaxo.home.arpa"; answer = "192.168.1.40"; }
-      ];
-    };
-  };
-  networking.firewall.allowedUDPPorts = [ 53 ];
   networking.nameservers = [ "127.0.0.1" ];
   services.resolved.enable = false;
+  services.technitium-dns-server = {
+    enable = true;
+    openFirewall = true;
+    firewallUDPPorts = [
+      53
+      853 # DoQUIC
+    ];
+    firewallTCPPorts = [
+      53
+      # 443 # DoH
+      853 # DoT
+      # 5380 # web interface HTTP
+      53443 # web interface HTTPS
+    ];
+  };
 
   services.tailscale = {
     enable = false;
