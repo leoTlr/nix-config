@@ -66,6 +66,8 @@ in
             cursor-line = "error"; # Show inline diagnostics when the cursor is on the line
             other-lines = "disable"; # Don't expand diagnostics unless the cursor is on the line
           };
+
+          file-picker.hidden = false;
         };
 
         keys = {
