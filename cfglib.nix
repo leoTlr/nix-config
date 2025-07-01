@@ -4,15 +4,23 @@ let
 
   pkgsFor = sys: inputs.nixpkgs.legacyPackages.${sys};
   homeConfigName = user: host: "${user}@${host}";
+  optionalConfigFile = path:
+    lib.optionals (lib.pathExists path) [ path ];
 
-  homeManagerModules.default = ./home;
-  nixosModules.default = ./system;
-
-  darwinModules =
-    inputs.nixpkgs.lib.optionals
-    (pkgsFor "aarch64-darwin").stdenv.isDarwin [
-      inputs.mac-app-util.homeManagerModules.default
-    ];
+  cfgPaths =
+  let
+    nixosModules = ./system;
+    hmModules = ./home;
+    userConfigDir = ./users;
+    hostConfigDir = ./hosts;
+  in {
+    inherit nixosModules hmModules userConfigDir hostConfigDir;
+    hostConfigFile = host: hostConfigDir + "/${host}/configuration.nix";
+    diskConfigFile = host: hostConfigDir + "/${host}/disko.nix";
+    hardwareConfigFile = host: hostConfigDir + "/${host}/hardware-configuration.nix";
+    homeConfigFile = host: hostConfigDir + "/${host}/home.nix";
+    userConfigFile = user: userConfigDir + "/${user}.nix";
+  };
 
   # get modules below $dir even if they are in a directory (non-recursive)
   nixModulesIn = with builtins; dir:
@@ -36,17 +44,10 @@ let
   in
     (flatModules dir) ++ (dirModules dir);
 
-  cfglib = { inherit nixModulesIn; };
-
-  hostConfFile = isRequired: confType: sysName:
-    let
-      file = ./. + "/hosts/${sysName}/${confType}.nix";
-    in
-      if isRequired then [ file ]
-      else lib.optionals (lib.pathExists file) [ file ];
-  sysConfFile = hostConfFile true "configuration";
-  hwConfFile = hostConfFile false "hardware-configuration";
-  diskConfFile = hostConfFile false "disko";
+  cfglib = {
+    inherit nixModulesIn;
+    paths = cfgPaths;
+  };
  in
 {
 
@@ -54,15 +55,15 @@ let
     lib.nixosSystem {
       specialArgs = {
         inherit inputs hostConfig cfglib;
-        userConfig = import (./. + "/users/${user}.nix") {};
+        userConfig = import (cfglib.paths.userConfigFile user) {};
       };
       modules = [
-        nixosModules.default
+        cfglib.paths.nixosModules
         inputs.disko.nixosModules.default
+        (cfglib.paths.hostConfigFile hostConfig) 
       ]
-      ++ (sysConfFile hostConfig)
-      ++ (hwConfFile hostConfig)
-      ++ (diskConfFile hostConfig)
+      ++ optionalConfigFile (cfglib.paths.hardwareConfigFile hostConfig)
+      ++ optionalConfigFile (cfglib.paths.diskConfigFile hostConfig)
       ++ [ (_: { nixpkgs.overlays = import ./overlays {}; }) ];
     };
 
@@ -73,13 +74,13 @@ let
         inherit inputs cfglib;
         homeConfig = homeConfigName user hostConfig;
         sysConfig = hostConfig;
-        userConfig = import (./. + "/users/${user}.nix") {};
+        userConfig = import (cfglib.paths.userConfigFile user) {};
       };
       modules = [
-        (./. + "/hosts/${hostConfig}/home.nix")
-        homeManagerModules.default
+        cfglib.paths.hmModules
+        (cfglib.paths.homeConfigFile hostConfig)
         (_: { nixpkgs.overlays = import ./overlays {}; })
-      ] ++ darwinModules;
+      ];
     };
 
 }
