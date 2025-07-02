@@ -19,7 +19,7 @@
       enable = true;
       enableFishIntegration = true;
       enableScDaemon = false;
-      pinentry.package = pkgs.pinentry-curses;
+      pinentry.package = pkgs.pinentry-tty;
     };
 
   };
