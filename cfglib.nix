@@ -20,6 +20,7 @@ let
     hardwareConfigFile = host: hostConfigDir + "/${host}/hardware-configuration.nix";
     homeConfigFile = host: hostConfigDir + "/${host}/home.nix";
     userConfigFile = user: userConfigDir + "/${user}.nix";
+    userSecretsFile = user: userConfigDir + "/${user}.secrets.yaml";
   };
 
   # get modules below $dir even if they are in a directory (non-recursive)
@@ -79,6 +80,7 @@ let
       modules = [
         cfglib.paths.hmModules
         (cfglib.paths.homeConfigFile hostConfig)
+        inputs.sops-nix.homeManagerModules.sops
         (_: { nixpkgs.overlays = import ./overlays {}; })
       ];
     };

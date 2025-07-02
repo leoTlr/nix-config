@@ -12,8 +12,8 @@
 
   colorScheme = inputs.nix-colors.colorSchemes."gruvbox-dark-medium";
   sops.secrets = {
-    "${userConfig.userName}/location/latitude" = {};
-    "${userConfig.userName}/location/longitude" = {};
+    "location/latitude" = {};
+    "location/longitude" = {};
   };
 
   homelib = {
@@ -51,8 +51,8 @@
     gammastep = {
       enable = true;
       location = {
-        latPath = config.sops.secrets."${userConfig.userName}/location/latitude".path;
-        lonPath = config.sops.secrets."${userConfig.userName}/location/longitude".path;
+        latPath = config.sops.secrets."location/latitude".path;
+        lonPath = config.sops.secrets."location/longitude".path;
       };
       systemdBindTarget = "hyprland-session.target";
     };
