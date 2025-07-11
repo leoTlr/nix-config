@@ -5,4 +5,5 @@ _:
   "*.nogit"
   "result"
   "result-*"
+  ".venv"
 ]

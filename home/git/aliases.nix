@@ -25,6 +25,7 @@ let
       | awk -F " " '{ print $1 }'
     '';
   };
+  logFormat = ''--pretty=format:"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]"'';
 in
 {
   gl = "config --global -l";
@@ -51,10 +52,11 @@ in
   br = "branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate";
   pb = "!${lib.getExe pickBranch}";
   bclean = ''!f() { git branch --merged ''${1-main} | grep -v " ''${1-main}$" | xargs -r git branch -d; }; f'';
-  lg = "!git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30 -n";
+  lg = "!git log ${logFormat} --abbrev-commit -30 -n";
   l = "lg 5";
   ll = "lg 10";
-  lm = "!git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30 main~1..HEAD";
+  lm = "!git log ${logFormat} --abbrev-commit -30 main~1..HEAD";
+  lb = ''!f() { git log ${logFormat} ''${1:?no branch name given}..$(git branch --show-current); }; f'';
   lp = "! ${lib.getExe pickCommitFromBranch}";
   rb = "rebase";
   rbm = "rebase main";
