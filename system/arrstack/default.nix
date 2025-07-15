@@ -79,7 +79,6 @@ in
       };
     };
     
-    syslib.arrstack.nzbget.enable = true;
     syslib.arrstack.sabnzbd.enable = true;
     
   };
