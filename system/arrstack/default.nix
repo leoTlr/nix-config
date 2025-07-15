@@ -31,7 +31,9 @@ in
       enable = true;
       staticConfigOptions = {
         log.level = "INFO";
-        accessLog.addInternals = true;
+        accessLog = {};
+        # log.level = "DEBUG";
+        # accessLog.addInternals = true;
         entryPoints = {
           web = {
             address = ":80";
@@ -78,6 +80,7 @@ in
     };
     
     syslib.arrstack.nzbget.enable = true;
+    syslib.arrstack.sabnzbd.enable = true;
     
   };
 }
