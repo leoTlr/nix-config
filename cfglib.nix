@@ -62,6 +62,7 @@ let
         cfglib.paths.nixosModules
         inputs.disko.nixosModules.default
         (cfglib.paths.hostConfigFile hostConfig) 
+        inputs.sops-nix.nixosModules.default
       ]
       ++ optionalConfigFile (cfglib.paths.hardwareConfigFile hostConfig)
       ++ optionalConfigFile (cfglib.paths.diskConfigFile hostConfig)

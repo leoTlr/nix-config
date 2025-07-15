@@ -1,7 +1,11 @@
 keys:
-  - &ltlr 93822605C442D674624431B92F394641FD9E298A
+  - &users:
+    - &ltlr 93822605C442D674624431B92F394641FD9E298A
+  - &hosts:
+    - &sparrow 0007CB38069B986F3739E4F8D0A796E4149F6E87
 
 creation_rules:
-  - key_groups:
-    - pgp:
-      - *ltlr
+  - path_regex: hosts/sparrow/secrets.yaml
+    key_groups:
+      - pgp: [ *sparrow ]
+  - pgp: *ltlr # -> valid for everything in here

@@ -34,6 +34,27 @@ in
 
   security.sudo.wheelNeedsPassword = false;
 
+  sops.secrets."sabnzbd/apikey".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/nzbkey".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/A/host".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/A/port".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/A/connections".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/A/priority".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/A/username".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/A/password".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/B/host".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/B/port".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/B/connections".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/B/priority".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/B/username".sopsFile = ./secrets.yaml;
+  sops.secrets."sabnzbd/servers/B/password".sopsFile = ./secrets.yaml;
+  sops.gnupg.home= "/root/.gnupg";
+  sops.gnupg.sshKeyPaths = [];
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-tty;
+  };
+
   syslib = {
 
     nix = {
