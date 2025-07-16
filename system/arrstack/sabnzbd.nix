@@ -6,9 +6,48 @@ in
 {
   options.syslib.arrstack.sabnzbd = with lib; {
     enable = mkEnableOption "sabnzbd";
+
     port = mkOption {
       type = types.port;
       default = 5000; 
+    };
+
+    configLock = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Lock access to config pages in webui.
+        This prevents changes though webui but you also cant check what is configured.
+        Changes made during runtime will be discarded on next restart anyway.
+      '';
+    };
+
+    apiKey = mkOption { type = types.str;  example = ''config.sops.placeholder."sabnzbd/apikey''; };
+    nzbKey = mkOption { type = types.str;  example = ''config.sops.placeholder."sabnzbd/nzbkey''; };
+
+    usenetProviders = mkOption {
+      type = types.listOf (types.submodule {
+        options = {
+          # int values can also be str to be able to pass sops-nix placeholders for secrets
+          host = mkOption { type = types.str; };
+          port = mkOption { type = types.oneOf [ types.port types.str ]; };
+          connections = mkOption { type = types.oneOf [ types.ints.positive types.str ]; };
+          priority = mkOption { type = types.oneOf [ (types.ints.between 0 100) types.str ]; };
+          username = mkOption { type = types.str; };
+          password = mkOption { type = types.str; };
+        };
+      });
+      default = [];
+      example = ''
+        [{
+          host = config.sops.placeholder."sabnzbd/servers/A/host";
+          host = config.sops.placeholder."sabnzbd/servers/A/port";
+          host = config.sops.placeholder."sabnzbd/servers/A/connections";
+          host = config.sops.placeholder."sabnzbd/servers/A/username";
+          host = config.sops.placeholder."sabnzbd/servers/A/password";
+          priority = 0;
+        }]
+      '';
     };
   };
 
@@ -32,34 +71,16 @@ in
 
     sops.templates."sabnzbd.ini" = {
       owner = "sabnzbd";
+      restartUnits = [ "sabnzbd.service" ];
       content = import ./sabnzbd.ini {
         inherit lib;
+        inherit (cfg) usenetProviders;
         sabSettings = {
+          inherit (cfg) port apiKey nzbKey configLock;
           host = "127.0.0.1";
-          port = cfg.port;
           urlBase = "/sabnzbd";
           hostWhitelist = "${acfg.domain},";
-          apiKey = config.sops.placeholder."sabnzbd/apikey";
-          nzbKey = config.sops.placeholder."sabnzbd/nzbkey";
         };
-        usenetProviders = [
-          {
-            host = config.sops.placeholder."sabnzbd/servers/A/host";
-            port = config.sops.placeholder."sabnzbd/servers/A/port";
-            connections = config.sops.placeholder."sabnzbd/servers/A/connections";
-            priority = config.sops.placeholder."sabnzbd/servers/A/priority";
-            username = config.sops.placeholder."sabnzbd/servers/A/username";
-            password = config.sops.placeholder."sabnzbd/servers/A/password";
-          }
-          {
-            host = config.sops.placeholder."sabnzbd/servers/B/host";
-            port = config.sops.placeholder."sabnzbd/servers/B/port";
-            connections = config.sops.placeholder."sabnzbd/servers/B/connections";
-            priority = config.sops.placeholder."sabnzbd/servers/B/priority";
-            username = config.sops.placeholder."sabnzbd/servers/B/username";
-            password = config.sops.placeholder."sabnzbd/servers/B/password";
-          }
-        ];
       };
     };
 

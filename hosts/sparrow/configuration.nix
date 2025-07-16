@@ -1,4 +1,4 @@
-{ pkgs, userConfig, ... }:
+{ pkgs, config, userConfig, ... }:
 let
   # VM on relaxo
   hostName = "sparrow";
@@ -34,22 +34,29 @@ in
 
   security.sudo.wheelNeedsPassword = false;
 
-  sops.secrets."sabnzbd/apikey".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/nzbkey".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/A/host".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/A/port".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/A/connections".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/A/priority".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/A/username".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/A/password".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/B/host".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/B/port".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/B/connections".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/B/priority".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/B/username".sopsFile = ./secrets.yaml;
-  sops.secrets."sabnzbd/servers/B/password".sopsFile = ./secrets.yaml;
-  sops.gnupg.home= "/root/.gnupg";
-  sops.gnupg.sshKeyPaths = [];
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      "sabnzbd/apikey" = {};
+      "sabnzbd/nzbkey" = {};
+      "sabnzbd/servers/A/host" = {};
+      "sabnzbd/servers/A/port" = {};
+      "sabnzbd/servers/A/connections" = {};
+      "sabnzbd/servers/A/username" = {};
+      "sabnzbd/servers/A/password" = {};
+      "sabnzbd/servers/B/host" = {};
+      "sabnzbd/servers/B/port" = {};
+      "sabnzbd/servers/B/connections" = {};
+      "sabnzbd/servers/B/username" = {};
+      "sabnzbd/servers/B/password" = {};
+    };
+  };
+
+  sops.gnupg = {
+    home = "/root/.gnupg";
+    sshKeyPaths = [];
+  };
+
   programs.gnupg.agent = {
     enable = true;
     pinentryPackage = pkgs.pinentry-tty;
@@ -88,7 +95,29 @@ in
 
     arrstack = {
       enable = true;
-      #mediaDir =
+      sabnzbd = {
+        enable = true;
+        apiKey = config.sops.placeholder."sabnzbd/apikey";
+        nzbKey = config.sops.placeholder."sabnzbd/nzbkey";
+        usenetProviders = [
+          {
+            host = config.sops.placeholder."sabnzbd/servers/A/host";
+            port = config.sops.placeholder."sabnzbd/servers/A/port";
+            connections = config.sops.placeholder."sabnzbd/servers/A/connections";
+            username = config.sops.placeholder."sabnzbd/servers/A/username";
+            password = config.sops.placeholder."sabnzbd/servers/A/password";
+            priority = 0;
+          }
+          {
+            host = config.sops.placeholder."sabnzbd/servers/B/host";
+            port = config.sops.placeholder."sabnzbd/servers/B/port";
+            connections = config.sops.placeholder."sabnzbd/servers/B/connections";
+            username = config.sops.placeholder."sabnzbd/servers/B/username";
+            password = config.sops.placeholder."sabnzbd/servers/B/password";
+            priority = 90;
+          }
+        ];
+      };
     };
 
   };
