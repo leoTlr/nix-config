@@ -106,6 +106,21 @@ in
         StateDirectory = "sabnzbd";
         WorkingDirectory = "~";
 
+        # hardening
+        ProtectSystem = "strict";
+        ProtectHome = "yes";
+        PrivateDevices = "yes";
+        PrivateTmp = "yes";
+        PrivateIPC = "yes";
+        PrivatePIDs = "yes";
+        ProtectHostname = "yes";
+        ProtectClock = "yes";
+        ProtectKernelTunables = "yes";
+        ProtectKernelModules = "yes";
+        ProtectKernelLogs = "yes";
+        ProtectControlGroups = "yes";
+        LockPersonality = "yes";
+
         # workaround because sabnzbd needs to write to the conf file at runtime
         # changes made in the ui are reset on every start
         ExecStartPre = lib.getExe (pkgs.writeShellApplication {
