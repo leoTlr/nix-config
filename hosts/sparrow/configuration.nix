@@ -97,6 +97,7 @@ in
       enable = true;
       sabnzbd = {
         enable = true;
+        outDir = "/mnt/relaxo/media/usenet";
         apiKey = config.sops.placeholder."sabnzbd/apikey";
         nzbKey = config.sops.placeholder."sabnzbd/nzbkey";
         usenetProviders = [

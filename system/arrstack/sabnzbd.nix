@@ -22,6 +22,11 @@ in
       '';
     };
 
+    outDir = mkOption {
+      type = types.str;
+      description = ''sabnzbd output for completed downloads'';
+    };
+
     apiKey = mkOption { type = types.str;  example = ''config.sops.placeholder."sabnzbd/apikey''; };
     nzbKey = mkOption { type = types.str;  example = ''config.sops.placeholder."sabnzbd/nzbkey''; };
 
@@ -76,7 +81,7 @@ in
         inherit lib;
         inherit (cfg) usenetProviders;
         sabSettings = {
-          inherit (cfg) port apiKey nzbKey configLock;
+          inherit (cfg) port apiKey nzbKey configLock outDir;
           host = "127.0.0.1";
           urlBase = "/sabnzbd";
           hostWhitelist = "${acfg.domain},";
@@ -105,6 +110,7 @@ in
         Group = "sabnzbd";
         StateDirectory = "sabnzbd";
         WorkingDirectory = "~";
+        ReadWritePaths = cfg.outDir; # exception from ProtectSystem = strict
 
         # hardening
         ProtectSystem = "strict";
