@@ -1,0 +1,19 @@
+{ arrSettings, ... }:
+''
+<Config>
+  <BindAddress>${arrSettings.host}</BindAddress>
+  <SslPort>9898</SslPort>
+  <EnableSsl>False</EnableSsl>
+  <LaunchBrowser>False</LaunchBrowser>
+  <ApiKey>${arrSettings.apiKey}</ApiKey>
+  <AuthenticationMethod>External</AuthenticationMethod>
+  <AuthenticationRequired>DisabledForLocalAddresses</AuthenticationRequired>
+  <Branch>master</Branch>
+  <LogLevel>${arrSettings.logLevel}</LogLevel>
+  <SslCertPath></SslCertPath>
+  <SslCertPassword></SslCertPassword>
+  <UrlBase>${arrSettings.urlBase}</UrlBase>
+  <InstanceName>${arrSettings.name}</InstanceName>
+  <LogSizeLimit>10</LogSizeLimit>
+</Config>
+''

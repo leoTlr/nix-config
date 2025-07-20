@@ -37,6 +37,9 @@ in
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
+      "radarr/apikey" = {};
+      "sonarr/apikey" = {};
+      "prowlarr/apikey" = {};
       "sabnzbd/apikey" = {};
       "sabnzbd/nzbkey" = {};
       "sabnzbd/servers/A/host" = {};
@@ -95,6 +98,20 @@ in
 
     arrstack = {
       enable = true;
+      radarr = {
+        enable = true;
+        libraryDir = "/mnt/relaxo/media/moviesTEST";
+        apiKey = config.sops.placeholder."radarr/apikey";
+      };
+      sonarr = {
+        enable = true;
+        libraryDir = "/mnt/relaxo/media/seriesTEST";
+        apiKey = config.sops.placeholder."sonarr/apikey";
+      };
+      prowlarr = {
+        enable = true;
+        apiKey = config.sops.placeholder."prowlarr/apikey";
+      };
       sabnzbd = {
         enable = true;
         outDir = "/mnt/relaxo/media/usenet";

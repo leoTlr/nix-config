@@ -90,13 +90,13 @@ in
     };
 
     users.users.sabnzbd = {
-      uid = 777;
+      uid = 700;
       group = "sabnzbd";
       home = "/var/lib/sabnzbd";
       description = "sabnzbd user";
     };
 
-    users.groups.sabnzbd.gid = 777;
+    users.groups.sabnzbd.gid = 700;
 
     systemd.services.sabnzbd = {
       description = "sabnzbd server";
