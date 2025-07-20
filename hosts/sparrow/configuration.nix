@@ -37,6 +37,8 @@ in
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
+      "traefik/tls/cert" = { owner = "traefik"; };
+      "traefik/tls/certKey" = { owner = "traefik"; };
       "radarr/apikey" = {};
       "sonarr/apikey" = {};
       "prowlarr/apikey" = {};
@@ -98,6 +100,10 @@ in
 
     arrstack = {
       enable = true;
+      proxy = {
+        certFile = config.sops.secrets."traefik/tls/cert".path;
+        certKeyFile = config.sops.secrets."traefik/tls/certKey".path;
+      };
       radarr = {
         enable = true;
         libraryDir = "/mnt/relaxo/media/moviesTEST";

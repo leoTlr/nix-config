@@ -12,6 +12,10 @@ in
       # services accessible at custom paths
       # i.e. arr.home.arpa/traefik
     };
+    proxy = {
+      certFile = mkOption { type = types.str;  example = ''config.sops.secrets."traefik/tls/cert".path''; };
+      certKeyFile = mkOption { type = types.str;  example = ''config.sops.secrets."traefik/tls/certKey".path''; };
+    };
   };
 
   imports = cfglib.nixModulesIn ./.;
@@ -66,14 +70,12 @@ in
             sniStrict = true;
           };
           stores.default.defaultCertificate = {
-            # TODO: move into sops
-            certFile = "/var/lib/traefik/arr.home.arpa.crt";
-            keyFile = "/var/lib/traefik/arr.home.arpa.key.nopass";
+            certFile = cfg.proxy.certFile;
+            keyFile = cfg.proxy.certKeyFile;
           };
           certificates = [{
-            # TODO: move into sops
-            certFile = "/var/lib/traefik/arr.home.arpa.crt";
-            keyFile = "/var/lib/traefik/arr.home.arpa.key.nopass";
+            certFile = cfg.proxy.certFile;
+            keyFile = cfg.proxy.certKeyFile;
           }];
         };
       };
