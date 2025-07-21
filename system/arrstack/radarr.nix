@@ -31,6 +31,7 @@ in
         service = "radarr";
         entrypoints = [ "websecure" ];
         tls.options = "default";
+        middlewares = [ "authelia@file" ];
       };
     };
 

@@ -31,6 +31,7 @@ in
         service = "sonarr";
         entrypoints = [ "websecure" ];
         tls.options = "default";
+        middlewares = [ "authelia@file" ];
       };
     };
 

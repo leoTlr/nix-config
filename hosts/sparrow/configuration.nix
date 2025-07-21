@@ -39,6 +39,9 @@ in
     secrets = {
       "traefik/tls/cert" = { owner = "traefik"; };
       "traefik/tls/certKey" = { owner = "traefik"; };
+      "authelia/jwtSecret" = { owner = "authelia-main"; };
+      "authelia/storageEncryptionKey" = { owner = "authelia-main"; };
+      "authelia/adminPassword" = { owner = "authelia-main"; };
       "radarr/apikey" = {};
       "sonarr/apikey" = {};
       "prowlarr/apikey" = {};
@@ -103,6 +106,11 @@ in
       proxy = {
         certFile = config.sops.secrets."traefik/tls/cert".path;
         certKeyFile = config.sops.secrets."traefik/tls/certKey".path;
+      };
+      auth = {
+        jwtSecretFile = config.sops.secrets."authelia/jwtSecret".path;
+        storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
+        adminPassword = config.sops.placeholder."authelia/adminPassword";
       };
       radarr = {
         enable = true;

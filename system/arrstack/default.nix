@@ -16,6 +16,11 @@ in
       certFile = mkOption { type = types.str;  example = ''config.sops.secrets."traefik/tls/cert".path''; };
       certKeyFile = mkOption { type = types.str;  example = ''config.sops.secrets."traefik/tls/certKey".path''; };
     };
+    auth = {
+      jwtSecretFile = mkOption { type = types.str; example = ''config.sops.secrets."authelia/jwtSecret".path''; };
+      storageEncryptionKeyFile = mkOption { type = types.str; example = ''config.sops.secrets."authelia/storageEncryptionKeyFile".path''; };
+      adminPassword = mkOption { type = types.str;  example = ''config.sops.placeholder."authelia/adminPassword"''; };
+    };
   };
 
   imports = cfglib.nixModulesIn ./.;
@@ -58,11 +63,35 @@ in
         };
       };
       dynamicConfigOptions = {
-        http.routers.dashboard = {
-          rule = "Host(`${cfg.domain}`) && PathPrefix(`/traefik`)";
-          service = "api@internal";
-          entrypoints = [ "websecure" ];
-          tls.options = "default";
+        http = {
+          routers = {
+            dashboard = {
+              rule = "Host(`${cfg.domain}`) && PathPrefix(`/traefik`)";
+              service = "api@internal";
+              entrypoints = [ "websecure" ];
+              tls.options = "default";
+              middlewares = [ "authelia@file" ];
+            };
+            auth = {
+              rule = "Host(`${cfg.domain}`) && PathPrefix(`/auth`)";
+              service = "auth";
+              entrypoints = [ "websecure" ];
+              tls.options = "default";
+            };
+          };
+          services.auth.loadBalancer.servers = [{
+            url = "http://127.0.0.1:${builtins.toString 9091}";
+          }];
+          middlewares.authelia.forwardAuth = {
+            address = "http://127.0.0.1:9091/api/authz/forward-auth";
+            trustForwardHeader = true;
+            authResponseHeaders = [
+              "Remote-User"
+              "Remote-Groups"
+              "Remote-Email"
+              "Remote-Name"
+            ];
+          };
         };
         tls = {
           options.default = {
@@ -79,6 +108,62 @@ in
           }];
         };
       };
+    };
+
+    services.authelia.instances.main = {
+      enable = true;
+      settings = {
+        theme = "auto";
+        default_2fa_method = "totp";
+        log.level = "info";
+        server = {
+          address = "tcp://127.0.0.1:9091/auth";
+          disable_healthcheck = true;
+        };
+        authentication_backend.file.path = config.sops.templates."authelia-users.yaml".path;
+        access_control = {
+          default_policy = "deny";
+          rules = [{
+            domain = [ "${cfg.domain}" "*.${cfg.domain}" ];
+            policy = "one_factor"; # two_factor, bypass
+          }];
+        };
+        session.cookies = [{
+          domain = "${cfg.domain}";
+          authelia_url = "https://${cfg.domain}/auth";
+          # default_redirection_url = "https://duckduckgo.com";
+          name = "authelia_session";
+          same_site = "lax"; # strict, none
+          inactivity = "5m";
+          expiration = "12h";
+          remember_me = "2d";
+        }];
+        storage.local.path = "/var/lib/authelia-main/authelia_db.sqlite3";
+        notifier.filesystem.filename = "/var/lib/authelia-main/notification.txt";
+        regulation = {
+          max_retries = 3;
+          find_time = "5m";
+          ban_time = "15m";
+        };
+      };
+      secrets = {
+        inherit (cfg.auth) jwtSecretFile storageEncryptionKeyFile;
+      };
+    };
+
+    sops.templates."authelia-users.yaml" = {
+      owner = "authelia-main";
+      restartUnits = [ "authelia-main.service" ];
+      content = ''
+        users:
+          admin:
+            disabled: false
+            displayname: 'admin'
+            password: '${cfg.auth.adminPassword}'
+            # email: 'foo@bar.com'
+            groups:
+              - 'admins'
+      '';
     };
     
   };

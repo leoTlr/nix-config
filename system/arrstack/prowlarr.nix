@@ -26,6 +26,7 @@ in
         service = "prowlarr";
         entrypoints = [ "websecure" ];
         tls.options = "default";
+        middlewares = [ "authelia@file" ];
       };
     };
 
