@@ -126,6 +126,13 @@ in
         enable = true;
         apiKey = config.sops.placeholder."prowlarr/apikey";
       };
+      recyclarr = {
+        enable = true;
+        apiKeyPaths = {
+          radarr = config.sops.secrets."radarr/apikey".path;
+          sonarr = config.sops.secrets."sonarr/apikey".path;
+        };
+      };
       sabnzbd = {
         enable = true;
         outDir = "/mnt/relaxo/media/usenet";
