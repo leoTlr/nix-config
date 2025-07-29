@@ -115,7 +115,7 @@ in
       };
       radarr = {
         enable = true;
-        libraryDir = "/mnt/relaxo/media/moviesTEST";
+        libraryDir = "/mnt/relaxo/media/movies";
         downloadDir = config.syslib.arrstack.sabnzbd.outDir;
         apiKey = config.sops.placeholder."radarr/apikey";
       };
