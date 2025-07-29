@@ -16,6 +16,10 @@ in
       type = types.str;
       description = ''path to movie library'';
     };
+    downloadDir = mkOption {
+      type = types.str;
+      description = ''where the download client places downloaded movies'';
+    };
 
     apiKey = mkOption { type = types.str;  example = ''config.sops.placeholder."radarr/apikey''; };
   };
@@ -74,7 +78,7 @@ in
         Group = "radarr";
         StateDirectory = "radarr";
         WorkingDirectory = "~";
-        ReadWritePaths = cfg.libraryDir; # exception from ProtectSystem = strict
+        ReadWritePaths = [ cfg.libraryDir cfg.downloadDir ]; # exception from ProtectSystem = strict
 
         # hardening
         ProtectSystem = "strict";

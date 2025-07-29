@@ -116,11 +116,13 @@ in
       radarr = {
         enable = true;
         libraryDir = "/mnt/relaxo/media/moviesTEST";
+        downloadDir = config.syslib.arrstack.sabnzbd.outDir;
         apiKey = config.sops.placeholder."radarr/apikey";
       };
       sonarr = {
         enable = true;
         libraryDir = "/mnt/relaxo/media/seriesTEST";
+        downloadDir = config.syslib.arrstack.sabnzbd.outDir;
         apiKey = config.sops.placeholder."sonarr/apikey";
       };
       prowlarr = {
