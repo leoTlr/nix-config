@@ -101,7 +101,8 @@ in
     systemd.services.sabnzbd = {
       description = "sabnzbd server";
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
+      wants = acfg.waitOnMountUnits;
+      after = [ "network.target" ] ++ acfg.waitOnMountUnits;
       serviceConfig = {
         Type = "simple";
         # Type = "forking";

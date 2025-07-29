@@ -66,7 +66,8 @@ in
     systemd.services.sonarr = {
       description = "sonarr server";
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
+      wants = acfg.waitOnMountUnits;
+      after = [ "network.target" ] ++ acfg.waitOnMountUnits;
       serviceConfig = {
         Type = "simple";
         User = "sonarr";

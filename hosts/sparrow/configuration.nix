@@ -103,6 +103,7 @@ in
 
     arrstack = {
       enable = true;
+      waitOnMountUnits = [ "mnt-relaxo-media.mount" ];
       proxy = {
         certFile = config.sops.secrets."traefik/tls/cert".path;
         certKeyFile = config.sops.secrets."traefik/tls/certKey".path;

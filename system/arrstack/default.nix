@@ -21,6 +21,13 @@ in
       storageEncryptionKeyFile = mkOption { type = types.str; example = ''config.sops.secrets."authelia/storageEncryptionKeyFile".path''; };
       adminPassword = mkOption { type = types.str;  example = ''config.sops.placeholder."authelia/adminPassword"''; };
     };
+    waitOnMountUnits = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = ''
+        arr systemd units wait for given units
+      '';
+    };
   };
 
   imports = cfglib.nixModulesIn ./.;
