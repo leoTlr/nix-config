@@ -121,7 +121,7 @@ in
       };
       sonarr = {
         enable = true;
-        libraryDir = "/mnt/relaxo/media/seriesTEST";
+        libraryDir = "/mnt/relaxo/media/series";
         downloadDir = config.syslib.arrstack.sabnzbd.outDir;
         apiKey = config.sops.placeholder."sonarr/apikey";
       };

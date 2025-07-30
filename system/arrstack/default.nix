@@ -1,7 +1,6 @@
 { config, cfglib, lib, ... }:
 let
   cfg = config.syslib.arrstack;
-  # arrUser = "jack";
 in
 {
   options.syslib.arrstack = with lib; {
@@ -34,15 +33,8 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    # users = {
-    #   users.${arrUser} = {
-    #     isSystemUser = true;
-    #     createHome = true;
-    #   };
-    #   groups.pirates.members = [ arrUser ];
-    # };
-
     networking.firewall.allowedTCPPorts = [ 80 443 ];
+
     services.traefik = {
       enable = true;
       staticConfigOptions = {
