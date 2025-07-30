@@ -41,6 +41,8 @@ in
       enabled_layouts tall,grid,stack
       tab_bar_edge top
       tab_bar_style powerline
+
+      scrollback_lines 10000
     '';
 
     keybindings = lib.mkIf pkgs.stdenv.isDarwin {
