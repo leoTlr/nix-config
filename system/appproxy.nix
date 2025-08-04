@@ -11,9 +11,18 @@ let
         auth = mkOption { type = types.bool; default = true; };
         routeTo = mkOption { type = types.nullOr types.str; default = null; };
         dynamicConfigAttrs = mkOption { readOnly = true; };
+        externalUrl = mkOption { readOnly = true; };
+        internalUrl = mkOption { readOnly = true; };
       };
       config = {
         urlPath = mkDefault "/${name}";
+        externalUrl =
+          let url = fqdn + config.urlPath; in
+          if config.tls then "https://" + url
+          else "http://" + url;
+        internalUrl =
+          if config.routeTo == null then ""
+          else config.routeTo;
         service = mkDefault name;
         dynamicConfigAttrs = {
           http = {
