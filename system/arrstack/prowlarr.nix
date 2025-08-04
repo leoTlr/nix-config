@@ -1,7 +1,6 @@
 { config, lib, pkgs,... }:
 let
   cfg = config.syslib.arrstack.prowlarr;
-  acfg = config.syslib.arrstack;
 in
 {
   options.syslib.arrstack.prowlarr = with lib; {
@@ -16,19 +15,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-
-    services.traefik.dynamicConfigOptions.http = {
-      services.prowlarr.loadBalancer.servers = [{
-        url = "http://127.0.0.1:${builtins.toString cfg.port}";
-      }];
-      routers.prowlarr = {
-        rule = "Host(`${acfg.domain}`) && PathPrefix(`/prowlarr`)";
-        service = "prowlarr";
-        entrypoints = [ "websecure" ];
-        tls.options = "default";
-        middlewares = [ "authelia@file" ];
-      };
-    };
 
     sops.templates."prowlarr-config.xml" = {
       owner = "prowlarr";

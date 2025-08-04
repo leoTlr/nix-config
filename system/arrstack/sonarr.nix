@@ -26,19 +26,6 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    services.traefik.dynamicConfigOptions.http = {
-      services.sonarr.loadBalancer.servers = [{
-        url = "http://127.0.0.1:${builtins.toString cfg.port}";
-      }];
-      routers.sonarr = {
-        rule = "Host(`${acfg.domain}`) && PathPrefix(`/sonarr`)";
-        service = "sonarr";
-        entrypoints = [ "websecure" ];
-        tls.options = "default";
-        middlewares = [ "authelia@file" ];
-      };
-    };
-
     sops.templates."sonarr-config.xml" = {
       owner = "sonarr";
       restartUnits = [ "sonarr.service" ];

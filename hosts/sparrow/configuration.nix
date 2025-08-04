@@ -101,10 +101,8 @@ in
       mounts = ["relaxo.home.arpa:/mnt/tank/media:/mnt/relaxo/media"];
     };
 
-    arrstack = {
-      enable = true;
-      waitOnMountUnits = [ "mnt-relaxo-media.mount" ];
-      proxy = {
+    appproxy = {
+      tls = {
         certFile = config.sops.secrets."traefik/tls/cert".path;
         certKeyFile = config.sops.secrets."traefik/tls/certKey".path;
       };
@@ -113,6 +111,12 @@ in
         storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
         adminPassword = config.sops.placeholder."authelia/adminPassword";
       };
+    };
+
+    arrstack = {
+      enable = true;
+      domain = "arr.home.arpa";
+      waitOnMountUnits = [ "mnt-relaxo-media.mount" ];
       radarr = {
         enable = true;
         libraryDir = "/mnt/relaxo/media/movies";

@@ -62,18 +62,6 @@ in
       "unrar" # dep from sabnzbd pkg
     ];
 
-    services.traefik.dynamicConfigOptions.http = {
-      services.sabnzbd.loadBalancer.servers = [{
-        url = "http://127.0.0.1:${builtins.toString cfg.port}?skip_wizard=1";
-      }];
-      routers.sabnzbd = {
-        rule = "Host(`${acfg.domain}`) && PathPrefix(`/sabnzbd`)";
-        service = "sabnzbd";
-        entrypoints = [ "websecure" ];
-        tls.options = "default";
-      };
-    };
-
     sops.templates."sabnzbd.ini" = {
       owner = "sabnzbd";
       restartUnits = [ "sabnzbd.service" ];
