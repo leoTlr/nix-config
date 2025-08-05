@@ -3,9 +3,13 @@ keys:
     - &ltlr 93822605C442D674624431B92F394641FD9E298A
   - &hosts:
     - &sparrow 0007CB38069B986F3739E4F8D0A796E4149F6E87
+    - &bee 0553987A6C422E4462632494ED1F0C6720F4207D
 
 creation_rules:
   - path_regex: hosts/sparrow/secrets.yaml
     key_groups:
       - pgp: [ *sparrow ]
+  - path_regex: hosts/bee/secrets.yaml
+    key_groups:
+      - pgp: [ *bee ]
   - pgp: *ltlr # -> valid for everything in here

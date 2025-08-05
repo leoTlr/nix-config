@@ -164,7 +164,8 @@ in
           address = "tcp://127.0.0.1:9091/auth";
           disable_healthcheck = true;
         };
-        authentication_backend.file.path = config.sops.templates."authelia-users.yaml".path;
+        authentication_backend.file.path =
+          config.sops.templates."authelia-users.yaml".path;
         access_control = {
           default_policy = "deny";
           rules = [{
@@ -182,8 +183,10 @@ in
           expiration = "12h";
           remember_me = "2d";
         }];
-        storage.local.path = "/var/lib/authelia-main/authelia_db.sqlite3";
-        notifier.filesystem.filename = "/var/lib/authelia-main/notification.txt";
+        storage.local.path =
+          "/var/lib/authelia-main/authelia_db.sqlite3";
+        notifier.filesystem.filename =
+          "/var/lib/authelia-main/notification.txt";
         regulation = {
           max_retries = 3;
           find_time = "5m";

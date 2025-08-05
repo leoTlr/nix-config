@@ -1,4 +1,4 @@
-{ pkgs, userConfig, ... }:
+{ pkgs, config, userConfig, ... }:
 let
   hostName = "bee";
   ip = "192.168.1.50";
@@ -61,9 +61,28 @@ in
     openFirewall = true;
   };
   
-  syslib = {
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      "traefik/tls/cert" = { owner = "traefik"; };
+      "traefik/tls/certKey" = { owner = "traefik"; };
+      # "authelia/jwtSecret" = { owner = "authelia-main"; };
+      # "authelia/storageEncryptionKey" = { owner = "authelia-main"; };
+      # "authelia/adminPassword" = { owner = "authelia-main"; };
+    };
+  };
 
-    nfsmounts.enable = true;
+  sops.gnupg = {
+    home = "/root/.gnupg";
+    sshKeyPaths = [];
+  };
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-tty;
+  };
+
+  syslib = {
 
     nix = {
       enable = true;
@@ -90,6 +109,40 @@ in
     };
 
     bluetooth.enable = false;
+
+    nfsmounts = {
+      enable = true;
+      mounts = ["relaxo.home.arpa:/mnt/tank/media:/mnt/relaxo/media"];
+    };
+
+    appproxy = {
+      enable = true;
+      fqdn = "bee.home.arpa";
+      tls = {
+        certFile = config.sops.secrets."traefik/tls/cert".path;
+        certKeyFile = config.sops.secrets."traefik/tls/certKey".path;
+      };
+      auth = {
+        enable = false;
+        # jwtSecretFile = config.sops.secrets."authelia/jwtSecret".path;
+        # storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
+        # adminPassword = config.sops.placeholder."authelia/adminPassword";
+      };
+      apps.jellyfin = {
+        urlPath = "/";
+        routeTo = "http://localhost:8096";
+
+        # jellyfin uses a custom http authorization header scheme that authelia doesnt like.
+        # should setup oidc instead
+        auth = false;
+      };
+    };
+  };
+
+  services.jellyfin.enable = true;
+  systemd.services.jellyfin = {
+    wants = [ "mnt-relaxo-media.mount" ];
+    after = [ "mnt-relaxo-media.mount" ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -97,7 +150,13 @@ in
     git
     dig
     lsof
+    dysk
+    gdu
+    rsync
+    helix
   ];
+
+  networking.firewall.allowedTCPPorts = [8096];
 
   programs.fish.enable = true;
 
