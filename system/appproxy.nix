@@ -198,7 +198,7 @@ in
       };
     };
 
-    sops.templates."authelia-users.yaml" = {
+    sops.templates."authelia-users.yaml" = lib.mkIf cfg.auth.enable {
       owner = "authelia-main";
       restartUnits = [ "authelia-main.service" ];
       content = ''
