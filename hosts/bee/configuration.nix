@@ -57,7 +57,7 @@ in
   };
 
   services.tailscale = {
-    enable = false;
+    enable = true;
     openFirewall = true;
   };
   
