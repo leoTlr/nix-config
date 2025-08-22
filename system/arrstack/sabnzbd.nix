@@ -122,7 +122,7 @@ in
           name = "sabnzbdConfigCreate";
           text = ''
             echo "Recreating sabnzbd config from template..."
-            mv sabnzbd.ini "sabnzbd.ini.$(date +%Y-%m-%d-%H-%M-%S)"
+            mv sabnzbd.ini "sabnzbd.ini.$(date +%Y-%m-%d-%H-%M-%S)" || true
             cp ${config.sops.templates."sabnzbd.ini".path} sabnzbd.ini
             chown sabnzbd:sabnzbd sabnzbd.ini
             chmod 600 sabnzbd.ini
