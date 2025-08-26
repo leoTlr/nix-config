@@ -69,7 +69,7 @@ in
     };
     bluetooth.enable = false;
     displaylink.enable = false;
-    nitrokey.enable = true;
+    nitrokey.enable = false;
   };
 
   environment.systemPackages = with pkgs; [

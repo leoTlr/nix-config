@@ -40,7 +40,6 @@ in
     syslib = {
       localization.enable = true;
       pipewire.enable = true;
-      dbus.enable = true;
       wayland = {
         enable = true;
         xwayland = {
