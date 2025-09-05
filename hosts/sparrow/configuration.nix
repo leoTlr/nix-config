@@ -57,6 +57,8 @@ in
       "sabnzbd/servers/B/connections" = {};
       "sabnzbd/servers/B/username" = {};
       "sabnzbd/servers/B/password" = {};
+      "alloy/user" = {};
+      "alloy/apikey" = {};
     };
   };
 
@@ -164,6 +166,13 @@ in
           }
         ];
       };
+    };
+
+    alloy = {
+      enable = true;
+      user = config.sops.placeholder."alloy/user";
+      apiKey = config.sops.placeholder."alloy/apikey";
+      exposeWebUi = true;
     };
 
   };

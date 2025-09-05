@@ -69,6 +69,8 @@ in
       # "authelia/jwtSecret" = { owner = "authelia-main"; };
       # "authelia/storageEncryptionKey" = { owner = "authelia-main"; };
       # "authelia/adminPassword" = { owner = "authelia-main"; };
+      "alloy/user" = {};
+      "alloy/apikey" = {};
     };
   };
 
@@ -137,6 +139,13 @@ in
         auth = false;
       };
     };
+
+    alloy = {
+      enable = true;
+      user = config.sops.placeholder."alloy/user";
+      apiKey = config.sops.placeholder."alloy/apikey";
+    };
+
   };
 
   services.jellyfin.enable = true;
