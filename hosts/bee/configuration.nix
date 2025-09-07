@@ -99,6 +99,8 @@ in
       };
     };
 
+    resourceControl.enable = true;
+
     sshd = {
       enable = true;
       authorizedKeys.${userConfig.userName} =
