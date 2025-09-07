@@ -34,5 +34,12 @@ in
       };
     };
 
+    systemd.services = lib.mkIf config.syslib.resourceControl.enable {
+      sabnzbd.serviceConfig.Slice = "workload.slice";
+      radarr.serviceConfig.Slice = "workload.slice";
+      prowlarr.serviceConfig.Slice = "workload.slice";
+      sonarr.serviceConfig.Slice = "workload.slice";
+    };
+
   };
 }
