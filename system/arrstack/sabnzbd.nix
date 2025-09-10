@@ -91,6 +91,8 @@ in
       wantedBy = [ "multi-user.target" ];
       wants = acfg.waitOnMountUnits;
       after = [ "network.target" ] ++ acfg.waitOnMountUnits;
+      unitConfig.AssertPathExists =
+        config.sops.templates."sabnzbd.ini".path;
       serviceConfig = {
         Type = "simple";
         # Type = "forking";

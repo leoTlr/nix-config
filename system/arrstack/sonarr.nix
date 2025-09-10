@@ -59,6 +59,8 @@ in
       wantedBy = [ "multi-user.target" ];
       wants = acfg.waitOnMountUnits;
       after = [ "network.target" ] ++ acfg.waitOnMountUnits;
+      unitConfig.AssertPathExists =
+        config.sops.templates."sonarr-config.xml".path;
       serviceConfig = {
         Type = "simple";
         User = "sonarr";

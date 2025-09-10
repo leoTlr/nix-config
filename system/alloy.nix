@@ -41,7 +41,11 @@ in
     environment.etc."alloy/grafanacloud_export.alloy".source =
       config.sops.templates."grafanacloud_export.alloy".path;
 
+    systemd.services.alloy.unitConfig.AssertPathExists
+      = config.sops.templates."grafanacloud_export.alloy".path;
+
     sops.templates."grafanacloud_export.alloy" = {
+      restartUnits = [ "alloy.service" ];
       owner = "alloy";
       content = ''
         prometheus.remote_write "grafanacloud" {

@@ -59,6 +59,8 @@ in
       wantedBy = [ "multi-user.target" ];
       wants = acfg.waitOnMountUnits;
       after = [ "network.target" ] ++ acfg.waitOnMountUnits;
+      unitConfig.AssertPathExists =
+        config.sops.templates."radarr-config.xml".path;
       serviceConfig = {
         Type = "simple";
         User = "radarr";

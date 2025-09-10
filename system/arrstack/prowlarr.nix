@@ -48,6 +48,8 @@ in
       description = "prowlarr server";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
+      unitConfig.AssertPathExists =
+        config.sops.templates."prowlarr-config.xml".path;
       serviceConfig = {
         Type = "simple";
         User = "prowlarr";
