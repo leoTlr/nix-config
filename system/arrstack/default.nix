@@ -1,6 +1,42 @@
 { config, cfglib, lib, ... }:
 let
   cfg = config.syslib.arrstack;
+
+  arrUnitNames = [
+    "sabnzbd"
+    "radarr"
+    "sonarr"
+    "prowlarr"
+  ];
+
+  mkArrUnit = name: {
+    unitConfig.PartOf = "arrstack.target";
+    after = [ "traefik.service" ] ++ cfg.waitOnMountUnits;
+    wants = [ "traefik.service" ] ++ cfg.waitOnMountUnits;
+    serviceConfig = {
+      Type = "simple";
+      User = name;
+      Group = name;
+      StateDirectory = name;
+      WorkingDirectory = "~";
+      Slice = lib.mkIf config.syslib.resourceControl.enable "workload.slice";
+
+      # hardening
+      ProtectSystem = "strict";
+      ProtectHome = "yes";
+      PrivateDevices = "yes";
+      PrivateTmp = "yes";
+      PrivateIPC = "yes";
+      PrivatePIDs = "yes";
+      ProtectHostname = "yes";
+      ProtectClock = "yes";
+      ProtectKernelTunables = "yes";
+      ProtectKernelModules = "yes";
+      ProtectKernelLogs = "yes";
+      ProtectControlGroups = "yes";
+      LockPersonality = "yes";
+    };
+  };
 in
 {
   options.syslib.arrstack = with lib; {
@@ -34,12 +70,16 @@ in
       };
     };
 
-    systemd.services = lib.mkIf config.syslib.resourceControl.enable {
-      sabnzbd.serviceConfig.Slice = "workload.slice";
-      radarr.serviceConfig.Slice = "workload.slice";
-      prowlarr.serviceConfig.Slice = "workload.slice";
-      sonarr.serviceConfig.Slice = "workload.slice";
+    systemd.targets."arrstack" = {
+      requires = builtins.map
+        (name: if cfg.${name}.enable then "${name}.service" else "")
+        arrUnitNames;
+      after = [ "traefik.service" ] ++ cfg.waitOnMountUnits;
+      wants = [ "traefik.service" ] ++ cfg.waitOnMountUnits;
+      wantedBy = [ "default.target" ];
     };
 
+    systemd.services = lib.genAttrs arrUnitNames
+      (name: lib.mkIf cfg.${name}.enable (mkArrUnit name));
   };
 }

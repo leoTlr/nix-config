@@ -46,34 +46,9 @@ in
 
     systemd.services.prowlarr = {
       description = "prowlarr server";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
       unitConfig.AssertPathExists =
         config.sops.templates."prowlarr-config.xml".path;
-      serviceConfig = {
-        Type = "simple";
-        User = "prowlarr";
-        Group = "prowlarr";
-        StateDirectory = "prowlarr";
-        WorkingDirectory = "~";
-
-        # hardening
-        ProtectSystem = "strict";
-        ProtectHome = "yes";
-        PrivateDevices = "yes";
-        PrivateTmp = "yes";
-        PrivateIPC = "yes";
-        PrivatePIDs = "yes";
-        ProtectHostname = "yes";
-        ProtectClock = "yes";
-        ProtectKernelTunables = "yes";
-        ProtectKernelModules = "yes";
-        ProtectKernelLogs = "yes";
-        ProtectControlGroups = "yes";
-        LockPersonality = "yes";
-
-        ExecStart = "${lib.getExe pkgs.prowlarr} -nobrowser -data='/var/lib/prowlarr'";
-      };
+      serviceConfig.ExecStart = "${lib.getExe pkgs.prowlarr} -nobrowser -data='/var/lib/prowlarr'";
     };
 
   };

@@ -88,35 +88,10 @@ in
 
     systemd.services.sabnzbd = {
       description = "sabnzbd server";
-      wantedBy = [ "multi-user.target" ];
-      wants = acfg.waitOnMountUnits;
-      after = [ "network.target" ] ++ acfg.waitOnMountUnits;
       unitConfig.AssertPathExists =
         config.sops.templates."sabnzbd.ini".path;
       serviceConfig = {
-        Type = "simple";
-        # Type = "forking";
-        # GuessMainPID = "no";
-        User = "sabnzbd";
-        Group = "sabnzbd";
-        StateDirectory = "sabnzbd";
-        WorkingDirectory = "~";
         ReadWritePaths = cfg.outDir; # exception from ProtectSystem = strict
-
-        # hardening
-        ProtectSystem = "strict";
-        ProtectHome = "yes";
-        PrivateDevices = "yes";
-        PrivateTmp = "yes";
-        PrivateIPC = "yes";
-        PrivatePIDs = "yes";
-        ProtectHostname = "yes";
-        ProtectClock = "yes";
-        ProtectKernelTunables = "yes";
-        ProtectKernelModules = "yes";
-        ProtectKernelLogs = "yes";
-        ProtectControlGroups = "yes";
-        LockPersonality = "yes";
 
         # workaround because sabnzbd needs to write to the conf file at runtime
         # changes made in the ui are reset on every start

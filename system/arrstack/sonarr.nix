@@ -56,34 +56,9 @@ in
 
     systemd.services.sonarr = {
       description = "sonarr server";
-      wantedBy = [ "multi-user.target" ];
-      wants = acfg.waitOnMountUnits;
-      after = [ "network.target" ] ++ acfg.waitOnMountUnits;
-      unitConfig.AssertPathExists =
-        config.sops.templates."sonarr-config.xml".path;
+      unitConfig.AssertPathExists = config.sops.templates."sonarr-config.xml".path;
       serviceConfig = {
-        Type = "simple";
-        User = "sonarr";
-        Group = "sonarr";
-        StateDirectory = "sonarr";
-        WorkingDirectory = "~";
         ReadWritePaths = [ cfg.libraryDir cfg.downloadDir ]; # exception from ProtectSystem = strict
-
-        # hardening
-        ProtectSystem = "strict";
-        ProtectHome = "yes";
-        PrivateDevices = "yes";
-        PrivateTmp = "yes";
-        PrivateIPC = "yes";
-        PrivatePIDs = "yes";
-        ProtectHostname = "yes";
-        ProtectClock = "yes";
-        ProtectKernelTunables = "yes";
-        ProtectKernelModules = "yes";
-        ProtectKernelLogs = "yes";
-        ProtectControlGroups = "yes";
-        LockPersonality = "yes";
-
         ExecStart = "${lib.getExe pkgs.sonarr} -nobrowser -data='/var/lib/sonarr'";
       };
     };

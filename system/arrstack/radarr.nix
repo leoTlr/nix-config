@@ -56,34 +56,10 @@ in
 
     systemd.services.radarr = {
       description = "radarr server";
-      wantedBy = [ "multi-user.target" ];
-      wants = acfg.waitOnMountUnits;
-      after = [ "network.target" ] ++ acfg.waitOnMountUnits;
       unitConfig.AssertPathExists =
         config.sops.templates."radarr-config.xml".path;
       serviceConfig = {
-        Type = "simple";
-        User = "radarr";
-        Group = "radarr";
-        StateDirectory = "radarr";
-        WorkingDirectory = "~";
         ReadWritePaths = [ cfg.libraryDir cfg.downloadDir ]; # exception from ProtectSystem = strict
-
-        # hardening
-        ProtectSystem = "strict";
-        ProtectHome = "yes";
-        PrivateDevices = "yes";
-        PrivateTmp = "yes";
-        PrivateIPC = "yes";
-        PrivatePIDs = "yes";
-        ProtectHostname = "yes";
-        ProtectClock = "yes";
-        ProtectKernelTunables = "yes";
-        ProtectKernelModules = "yes";
-        ProtectKernelLogs = "yes";
-        ProtectControlGroups = "yes";
-        LockPersonality = "yes";
-
         ExecStart = "${lib.getExe pkgs.radarr} -nobrowser -data='/var/lib/radarr'";
       };
     };
