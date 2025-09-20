@@ -1,4 +1,4 @@
-{ config, cfglib, lib, ... }:
+{ config, cfglib, lib, pkgs, ... }:
 let
   cfg = config.syslib.arrstack;
 
@@ -37,6 +37,25 @@ let
       LockPersonality = "yes";
     };
   };
+
+  arrTool = pkgs.writeShellApplication {
+    name = "arr";
+    text = ''
+      function usage() {
+        echo "Usage: $0 <command>" >&2
+        echo "Available commands: status start stop" >&2
+        exit 1
+      }
+      if [ $# -ne 1 ]; then usage "$@"; fi;
+      case "$1" in
+        start) systemctl start arrstack.target;;
+        stop) systemctl stop arrstack.target;;
+        status) systemctl list-dependencies arrstack.target;;
+        *) usage "$@";;
+      esac
+      exit 0
+    '';
+  };
 in
 {
   options.syslib.arrstack = with lib; {
@@ -54,6 +73,8 @@ in
   imports = cfglib.nixModulesIn ./.;
 
   config = lib.mkIf cfg.enable {
+
+    environment.systemPackages = [ arrTool ];
 
     syslib.appproxy = {
       enable = true;
