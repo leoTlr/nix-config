@@ -52,6 +52,10 @@ let
  in
 {
 
+  forEachSystem = self.inputs.nixpkgs.lib.genAttrs [
+    "x86_64-linux" "aarch64-darwin"
+  ];
+
   mkSystem = hostConfig: user:
     lib.nixosSystem {
       specialArgs = {

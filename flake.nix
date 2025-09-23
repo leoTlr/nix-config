@@ -36,7 +36,7 @@
     };
   };
 
-  outputs = { self, ... }:
+  outputs = { self, nixpkgs, ... }:
   let
     cfgLib = import ./cfglib.nix { inherit self; };
   in
@@ -55,7 +55,8 @@
         "deck@deck" = mkHome "x86_64-linux" "deck" "deck";
       };
 
-      packages."x86_64-linux".liveiso = self.nixosConfigurations.liveiso.config.system.build.images.iso-installer;
+      packages = forEachSystem
+        (system: import ./pkgs { pkgs = (import nixpkgs { inherit system;}); });
 
       overlays = import ./overlays {};
 
