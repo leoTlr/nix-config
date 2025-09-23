@@ -6,9 +6,9 @@ let
       patches = (prev.patches or []) ++ patches;
     });
 in
-
-[
-  (final: prev: {
+{
+  # changes to existing pkgs from nixpkgs  
+  modifications = final: prev: {
     swaylock-effects = patchPkg prev.swaylock-effects [ ./swaylock-effects-graceperiod.patch ];
-  })
-]
+  };
+}

@@ -38,7 +38,7 @@
 
   outputs = { self, ... }:
   let
-    cfgLib = import ./cfglib.nix { inherit (self) inputs; };
+    cfgLib = import ./cfglib.nix { inherit self; };
   in
     with cfgLib; {
 
@@ -56,6 +56,8 @@
       };
 
       packages."x86_64-linux".liveiso = self.nixosConfigurations.liveiso.config.system.build.images.iso-installer;
+
+      overlays = import ./overlays {};
 
     };
 }

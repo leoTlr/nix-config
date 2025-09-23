@@ -1,8 +1,8 @@
-{ inputs, ... }:
+{ self, ... }:
 let
-  inherit (inputs.nixpkgs) lib;
+  inherit (self.inputs.nixpkgs) lib;
 
-  pkgsFor = sys: inputs.nixpkgs.legacyPackages.${sys};
+  pkgsFor = sys: self.inputs.nixpkgs.legacyPackages.${sys};
   homeConfigName = user: host: "${user}@${host}";
   optionalConfigFile = path:
     lib.optionals (lib.pathExists path) [ path ];
@@ -55,25 +55,27 @@ let
   mkSystem = hostConfig: user:
     lib.nixosSystem {
       specialArgs = {
-        inherit inputs hostConfig cfglib;
+        inherit (self) inputs outputs;
+        inherit hostConfig cfglib;
         userConfig = import (cfglib.paths.userConfigFile user) {};
       };
       modules = [
         cfglib.paths.nixosModules
-        inputs.disko.nixosModules.default
+        self.inputs.disko.nixosModules.default
         (cfglib.paths.hostConfigFile hostConfig) 
-        inputs.sops-nix.nixosModules.default
+        self.inputs.sops-nix.nixosModules.default
       ]
       ++ optionalConfigFile (cfglib.paths.hardwareConfigFile hostConfig)
       ++ optionalConfigFile (cfglib.paths.diskConfigFile hostConfig)
-      ++ [ (_: { nixpkgs.overlays = import ./overlays {}; }) ];
+      ++ [ (_: { nixpkgs.overlays = [ self.outputs.overlays.modifications ]; }) ];
     };
 
   mkHome = sys: hostConfig: user:
-    inputs.home-manager.lib.homeManagerConfiguration {
+    self.inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = pkgsFor sys;
       extraSpecialArgs = {
-        inherit inputs cfglib;
+        inherit (self) inputs outputs;
+        inherit cfglib;
         homeConfig = homeConfigName user hostConfig;
         sysConfig = hostConfig;
         userConfig = import (cfglib.paths.userConfigFile user) {};
@@ -81,8 +83,8 @@ let
       modules = [
         cfglib.paths.hmModules
         (cfglib.paths.homeConfigFile hostConfig)
-        inputs.sops-nix.homeManagerModules.sops
-        (_: { nixpkgs.overlays = import ./overlays {}; })
+        self.inputs.sops-nix.homeManagerModules.sops
+        (_: { nixpkgs.overlays = [ self.outputs.overlays.modifications ]; })
       ];
     };
 
