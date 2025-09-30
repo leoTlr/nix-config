@@ -45,12 +45,14 @@
       nixosConfigurations = {
         t14 = mkSystem "t14" "leo";
         bee = mkSystem "bee" "leo";
+        tower = mkSystem "tower" "leo";
         liveiso = mkSystem "liveiso" "leo";
         sparrow = mkSystem "sparrow" "leo";
       };
 
       homeConfigurations = {
         "leo@t14" = mkHome "x86_64-linux" "t14" "leo";
+        "leo@tower" = mkHome "x86_64-linux" "tower" "leo";
         "ji09br@APM3LJDY9D2K7HC" = mkHome "aarch64-darwin" "APM3LJDY9D2K7HC" "ji09br";
         "deck@deck" = mkHome "x86_64-linux" "deck" "deck";
       };
