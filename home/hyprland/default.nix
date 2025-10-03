@@ -44,22 +44,32 @@ in
     inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
   ];
 
-  options.homelib.hyprland = {
+  options.homelib.hyprland = with lib; {
 
-    enable = lib.mkEnableOption "custom hyprland desktop environment";
+    enable = mkEnableOption "custom hyprland desktop environment";
 
-    modkey = lib.mkOption {
-      type = lib.types.str;
+    modkey = mkOption {
+      type = types.str;
       default = "SUPER";
       example = "ALT";
     };
 
-    keyMap = lib.mkOption {
-      type = lib.types.str;
+    keyMap = mkOption {
+      type = types.str;
       example = "de";
     };
 
-    debugMode = lib.mkEnableOption "hyprland debug mode";
+    monitors = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      example = ''[
+        "eDP-1,1920x1080@60,0x0,1"
+        "DP-1,1920x1080@60,1920x0,1"
+        "DP-2,1920x1080@60,3840x0,1"
+      ]'';
+    };
+
+    debugMode = mkEnableOption "hyprland debug mode";
 
   };
 
