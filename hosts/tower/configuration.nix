@@ -1,4 +1,4 @@
-{ pkgs, userConfig, ... }:
+{ pkgs, config, userConfig, ... }:
 let
   hostName = "tower";
 in
@@ -14,6 +14,8 @@ in
   networking = {
     inherit hostName;
     networkmanager.enable = true;
+    firewall.enable = true;
+    nameservers = [ "192.168.1.50" ];
   };
 
   security.pki.certificates = [
@@ -33,10 +35,30 @@ in
     ''
   ];
 
-  services.tailscale = {
-    enable = false;
-    openFirewall = true;
-    useRoutingFeatures = "both";
+  environment.enableAllTerminfo = true;
+  security.sudo.wheelNeedsPassword = false;
+
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      "traefik/tls/cert" = { owner = "traefik"; };
+      "traefik/tls/certKey" = { owner = "traefik"; };
+      "authelia/jwtSecret" = { owner = "authelia-main"; };
+      "authelia/storageEncryptionKey" = { owner = "authelia-main"; };
+      "authelia/adminPassword" = { owner = "authelia-main"; };
+      "alloy/user" = {};
+      "alloy/apikey" = {};
+    };
+  };
+
+  sops.gnupg = {
+    home = "/root/.gnupg";
+    sshKeyPaths = [];
+  };
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-tty;
   };
 
   syslib = {
@@ -76,6 +98,29 @@ in
       user = userConfig.userName;
     };
     bluetooth.enable = true;
+
+    resourceControl.enable = true;
+
+    alloy = {
+      enable = true;
+      user = config.sops.placeholder."alloy/user";
+      apiKey = config.sops.placeholder."alloy/apikey";
+    };
+
+    appproxy = {
+      enable = true;
+      fqdn = "tower.home.arpa";
+      tls = {
+        certFile = config.sops.secrets."traefik/tls/cert".path;
+        certKeyFile = config.sops.secrets."traefik/tls/certKey".path;
+      };
+      auth = {
+        enable = true;
+        jwtSecretFile = config.sops.secrets."authelia/jwtSecret".path;
+        storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
+        adminPassword = config.sops.placeholder."authelia/adminPassword";
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [

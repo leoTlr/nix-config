@@ -4,8 +4,12 @@ keys:
   - &hosts:
     - &sparrow 0007CB38069B986F3739E4F8D0A796E4149F6E87
     - &bee 0553987A6C422E4462632494ED1F0C6720F4207D
+    - &tower E13A6C611BC60D19CC0B68B3F6DFCCC6153E906C
 
 creation_rules:
+  - path_regex: hosts/tower/secrets.yaml
+    key_groups:
+      - pgp: [ *tower ]
   - path_regex: hosts/sparrow/secrets.yaml
     key_groups:
       - pgp: [ *sparrow ]
