@@ -54,13 +54,6 @@
 
   home.packages = with pkgs; [
     trilium-next-desktop
-    signal-desktop
-    steam
-  ];
-
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "steam"
-    "steam-unwrapped"
   ];
 
 }

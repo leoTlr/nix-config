@@ -1,4 +1,4 @@
-{ pkgs, config, userConfig, cfglib, ... }:
+{ pkgs, config, userConfig, cfglib, lib, ... }:
 let
   hostName = "tower";
 in
@@ -146,5 +146,12 @@ in
   programs.fish.enable = true;
 
   services.fwupd.enable = true;
+
+  programs.steam.enable = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "steam"
+    "steam-unwrapped"
+    "open-webui"
+  ];
 
 }
