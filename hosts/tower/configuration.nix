@@ -120,7 +120,10 @@ in
         storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
         adminPassword = config.sops.placeholder."authelia/adminPassword";
       };
+      apps.ai.urlPath = "/";
     };
+
+    aistack.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -129,6 +132,13 @@ in
     python3
     pciutils
     nettools
+    gdu
+    dysk
+
+    # gpu monitoring
+    rocmPackages.rocm-smi
+    clinfo
+    glances
   ];
 
   programs.fish.enable = true;
