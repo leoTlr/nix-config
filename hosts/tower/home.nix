@@ -42,6 +42,14 @@
       ];
     };
 
+    gammastep = {
+      enable = true;
+      location = {
+        latPath = "/run/secrets/location/latitude";
+        lonPath = "/run/secrets/location/longitude";
+      };
+      systemdBindTarget = "hyprland-session.target";
+    };
   };
 
   home.packages = with pkgs; [

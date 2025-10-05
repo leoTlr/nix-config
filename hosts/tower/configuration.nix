@@ -1,4 +1,4 @@
-{ pkgs, config, userConfig, ... }:
+{ pkgs, config, userConfig, cfglib, ... }:
 let
   hostName = "tower";
 in
@@ -48,6 +48,8 @@ in
       "authelia/adminPassword" = { owner = "authelia-main"; };
       "alloy/user" = {};
       "alloy/apikey" = {};
+      "location/latitude" = { owner = userConfig.userName; sopsFile = cfglib.paths.userSecretsFile userConfig.userName; };
+      "location/longitude" = { owner = userConfig.userName; sopsFile = cfglib.paths.userSecretsFile userConfig.userName; };
     };
   };
 

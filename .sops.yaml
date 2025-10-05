@@ -7,6 +7,9 @@ keys:
     - &tower E13A6C611BC60D19CC0B68B3F6DFCCC6153E906C
 
 creation_rules:
+  - path_regex: users/leo.secrets.yaml
+    key_groups:
+      - pgp: [ *tower ]
   - path_regex: hosts/tower/secrets.yaml
     key_groups:
       - pgp: [ *tower ]
