@@ -89,6 +89,12 @@ in
   binde = [
     ",XF86MonBrightnessDown,    exec, ${brightness_down}"
     ",XF86MonBrightnessUp,      exec,  ${brightness_up}"
+
+    # resize windows with alt + arrow keys
+    "ALT,right,        resizeactive, 15    0"
+    "ALT,left,         resizeactive, -15   0"
+    "ALT,up,           resizeactive, 0   -15"
+    "ALT,down,         resizeactive, 0    15"
   ];
 
   bindl = [
