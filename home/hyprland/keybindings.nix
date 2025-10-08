@@ -35,6 +35,11 @@ in
     "$modkey, D,            exec, ${pkgs.wofi}/bin/wofi --show drun"
     "$modkey, L,            exec, ${lib.getExe pkgs.hyprlock}"
 
+    # monitor focus
+    "$modkey, tab,          focusmonitor, +1"
+    "$modkey SHIFT, tab,    focusmonitor, -1"
+
+    # window focus
     "$modkey, left,         movefocus, l"
     "$modkey, right,        movefocus, r"
     "$modkey, up,           movefocus, u"
