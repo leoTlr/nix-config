@@ -52,5 +52,11 @@ in
     # /smart gaps
   ];
 
+  general = {
+    gaps_in = 5;
+    gaps_out = 10;
+  };
+
   misc.force_default_wallpaper = 0;
+
 } // keybindings
