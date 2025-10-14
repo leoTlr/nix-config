@@ -3,8 +3,8 @@ let
   cfg = config.syslib.aistack;
 
   stackUnitNames = [
-    "open-webui.service"
-    "ollama.service"
+    "open-webui"
+    "ollama"
   ];
 
   stackTool = pkgs.writeShellApplication {
@@ -52,11 +52,35 @@ in
     environment.systemPackages = [ stackTool ];
 
     systemd.targets."aistack" = {
-      requires = stackUnitNames;
+      requires = builtins.map (name: "${name}.service") stackUnitNames;
       after = [ "traefik.service" ];
       wants = [ "traefik.service" ];
       wantedBy = [ "default.target" ];
     };
+
+    systemd.services = lib.attrsets.genAttrs stackUnitNames (name: {
+      unitConfig.PartOf = "aistack.target";
+      after = [ "traefik.service" ];
+      wants = [ "traefik.service" ];
+      serviceConfig = {
+        Slice = lib.mkIf config.syslib.resourceControl.enable "workload.slice";
+
+        # hardening
+        ProtectSystem = lib.mkDefault "strict";
+        ProtectHome = lib.mkDefault "yes";
+        PrivateDevices = lib.mkDefault "yes";
+        PrivateTmp = lib.mkDefault "yes";
+        PrivateIPC = lib.mkDefault "yes";
+        # PrivatePIDs = lib.mkDefault "yes";
+        ProtectHostname = lib.mkDefault "yes";
+        ProtectClock = lib.mkDefault "yes";
+        ProtectKernelTunables = lib.mkDefault "yes";
+        ProtectKernelModules = lib.mkDefault "yes";
+        ProtectKernelLogs = lib.mkDefault "yes";
+        ProtectControlGroups = lib.mkDefault "yes";
+        LockPersonality = lib.mkDefault "yes";
+      };
+    });
 
     syslib.appproxy.apps.ai = {
       routeTo = "http://localhost:${builtins.toString cfg.ports.open-webui}";
