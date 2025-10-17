@@ -34,13 +34,15 @@ in
   st = "status";
   sh = "show";
   aa = "add --all";
-  c = "commit -m";
+  aac = "!git add --all; git commit --message";
+  c = "commit --message";
   cf = "commit --fixup";
   cfp = "! git cf $(${lib.getExe pickCommitFromBranch})";
   ca = "commit --amend";
   can = "commit --amend --no-edit";
   co = "checkout";
   com = "checkout main";
+  comc = "!git add --all; git commit -m \"pop\"; git checkout main";
   cob = "checkout -b";
   sw = "switch";
   sp = ''!git switch "$(${lib.getExe pickBranch})"'';
