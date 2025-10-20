@@ -56,15 +56,19 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
     home.packages = [ pkgs.git ];
 
     programs.git = {
       enable = true;
-      userName = cfg.commitInfo.name;
-      userEmail = cfg.commitInfo.email;
 
-      extraConfig = gitConfig;
-      aliases = lib.mkIf cfg.aliases.enable gitAliases;
+      settings = {
+        user = {
+          inherit (cfg.commitInfo) name email;
+        };
+        alias = lib.mkIf cfg.aliases.enable gitAliases;
+      } // gitConfig;
+
       ignores = lib.mkIf cfg.ignore.enable gitIgnore;
 
       includes =
