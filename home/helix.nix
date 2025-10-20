@@ -110,11 +110,18 @@ in
               ":redraw"
               ":reload-all"
             ];
+
+          # git blame workaround until #13133 is merged
+          space.b =
+            ":sh git blame -L %{cursor_line},%{cursor_line} %{buffer_name}";
+
           };
+
           select = {
             A-x = "extend_to_line_bounds";
             X = "select_line_above";
           };
+
         };
       };
 
