@@ -7,9 +7,11 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    home.packages = [
-      pkgs.helix
-      pkgs.lazygit
+    home.packages = with pkgs; [
+      helix
+      lazygit
+      wl-clipboard
+      nixd
     ];
 
     programs.helix = {
@@ -33,6 +35,20 @@ in
           # Minimum severity to show a diagnostic after the end of a line
           end-of-line-diagnostics = "hint";
 
+          trim-trailing-whitespace = true;
+          trim-final-newlines = true;
+
+          # dont place pairs of (){}[]''""``
+          auto-pairs = false;
+
+          auto-save = {
+            focus-lost = true;
+            after-delay = {
+              enable = true;
+              timeout = 1500; # ms
+            };
+          };
+
           # different shapes per mode
           cursor-shape = {
             insert = "bar";
@@ -43,12 +59,11 @@ in
           indent-guides = {
             character = "╎";
             render = true;
-            skip-levels = 2;
+            skip-levels = 1;
           };
 
           lsp = {
-            # Disable automatically popups of signature parameter help
-            auto-signature-help = false;
+            auto-signature-help = true;
             # Show LSP messages in the status line
             display-messages = true;
           };
@@ -78,7 +93,7 @@ in
             # buffer navigaion
             "A-," = "goto_previous_buffer";
             "A-." = "goto_next_buffer";
-            "A-w" = ":buffer-close";
+            "A-q" = ":buffer-close";
             "A-/" = "repeat_last_motion";
 
             # lazygit integration
@@ -95,7 +110,7 @@ in
             A-x = "extend_to_line_bounds";
             X = "select_line_above";
           };
-        };        
+        };
       };
 
     };
