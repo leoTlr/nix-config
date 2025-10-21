@@ -16,7 +16,6 @@ in
 
     home.packages = with pkgs; [
       helix
-      lazygit
       nixd
     ] ++ lib.optionals (cfg.clipboardPkg != null) [ cfg.clipboardPkg ];
 

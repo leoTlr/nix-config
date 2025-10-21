@@ -69,6 +69,7 @@
   home.packages = with pkgs; [
     trilium-next-desktop
     signal-desktop
+    lazygit
   ];
 
   # there is also services.poweralertd which seems more maintained
