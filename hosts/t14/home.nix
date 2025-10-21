@@ -40,7 +40,10 @@
 
     firefox.enable = true;
     vscode.enable = true;
-    helix.enable = true;
+    helix = {
+      enable = true;
+      clipboardPkg = pkgs.wl-clipboard;
+    };
 
     hyprland = {
       enable = true;

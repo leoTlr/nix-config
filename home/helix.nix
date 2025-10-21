@@ -3,16 +3,22 @@ let
   cfg = config.homelib.helix;
 in
 {
-  options.homelib.helix.enable = lib.mkEnableOption "helix editor";
+  options.homelib.helix = with lib; {
+    enable = mkEnableOption "helix editor";
+    clipboardPkg = mkOption {
+      type = types.nullOr types.package;
+      default = null;
+      example = "pkgs.wl-clipboard";
+    };
+  };
 
   config = lib.mkIf cfg.enable {
 
     home.packages = with pkgs; [
       helix
       lazygit
-      wl-clipboard
       nixd
-    ];
+    ] ++ lib.optionals (cfg.clipboardPkg != null) [ cfg.clipboardPkg ];
 
     programs.helix = {
       enable = true;
