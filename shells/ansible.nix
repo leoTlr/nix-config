@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ self, system, pkgs, ... }:
 let
   requirements = (pkgs.writeText "requirements.txt" ''
     # playbook deps
@@ -24,7 +24,14 @@ let
 in
 
 pkgs.mkShell {
-  packages = [ pkgs.python311 pkgs.ansible_2_14 ];
+
+  packages = with pkgs; [
+    python311
+    ansible_2_14
+    ansible-lint
+    self.outputs.packages.${system}.invhosts
+  ];
+
   shellHook = ''
     echo "setting up venv"
     python -m venv .venv
@@ -36,4 +43,5 @@ pkgs.mkShell {
     echo "📦 $(ansible --version)"
     echo ""
   '';
+
 }

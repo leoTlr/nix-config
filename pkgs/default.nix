@@ -1,4 +1,4 @@
 { pkgs, ... }:
 {
-  # foo = pkgs.callPackage ./foo {};
+  invhosts = pkgs.callPackage ./invhosts.nix {};
 }

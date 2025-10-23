@@ -44,13 +44,13 @@
       enable = true;
       minikube.enable = true;
     };
-    ansibletools.enable = true;
     kitty.enable = true;
   };
 
   home.packages = with pkgs; [
     keepassxc
     keepassxc-go # cli
+    invhosts
   ];
 
 }
