@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-23-05.url = "github:NixOS/nixpkgs/nixos-23.05";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -58,9 +59,12 @@
       };
 
       packages = forEachSystem
-        (system: import ./pkgs { pkgs = (import nixpkgs { inherit system;}); });
+        (system: import ./pkgs { pkgs = (import nixpkgs { inherit system; }); });
 
       overlays = import ./overlays {};
+
+      devShells = forEachSystem
+        (system: import ./shells { inherit system self; });
 
     };
 }
