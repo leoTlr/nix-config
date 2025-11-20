@@ -27,6 +27,8 @@ in
       "sonarr-api_key:${cfg.apiKeyPaths.sonarr}"
     ];
 
+    systemd.timers.recyclarr.enable = false; # workaround
+
     services.recyclarr = {
       enable = true;
       configuration = {
@@ -53,7 +55,8 @@ in
 
           quality_profiles = [{
             name = "HD Bluray + WEB (GER)";
-            min_format_score = 10000; # Uncomment this line to skip English Releases
+            min_format_score = 10000; # skip English Releases
+            reset_unmatched_scores.enabled = true; # fix stacking rules bug
           }];
 
           # https://github.com/recyclarr/config-templates/blob/3a2c4796b3aee5ccd4e66642bcd777ad38e0d739/radarr/templates/german-hd-bluray-web.yml
@@ -85,7 +88,8 @@ in
 
           quality_profiles = [{
             name = "HD Bluray + WEB (GER)";
-            # min_format_score: 10000 # Uncomment this line to skip English Releases
+            min_format_score = 10000; # skip English Releases
+            reset_unmatched_scores.enabled = true; # fix stacking rules bug
           }];
 
           # https://github.com/recyclarr/config-templates/blob/3a2c4796b3aee5ccd4e66642bcd777ad38e0d739/sonarr/templates/german-hd-bluray-web-v4.yml
