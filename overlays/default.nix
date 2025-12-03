@@ -6,11 +6,18 @@ let
       patches = (prev.patches or []) ++ patches;
     });
 in
-{
-  # packages defined in this flake
-  additions = final: _: import ../pkgs final.pkgs;
+rec {
 
-  # changes to existing pkgs from nixpkgs  
+  default = final: prev:
+    (additions final prev) //
+    (modifications final prev);
+
+  # packages defined in this flake
+  additions = _: prev: {
+    invhosts = prev.callPackage ../pkgs/invhosts.nix {};
+  };
+
+  # changes to existing pkgs from nixpkgs
   modifications = final: prev: {
     swaylock-effects = patchPkg prev.swaylock-effects [ ./swaylock-effects-graceperiod.patch ];
   };

@@ -66,12 +66,12 @@ let
       modules = [
         cfglib.paths.nixosModules
         self.inputs.disko.nixosModules.default
-        (cfglib.paths.hostConfigFile hostConfig) 
+        (cfglib.paths.hostConfigFile hostConfig)
         self.inputs.sops-nix.nixosModules.default
       ]
       ++ optionalConfigFile (cfglib.paths.hardwareConfigFile hostConfig)
       ++ optionalConfigFile (cfglib.paths.diskConfigFile hostConfig)
-      ++ [ (_: { nixpkgs.overlays = [ self.outputs.overlays.modifications ]; }) ];
+      ++ [ (_: { nixpkgs.overlays = [ self.outputs.overlays.default ]; }) ];
     };
 
   mkHome = sys: hostConfig: user:
@@ -88,7 +88,7 @@ let
         cfglib.paths.hmModules
         (cfglib.paths.homeConfigFile hostConfig)
         self.inputs.sops-nix.homeManagerModules.sops
-        (_: { nixpkgs.overlays = [ self.outputs.overlays.modifications ]; })
+        (_: { nixpkgs.overlays = [ self.outputs.overlays.default ]; })
       ];
     };
 
