@@ -52,6 +52,23 @@ in
 
   security.sudo.wheelNeedsPassword = false;
 
+  sops.gnupg = {
+    home = "/root/.gnupg";
+    sshKeyPaths = [];
+  };
+
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-tty;
+  };
+
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      "wireguard/h0_priv" = {};
+    };
+  };
+
   syslib = {
 
     nix = {
