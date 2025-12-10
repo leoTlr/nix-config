@@ -1,4 +1,4 @@
-{ pkgs, userConfig, ... }:
+{ pkgs, config, userConfig, ... }:
 let
   # VM on hetzner
   hostName = "h0";
@@ -38,6 +38,7 @@ in
   };
 
   environment.enableAllTerminfo = true;
+  security.sudo.wheelNeedsPassword = false;
 
   networking = {
     inherit hostName;
@@ -46,11 +47,37 @@ in
   };
 
   systemd.network.networks."10-lan" = {
-    enable = true;
     DHCP = "ipv4";
   };
 
-  security.sudo.wheelNeedsPassword = false;
+  # wireguard point-to-site homelab access
+  # h0=point bee=site
+  networking.firewall.allowedUDPPorts = [ 51820 ];
+  systemd.network.networks."50-homelab" = {
+    matchConfig.Name = "homelab";
+    address = [ "10.10.10.2/24" ];
+    networkConfig.IPv4Forwarding = true;
+    routes = [{
+      Gateway = "10.10.10.1";
+      GatewayOnLink = true;
+      Destination = [ "10.10.10.1/32" "192.168.1.0/24" ];
+    }];
+  };
+  systemd.network.netdevs."50-homelab" = {
+    netdevConfig = {
+      Kind = "wireguard";
+      Name = "homelab";
+    };
+    wireguardConfig = {
+      PrivateKeyFile = config.sops.secrets."wireguard/h0_priv".path;
+      ListenPort = 51820;
+    };
+    wireguardPeers = [{
+      PublicKey = "66OY1YutPwnIisQ+/Pm5oApVhaT7YCAIfnZGQT0IQlQ=";
+      PresharedKeyFile = config.sops.secrets."wireguard/psk".path;
+      AllowedIPs = [ "10.10.10.1/32" "192.168.1.0/24" ];
+    }];
+  };
 
   sops.gnupg = {
     home = "/root/.gnupg";
@@ -65,7 +92,8 @@ in
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      "wireguard/h0_priv" = {};
+      "wireguard/h0_priv" = { owner = "systemd-network"; };
+      "wireguard/psk" = { owner = "systemd-network"; };
     };
   };
 
@@ -110,6 +138,7 @@ in
     helix
     btop
     pciutils
+    wireguard-tools
   ];
 
   programs.fish.enable = true;

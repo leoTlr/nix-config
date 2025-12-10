@@ -18,6 +18,7 @@ in
   };
 
   environment.enableAllTerminfo = true;
+  security.sudo.wheelNeedsPassword = false;
 
   networking = {
     inherit hostName;
@@ -26,18 +27,42 @@ in
   };
 
   systemd.network.networks."10-lan" = {
-    enable = true;
     matchConfig.Name = "enp1s0";
-    address = [
-      "${ip}/24"
-    ];
-    routes = [
-      { Gateway = "192.168.1.1"; }
-    ];
+    address = [ "${ip}/24" ];
+    routes = [{ Gateway = "192.168.1.1"; }];
   };
 
-  security.sudo.wheelNeedsPassword = false;
+  # wireguard point-to-site homelab access
+  # h0=point bee=site
+  networking.firewall.allowedUDPPorts = [ 51820 ];
+  systemd.network.networks."50-homelab" = {
+    enable = true;
+    matchConfig.Name = "homelab";
+    address = [ "10.10.10.1/24" ];
+    networkConfig = {
+      IPv4Forwarding = true;
+      IPMasquerade = "ipv4";
+    };
+  };
+  systemd.network.netdevs."50-homelab" = {
+    netdevConfig = {
+      Kind = "wireguard";
+      Name = "homelab";
+    };
+    wireguardConfig = {
+      PrivateKeyFile = config.sops.secrets."wireguard/bee_priv".path;
+      ListenPort = 51820;
+    };
+    wireguardPeers = [{
+      PublicKey = "sZu4Mpdisaj7KiYV11IgCuj24xpn59RenpWNt0LCyxc=";
+      PresharedKeyFile = config.sops.secrets."wireguard/psk".path;
+      AllowedIPs = [ "10.10.10.2/32" ];
+      Endpoint = "h0.home.arpa:51820";
+      PersistentKeepalive = 20;
+    }];
+  };
 
+  # dns server
   networking.nameservers = [ "127.0.0.1" ];
   services.resolved.enable = false;
   services.technitium-dns-server = {
@@ -60,7 +85,7 @@ in
     enable = false;
     openFirewall = true;
   };
-  
+
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
@@ -71,6 +96,8 @@ in
       # "authelia/adminPassword" = { owner = "authelia-main"; };
       "alloy/user" = {};
       "alloy/apikey" = {};
+      "wireguard/bee_priv" = { owner = "systemd-network"; };
+      "wireguard/psk" = { owner = "systemd-network"; };
     };
   };
 
@@ -165,6 +192,7 @@ in
     gdu
     rsync
     helix
+    wireguard-tools
   ];
 
   networking.firewall.allowedTCPPorts = [8096];
