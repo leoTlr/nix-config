@@ -49,6 +49,7 @@
         tower = mkSystem "tower" "leo";
         liveiso = mkSystem "liveiso" "leo";
         sparrow = mkSystem "sparrow" "leo";
+        h0 = mkSystem "h0" "leo";
       };
 
       homeConfigurations = {
