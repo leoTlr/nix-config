@@ -65,6 +65,8 @@ in
   # dns server
   networking.nameservers = [ "127.0.0.1" ];
   services.resolved.enable = false;
+  systemd.services.technitium-dns-server.unitConfig.WantedBy =
+    "systemd-networkd.service"; # vpn endpoint cfg contains dns name
   services.technitium-dns-server = {
     enable = true;
     openFirewall = true;
