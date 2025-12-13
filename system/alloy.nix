@@ -5,8 +5,6 @@ in
 {
   options.syslib.alloy = with lib; {
     enable = mkEnableOption "Grafana alloy metrics";
-    apiKey = mkOption { type = types.str;  example = ''config.sops.placeholder."grafana/apikey"''; };
-    user = mkOption { type = types.str;  example = ''config.sops.placeholder."grafana/user"''; };
     debug = mkEnableOption "alloy livedebugging";
     exposeWebUi = mkEnableOption "expose web ui with app proxy";
   };
@@ -52,8 +50,8 @@ in
           endpoint {
             url = "https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push"
             basic_auth {
-              username = "${cfg.user}"
-              password = "${cfg.apiKey}"
+              username = "${config.sops.placeholder."alloy/user"}"
+              password = "${config.sops.placeholder."alloy/apikey"}"
             }
           }
         }

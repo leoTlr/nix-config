@@ -10,12 +10,14 @@ let
   cfgPaths =
   let
     nixosModules = ./system;
+    profileModules = ./profiles;
     hmModules = ./home;
     userConfigDir = ./users;
     hostConfigDir = ./hosts;
   in {
-    inherit nixosModules hmModules userConfigDir hostConfigDir;
+    inherit nixosModules profileModules hmModules userConfigDir hostConfigDir;
     hostConfigFile = host: hostConfigDir + "/${host}/configuration.nix";
+    hostSecretsFile = host: hostConfigDir + "/${host}/secrets.yaml";
     diskConfigFile = host: hostConfigDir + "/${host}/disko.nix";
     hardwareConfigFile = host: hostConfigDir + "/${host}/hardware-configuration.nix";
     homeConfigFile = host: hostConfigDir + "/${host}/home.nix";
@@ -68,6 +70,7 @@ let
         self.inputs.disko.nixosModules.default
         (cfglib.paths.hostConfigFile hostConfig)
         self.inputs.sops-nix.nixosModules.default
+        cfglib.paths.profileModules
       ]
       ++ optionalConfigFile (cfglib.paths.hardwareConfigFile hostConfig)
       ++ optionalConfigFile (cfglib.paths.diskConfigFile hostConfig)

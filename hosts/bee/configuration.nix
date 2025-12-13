@@ -1,14 +1,9 @@
-{ pkgs, config, userConfig, ... }:
-let
-  hostName = "bee";
-  ip = "192.168.1.50";
-in
+{ pkgs, config, ... }:
 {
 
-  system.stateVersion = "24.11";
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  profiles = {
+    base.stateVersion = "24.11";
+    server.enable = true;
   };
 
   boot.initrd = {
@@ -17,18 +12,9 @@ in
     systemd.enable = true;
   };
 
-  environment.enableAllTerminfo = true;
-  security.sudo.wheelNeedsPassword = false;
-
-  networking = {
-    inherit hostName;
-    firewall.enable = true;
-    useNetworkd = true;
-  };
-
   systemd.network.networks."10-lan" = {
     matchConfig.Name = "enp1s0";
-    address = [ "${ip}/24" ];
+    address = [ "192.168.1.50/24" ];
     routes = [{ Gateway = "192.168.1.1"; }];
   };
 
@@ -83,65 +69,19 @@ in
     ];
   };
 
-  services.tailscale = {
-    enable = false;
-    openFirewall = true;
-  };
-
-  sops = {
-    defaultSopsFile = ./secrets.yaml;
-    secrets = {
-      "traefik/tls/cert" = { owner = "traefik"; };
-      "traefik/tls/certKey" = { owner = "traefik"; };
-      # "authelia/jwtSecret" = { owner = "authelia-main"; };
-      # "authelia/storageEncryptionKey" = { owner = "authelia-main"; };
-      # "authelia/adminPassword" = { owner = "authelia-main"; };
-      "alloy/user" = {};
-      "alloy/apikey" = {};
-      "wireguard/bee_priv" = { owner = "systemd-network"; };
-      "wireguard/psk" = { owner = "systemd-network"; };
-    };
-  };
-
-  sops.gnupg = {
-    home = "/root/.gnupg";
-    sshKeyPaths = [];
-  };
-
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry-tty;
+  sops.secrets = {
+    "alloy/user" = {};
+    "alloy/apikey" = {};
+    "traefik/tls/cert" = { owner = "traefik"; };
+    "traefik/tls/certKey" = { owner = "traefik"; };
+    # "authelia/jwtSecret" = { owner = "authelia-main"; };
+    # "authelia/storageEncryptionKey" = { owner = "authelia-main"; };
+    # "authelia/adminPassword" = { owner = "authelia-main"; };
+    "wireguard/bee_priv" = { owner = "systemd-network"; };
+    "wireguard/psk" = { owner = "systemd-network"; };
   };
 
   syslib = {
-
-    nix = {
-      enable = true;
-      remoteManaged = true;
-    };
-
-    users = {
-      mutable = true;
-      mainUser = {
-        name = userConfig.userName;
-        shell = pkgs.fish;
-      };
-    };
-
-    resourceControl.enable = true;
-
-    sshd = {
-      enable = true;
-      authorizedKeys.${userConfig.userName} =
-        [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBTJPFx24iMt77z4a6unaq7EBMy8Hj+28vCZAJCbwdMi" ];
-    };
-
-    localization = {
-      enable = true;
-      inherit (userConfig.localization) timezone locale keymap;
-    };
-
-    bluetooth.enable = false;
 
     nfsmounts = {
       enable = true;
@@ -171,12 +111,6 @@ in
       };
     };
 
-    alloy = {
-      enable = true;
-      user = config.sops.placeholder."alloy/user";
-      apiKey = config.sops.placeholder."alloy/apikey";
-    };
-
   };
 
   services.jellyfin.enable = true;
@@ -186,19 +120,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    vim
-    git
-    dig
-    lsof
-    dysk
-    gdu
-    rsync
-    helix
     wireguard-tools
   ];
-
-  networking.firewall.allowedTCPPorts = [8096];
-
-  programs.fish.enable = true;
 
 }

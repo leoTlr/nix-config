@@ -1,21 +1,28 @@
-{ pkgs, config, userConfig, ... }:
-let
-  # VM on hetzner
-  hostName = "h0";
-in
+{ pkgs, config, ... }:
 {
-  system.stateVersion = "25.11";
+
+  # VM on hetzner
+  profiles = {
+    base.stateVersion = "25.11";
+    server = {
+      enable = true;
+      monitoring = false;
+    };
+  };
 
   boot = {
     loader = {
-      # systemd-boot doesnt work
+      systemd-boot.enable = false; # doesnt work on this host
       grub = {
         enable = true;
         efiSupport = true;
         efiInstallAsRemovable = true;
         device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_108060282";
       };
-      efi.efiSysMountPoint = "/boot";
+      efi = {
+        efiSysMountPoint = "/boot";
+        canTouchEfiVariables = false;
+      };
     };
 
     # for remote luks unlock
@@ -35,15 +42,6 @@ in
         };
       };
     };
-  };
-
-  environment.enableAllTerminfo = true;
-  security.sudo.wheelNeedsPassword = false;
-
-  networking = {
-    inherit hostName;
-    firewall.enable = true;
-    useNetworkd = true;
   };
 
   systemd.network.networks."10-lan" = {
@@ -79,68 +77,13 @@ in
     }];
   };
 
-  sops.gnupg = {
-    home = "/root/.gnupg";
-    sshKeyPaths = [];
-  };
-
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry-tty;
-  };
-
-  sops = {
-    defaultSopsFile = ./secrets.yaml;
-    secrets = {
-      "wireguard/h0_priv" = { owner = "systemd-network"; };
-      "wireguard/psk" = { owner = "systemd-network"; };
-    };
-  };
-
-  syslib = {
-
-    nix = {
-      enable = true;
-      remoteManaged = true;
-    };
-
-    users = {
-      mutable = true;
-      mainUser = {
-        name = userConfig.userName;
-        shell = pkgs.fish;
-      };
-    };
-
-    resourceControl.enable = true;
-
-    sshd = {
-      enable = true;
-      authorizedKeys.${userConfig.userName} =
-        [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBTJPFx24iMt77z4a6unaq7EBMy8Hj+28vCZAJCbwdMi" ];
-    };
-
-    localization = {
-      enable = true;
-      inherit (userConfig.localization) timezone locale keymap;
-    };
-
+  sops.secrets = {
+    "wireguard/h0_priv" = { owner = "systemd-network"; };
+    "wireguard/psk" = { owner = "systemd-network"; };
   };
 
   environment.systemPackages = with pkgs; [
-    vim
-    git
-    dig
-    lsof
-    dysk
-    gdu
-    rsync
-    helix
-    btop
-    pciutils
     wireguard-tools
   ];
-
-  programs.fish.enable = true;
 
 }
