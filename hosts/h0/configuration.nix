@@ -4,10 +4,7 @@
   # VM on hetzner
   profiles = {
     base.stateVersion = "25.11";
-    server = {
-      enable = true;
-      monitoring = false;
-    };
+    server.enable = true;
   };
 
   boot = {
@@ -78,6 +75,8 @@
   };
 
   sops.secrets = {
+    "alloy/user" = {};
+    "alloy/apikey" = {};
     "wireguard/h0_priv" = { owner = "systemd-network"; };
     "wireguard/psk" = { owner = "systemd-network"; };
   };
