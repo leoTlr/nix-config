@@ -2,7 +2,6 @@
 let
   inherit (self.inputs.nixpkgs) lib;
 
-  pkgsFor = sys: self.inputs.nixpkgs.legacyPackages.${sys};
   homeConfigName = user: host: "${user}@${host}";
   optionalConfigFile = path:
     lib.optionals (lib.pathExists path) [ path ];
@@ -58,10 +57,12 @@ let
     "x86_64-linux" "aarch64-darwin"
   ];
 
-  mkSystem = hostConfig: user:
-    lib.nixosSystem {
+  mkSystem = hostConfig: user: pkgSource:
+    pkgSource.lib.nixosSystem {
       specialArgs = {
         inherit (self) inputs outputs;
+        nixpkgs-stable = self.inputs.nixpkgs;
+        nixpkgs-unstable = self.inputs.nixpkgs-unstble;
         inherit hostConfig cfglib;
         userConfig = import (cfglib.paths.userConfigFile user) {};
       };
@@ -77,11 +78,15 @@ let
       ++ [ (_: { nixpkgs.overlays = [ self.outputs.overlays.default ]; }) ];
     };
 
-  mkHome = sys: hostConfig: user:
-    self.inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = pkgsFor sys;
+  mkHome = sys: hostConfig: user: hmSource:
+    hmSource.lib.homeManagerConfiguration {
+      pkgs = import hmSource.inputs.nixpkgs { system = sys; };
       extraSpecialArgs = {
         inherit (self) inputs outputs;
+        nixpkgs-stable = self.inputs.nixpkgs;
+        nixpkgs-unstable = self.inputs.nixpkgs-unstble;
+        home-manager-stable = self.inputs.home-manager;
+        home-manager-unstable = self.inputs.home-manager-unstable;
         inherit cfglib;
         homeConfig = homeConfigName user hostConfig;
         sysConfig = hostConfig;

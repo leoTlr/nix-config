@@ -2,12 +2,17 @@
   description = "Personal config preferences";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-23-05.url = "github:NixOS/nixpkgs/nixos-23.05";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     nix-colors.url = "github:misterio77/nix-colors";
@@ -43,20 +48,20 @@
   in
     with cfgLib; {
 
-      nixosConfigurations = {
-        t14 = mkSystem "t14" "leo";
-        bee = mkSystem "bee" "leo";
-        tower = mkSystem "tower" "leo";
-        liveiso = mkSystem "liveiso" "leo";
-        sparrow = mkSystem "sparrow" "leo";
-        h0 = mkSystem "h0" "leo";
+      nixosConfigurations = with self.inputs; {
+        t14 = mkSystem "t14" "leo" nixpkgs;
+        bee = mkSystem "bee" "leo" nixpkgs;
+        tower = mkSystem "tower" "leo" nixpkgs;
+        liveiso = mkSystem "liveiso" "leo" nixpkgs-unstable;
+        sparrow = mkSystem "sparrow" "leo" nixpkgs;
+        h0 = mkSystem "h0" "leo" nixpkgs;
       };
 
-      homeConfigurations = {
-        "leo@t14" = mkHome "x86_64-linux" "t14" "leo";
-        "leo@tower" = mkHome "x86_64-linux" "tower" "leo";
-        "ji09br@APM3LJDY9D2K7HC" = mkHome "aarch64-darwin" "APM3LJDY9D2K7HC" "ji09br";
-        "deck@deck" = mkHome "x86_64-linux" "deck" "deck";
+      homeConfigurations = with self.inputs; {
+        "leo@t14" = mkHome "x86_64-linux" "t14" "leo" home-manager;
+        "leo@tower" = mkHome "x86_64-linux" "tower" "leo" home-manager;
+        "ji09br@APM3LJDY9D2K7HC" = mkHome "aarch64-darwin" "APM3LJDY9D2K7HC" "ji09br" home-manager;
+        "deck@deck" = mkHome "x86_64-linux" "deck" "deck" home-manager;
       };
 
       packages = forEachSystem
