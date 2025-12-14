@@ -6,7 +6,10 @@
     server.enable = true;
   };
 
-  networking.nameservers = [ "192.168.1.50" ];
+  networking = {
+    networkmanager.enable = true;
+    nameservers = [ "192.168.1.50" ];
+  };
 
   sops.secrets = {
     "alloy/user" = {};
