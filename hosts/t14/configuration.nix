@@ -6,7 +6,10 @@
     hostName = "lt-t14";
   };
 
-  networking.networkmanager.enable = true;
+  networking = {
+    networkmanager.enable = true;
+    nameservers = [ "192.168.1.50" ];
+  };
 
   syslib = {
 
