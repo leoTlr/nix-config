@@ -30,6 +30,7 @@
       user = userConfig.userName;
     };
 
+    customFonts.enable = true;
     bluetooth.enable = true;
 
     appproxy = {
