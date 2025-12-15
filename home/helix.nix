@@ -79,6 +79,8 @@ in
               "spinner"
               "version-control"
               "file-name"
+              "read-only-indicator"
+              "file-modification-indicator"
             ];
           };
 
