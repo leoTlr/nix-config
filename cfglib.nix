@@ -62,7 +62,7 @@ let
       specialArgs = {
         inherit (self) inputs outputs;
         nixpkgs-stable = self.inputs.nixpkgs;
-        nixpkgs-unstable = self.inputs.nixpkgs-unstble;
+        nixpkgs-unstable = self.inputs.nixpkgs-unstable;
         inherit hostConfig cfglib;
         userConfig = import (cfglib.paths.userConfigFile user) {};
       };
