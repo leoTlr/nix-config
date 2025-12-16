@@ -45,6 +45,7 @@
       minikube.enable = true;
     };
     kitty.enable = true;
+    atuin.enable = true;
   };
 
   home.packages = with pkgs; [
