@@ -49,12 +49,12 @@
     with cfgLib; {
 
       nixosConfigurations = with self.inputs; {
-        t14 = mkSystem "t14" "leo" nixpkgs;
-        bee = mkSystem "bee" "leo" nixpkgs;
-        tower = mkSystem "tower" "leo" nixpkgs;
-        liveiso = mkSystem "liveiso" "leo" nixpkgs-unstable;
-        sparrow = mkSystem "sparrow" "leo" nixpkgs;
-        h0 = mkSystem "h0" "leo" nixpkgs;
+        t14 = mkSystem "x86_64-linux" "t14" "leo" nixpkgs;
+        bee = mkSystem "x86_64-linux" "bee" "leo" nixpkgs;
+        tower = mkSystem "x86_64-linux" "tower" "leo" nixpkgs;
+        liveiso = mkSystem "x86_64-linux" "liveiso" "leo" nixpkgs-unstable;
+        sparrow = mkSystem "x86_64-linux" "sparrow" "leo" nixpkgs;
+        h0 = mkSystem "x86_64-linux" "h0" "leo" nixpkgs;
       };
 
       homeConfigurations = with self.inputs; {
