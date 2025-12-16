@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, nixpkgs-unstable, ... }:
 let
   cfg = config.syslib.aistack;
 in
@@ -6,6 +6,7 @@ in
   config = lib.mkIf cfg.enable {
     services.ollama = {
       enable = true;
+      package = nixpkgs-unstable.ollama-rocm;
       port = cfg.ports.ollamaApi;
       loadModels = cfg.preloadModels;
       acceleration = "rocm";
