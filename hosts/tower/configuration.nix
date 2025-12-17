@@ -8,6 +8,7 @@
 
   networking = {
     networkmanager.enable = true;
+    useNetworkd = false;
     nameservers = [ "192.168.1.50" ];
   };
 
