@@ -50,6 +50,8 @@
       };
       systemdBindTarget = "hyprland-session.target";
     };
+
+    atuin.enable = true;
   };
 
   home.packages = with pkgs; [
