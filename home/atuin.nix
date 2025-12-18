@@ -13,6 +13,8 @@ in
         style = "compact";
         inline_height = 20;
         history_filter = [ "^\s+" "#nohist" ];
+        enter_accept = true;
+        filter_mode_shell_up_key_binding = "session";
       };
     };
 
