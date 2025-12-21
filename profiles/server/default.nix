@@ -37,6 +37,14 @@ in
 
       nix.remoteManaged = lib.mkDefault true;
 
+      deploy = {
+        role = "managed";
+        connection = {
+          sshUser = lib.mkDefault userConfig.userName;
+          url = lib.mkDefault "${config.networking.hostName}.home.arpa";
+        };
+      };
+
       resourceControl.enable = lib.mkDefault true;
 
       sshd = {

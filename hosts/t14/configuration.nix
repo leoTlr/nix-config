@@ -13,6 +13,7 @@
 
   syslib = {
 
+    deploy.role = "deployer";
     customFonts.enable = true;
 
     nh = {

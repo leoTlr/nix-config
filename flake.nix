@@ -40,11 +40,17 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs = { self, ... }:
   let
     cfgLib = import ./cfglib.nix { inherit self; };
+    lib = self.inputs.nixpkgs.lib;
   in
     with cfgLib; {
 
@@ -52,7 +58,6 @@
         t14 = mkSystem "x86_64-linux" "t14" "leo" nixpkgs-unstable;
         bee = mkSystem "x86_64-linux" "bee" "leo" nixpkgs;
         tower = mkSystem "x86_64-linux" "tower" "leo" nixpkgs;
-        liveiso = mkSystem "x86_64-linux" "liveiso" "leo" nixpkgs-unstable;
         sparrow = mkSystem "x86_64-linux" "sparrow" "leo" nixpkgs;
         h0 = mkSystem "x86_64-linux" "h0" "leo" nixpkgs;
       };
@@ -65,12 +70,24 @@
       };
 
       packages = forEachSystem
-        (system: import ./pkgs { pkgs = (import nixpkgs { inherit system; }); });
+        (system: import ./pkgs { pkgs = (import self.inputs.nixpkgs { inherit system; }); });
 
       overlays = import ./overlays {};
 
       devShells = forEachSystem
         (system: import ./shells { inherit system self; });
+
+      checks = builtins.mapAttrs
+        (system: deployLib: deployLib.deployChecks  self.deploy)
+        self.inputs.deploy-rs.lib;
+
+      deploy.nodes =
+      let
+        managedNodes = lib.attrsets.filterAttrs
+          (_: val: with val.config.syslib.deploy; role == "managed" || role == "both")
+          self.nixosConfigurations;
+      in
+        builtins.mapAttrs mkDeployNode managedNodes;
 
     };
 }

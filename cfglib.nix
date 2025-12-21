@@ -100,4 +100,13 @@ let
       ];
     };
 
+    mkDeployNode = _: config: {
+      hostname = config.config.syslib.deploy.connection.url;
+      profiles.system = {
+        user = "root"; # the adminuser smh doesnt work despite being nix trusted user and having passwordless sudo
+        sshUser = config.config.syslib.deploy.connection.sshUser;
+        path = self.inputs.deploy-rs.lib."x86_64-linux".activate.nixos config;
+      };
+    };
+
 }
