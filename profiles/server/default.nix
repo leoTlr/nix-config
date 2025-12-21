@@ -18,6 +18,7 @@ in
 
     security.sudo.wheelNeedsPassword = lib.mkDefault false;
     networking.useNetworkd = lib.mkDefault true;
+    services.fail2ban.enable = lib.mkDefault true;
 
     sops = {
        defaultSopsFile = lib.mkDefault (cfglib.paths.hostSecretsFile hostConfig);
