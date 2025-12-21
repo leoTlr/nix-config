@@ -49,7 +49,7 @@
     with cfgLib; {
 
       nixosConfigurations = with self.inputs; {
-        t14 = mkSystem "x86_64-linux" "t14" "leo" nixpkgs;
+        t14 = mkSystem "x86_64-linux" "t14" "leo" nixpkgs-unstable;
         bee = mkSystem "x86_64-linux" "bee" "leo" nixpkgs;
         tower = mkSystem "x86_64-linux" "tower" "leo" nixpkgs;
         liveiso = mkSystem "x86_64-linux" "liveiso" "leo" nixpkgs-unstable;
@@ -58,7 +58,7 @@
       };
 
       homeConfigurations = with self.inputs; {
-        "leo@t14" = mkHome "x86_64-linux" "t14" "leo" home-manager;
+        "leo@t14" = mkHome "x86_64-linux" "t14" "leo" home-manager-unstable;
         "leo@tower" = mkHome "x86_64-linux" "tower" "leo" home-manager;
         "ji09br@APM3LJDY9D2K7HC" = mkHome "aarch64-darwin" "APM3LJDY9D2K7HC" "ji09br" home-manager;
         "deck@deck" = mkHome "x86_64-linux" "deck" "deck" home-manager;
