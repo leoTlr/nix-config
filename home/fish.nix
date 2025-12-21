@@ -24,13 +24,13 @@ in
       g = "git";
       ls = "eza";
       la = "eza -lah";
-      nsp = "nix-shell -p";
       rgf = "rg --files";
     } // lib.optionalAttrs pkgs.stdenv.isLinux linuxSettings.shellAliases;
     shellInit = ''
       function digs; dig +short $argv[1] | uniq | head -n1; end
       function mkcd; mkdir $argv[1] && cd $argv[1]; end
-      function icat; kitten icat $argv[1]; end #show images in kitty terminal 
+      function icat; kitten icat $argv[1]; end #show images in kitty terminal
+      function nsp; nix shell nixpkgs#$argv; end
     '';
   };
 
