@@ -31,6 +31,7 @@ in
     "$modkey SHIFT, F,      togglefloating,"
     "$modkey, E,            togglegroup,"
     "$modkey, F,            fullscreen,"
+    "$modkey, S,            togglespecialworkspace, scratchpad"
     "$modkey, R,            exec, ${pkgs.hyprland}/bin/hyprctl reload"
     "$modkey, D,            exec, ${pkgs.wofi}/bin/wofi --show drun"
     "$modkey, L,            exec, ${lib.getExe pkgs.hyprlock}"
