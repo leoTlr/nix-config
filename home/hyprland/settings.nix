@@ -40,7 +40,7 @@ in
   };
 
   workspace = [
-    "special:scratchpad, gapsout:200, gapsin:100, shadow:true, border:true, on-created-empty: kitty"
+    "special:scratchpad, gapsout:200, gapsin:100, shadow:true, border:false, on-created-empty: kitty"
 
     # smart gaps (https://wiki.hyprland.org/Configuring/Workspace-Rules/#smart-gaps)
     "w[tv1]s[false], gapsout:0, gapsin:0"
@@ -66,6 +66,14 @@ in
     dim_inactive = false;
     dim_strength = 0.1;
     shadow.enabled = true;
+  };
+
+  # https://wiki.hypr.land/Configuring/Animations/
+  animations = {
+    enabled = true;
+    animation = [
+      "specialWorkspace, 1, 3, default, slidefadevert top"
+    ];
   };
 
   misc.force_default_wallpaper = 0;
