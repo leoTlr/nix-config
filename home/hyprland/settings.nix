@@ -55,8 +55,17 @@ in
   ];
 
   general = {
-    gaps_in = 5;
-    gaps_out = 10;
+    gaps_in = 3;
+    gaps_out = 6;
+    "col.active_border" = "rgb(${config.colorScheme.palette.base04})";
+    "col.inactive_border" = "rgb(${config.colorScheme.palette.base00})";
+  };
+
+  decoration = {
+    rounding = 0;
+    dim_inactive = false;
+    dim_strength = 0.1;
+    shadow.enabled = true;
   };
 
   misc.force_default_wallpaper = 0;
