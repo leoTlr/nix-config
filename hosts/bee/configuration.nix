@@ -72,8 +72,8 @@
   sops.secrets = {
     "alloy/user" = {};
     "alloy/apikey" = {};
-    "traefik/tls/cert" = { owner = "traefik"; };
-    "traefik/tls/certKey" = { owner = "traefik"; };
+    "traefik/certs/bee_cert" = { owner = "traefik"; restartUnits = ["traefik.service"]; };
+    "traefik/certs/bee_key" = { owner = "traefik"; restartUnits = ["traefik.service"]; };
     # "authelia/jwtSecret" = { owner = "authelia-main"; };
     # "authelia/storageEncryptionKey" = { owner = "authelia-main"; };
     # "authelia/adminPassword" = { owner = "authelia-main"; };
@@ -91,16 +91,16 @@
     appproxy = {
       enable = true;
       fqdn = "bee.home.arpa";
-      tls = {
-        certFile = config.sops.secrets."traefik/tls/cert".path;
-        certKeyFile = config.sops.secrets."traefik/tls/certKey".path;
-      };
       auth = {
         enable = false;
         # jwtSecretFile = config.sops.secrets."authelia/jwtSecret".path;
         # storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
         # adminPassword = config.sops.placeholder."authelia/adminPassword";
       };
+      certs = [{
+        certFile = config.sops.secrets."traefik/certs/bee_cert".path;
+        keyFile = config.sops.secrets."traefik/certs/bee_key".path;
+      }];
       apps.jellyfin = {
         urlPath = "/";
         routeTo = "http://localhost:8096";

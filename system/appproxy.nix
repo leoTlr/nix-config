@@ -2,6 +2,13 @@
 let
   cfg = config.syslib.appproxy;
 
+  certsType = with lib; types.submodule ({ ... }: {
+    options = {
+      certFile = mkOption { type = types.str; };
+      keyFile = mkOption { type = types.str; };
+    };
+  });
+
   mkAppType = fqdn: with lib;
     types.submodule ({ name, config, ... }: {
       options = {
@@ -50,14 +57,7 @@ let
         minVersion = "VersionTLS13";
         sniStrict = true;
       };
-      stores.default.defaultCertificate = {
-        inherit (cfg.tls) certFile;
-        keyFile = cfg.tls.certKeyFile;
-      };
-      certificates = [{
-        inherit (cfg.tls) certFile;
-        keyFile = cfg.tls.certKeyFile;
-      }];
+      certificates = cfg.certs;
     };
   };
 
@@ -88,9 +88,18 @@ in
         fqdn for all apps. Subdomains unsupported. Apps reachable by url paths
       '';
     };
-    tls = {
-      certFile = mkOption { type = types.str;  example = ''config.sops.secrets."traefik/tls/cert".path''; };
-      certKeyFile = mkOption { type = types.str;  example = ''config.sops.secrets."traefik/tls/certKey".path''; };
+    certs = mkOption {
+      type = types.listOf certsType;
+      default = [];
+      description = ''
+        Certs for all domains served by all apps. Traefik picks the right one based on Subject and SAN
+      '';
+    example = ''
+      [{
+        certFile = config.sops.secrets."traefik/certs/foo.cert".path;
+        keyFile = config.sops.secrets."traefik/certs/foo.key".path;
+      }]
+    '';
     };
     auth = {
       enable = (mkEnableOption "authelia") // { default = appWithAuth; };

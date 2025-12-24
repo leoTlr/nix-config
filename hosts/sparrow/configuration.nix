@@ -18,8 +18,8 @@
   sops.secrets = {
     "alloy/user" = {};
     "alloy/apikey" = {};
-    "traefik/tls/cert" = { owner = "traefik"; };
-    "traefik/tls/certKey" = { owner = "traefik"; };
+    "traefik/certs/arr_cert" = { owner = "traefik"; restartUnits = ["traefik.service"]; };
+    "traefik/certs/arr_key" = { owner = "traefik"; restartUnits = ["traefik.service"]; };
     "authelia/jwtSecret" = { owner = "authelia-main"; };
     "authelia/storageEncryptionKey" = { owner = "authelia-main"; };
     "authelia/adminPassword" = { owner = "authelia-main"; };
@@ -43,10 +43,10 @@
   syslib = {
 
     appproxy = {
-      tls = {
-        certFile = config.sops.secrets."traefik/tls/cert".path;
-        certKeyFile = config.sops.secrets."traefik/tls/certKey".path;
-      };
+      certs = [{
+        certFile = config.sops.secrets."traefik/certs/arr_cert".path;
+        keyFile = config.sops.secrets."traefik/certs/arr_key".path;
+      }];
       auth = {
         jwtSecretFile = config.sops.secrets."authelia/jwtSecret".path;
         storageEncryptionKeyFile = config.sops.secrets."authelia/storageEncryptionKey".path;
