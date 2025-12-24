@@ -40,7 +40,8 @@ in
   };
 
   workspace = [
-    "special:scratchpad, gapsout:200, gapsin:100, shadow:true, border:false, on-created-empty: kitty"
+    "special:scratchpad, gapsout:200, gapsin:100, shadow:true, border:false, on-created-empty: ${lib.getExe pkgs.kitty}"
+    "special:top, gapsout:80, gapsin:40, shadow:true, border:false, on-created-empty: ${lib.getExe pkgs.kitty} ${lib.getExe pkgs.btop}"
 
     # smart gaps (https://wiki.hyprland.org/Configuring/Workspace-Rules/#smart-gaps)
     "w[tv1]s[false], gapsout:0, gapsin:0"
