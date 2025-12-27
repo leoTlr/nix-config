@@ -81,6 +81,8 @@
     "wireguard/psk" = { owner = "systemd-network"; };
   };
 
+  services.tailscale.enable = true;
+
   syslib = {
 
     nfsmounts = {

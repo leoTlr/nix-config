@@ -37,10 +37,6 @@
 
   services.fwupd.enable = true;
 
-  services.tailscale = {
-    enable = false;
-    openFirewall = true;
-    useRoutingFeatures = "both";
-  };
+  services.tailscale.enable = true;
 
 }
