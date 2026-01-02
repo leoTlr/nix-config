@@ -40,8 +40,6 @@
     "sabnzbd/servers/B/password" = {};
   };
 
-  services.tailscale.enable = true;
-
   syslib = {
 
     appproxy = {
