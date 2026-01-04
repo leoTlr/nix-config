@@ -9,7 +9,7 @@
     };
     command = lib.mkOption {
       type = lib.types.str;
-      example = ''''${pkgs.hyprland}/bin/Hyprland'';
+      example = ''''${pkgs.hyprland}/bin/start-hyprland'';
     };
     userName = lib.mkOption {
       type = lib.types.str;

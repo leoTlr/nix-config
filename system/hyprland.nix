@@ -50,9 +50,9 @@ in
       greetd = {
         enable = true;
         command = if cfg.isVmGuest then
-        ''sh -c "WLR_RENDERER_ALLOW_SOFTWARE=1 ${pkgs.hyprland}/bin/Hyprland"''
+        ''sh -c "WLR_RENDERER_ALLOW_SOFTWARE=1 ${pkgs.hyprland}/bin/start-hyprland"''
         else
-        "${pkgs.hyprland}/bin/Hyprland";
+        "${pkgs.hyprland}/bin/start-hyprland";
         userName = cfg.user;
       };
     };
