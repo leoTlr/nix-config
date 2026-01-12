@@ -77,7 +77,7 @@
   # there is also services.poweralertd which seems more maintained
   # but it requires upower which I'd need to include in nixosConfiguration
   services.batsignal = {
-    enable = false; # Doesnt compile right now, maybe due to https://github.com/NixOS/nixpkgs/issues/475479
+    enable = true;
     extraArgs = [ "-w 20" "-c 10" "-d 5" "-p" "-e" ];
   };
 
