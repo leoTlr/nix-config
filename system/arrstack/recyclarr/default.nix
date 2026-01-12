@@ -60,8 +60,14 @@ in
           }];
 
           # https://github.com/recyclarr/config-templates/blob/3a2c4796b3aee5ccd4e66642bcd777ad38e0d739/radarr/templates/german-hd-bluray-web.yml
-          # custom_formats = [
-          # ];
+          custom_formats = [{
+            trash_ids = [
+              "839bea857ed2c0a8e084f3cbdbd65ecb" # allow HDR/DV x265 HD releases
+            ];
+            assign_scores_to = [{
+              name = "HD Bluray + WEB (GER)";
+            }];
+          }];
         };
 
         sonarr.sonarr_main = {
@@ -93,41 +99,16 @@ in
           }];
 
           # https://github.com/recyclarr/config-templates/blob/3a2c4796b3aee5ccd4e66642bcd777ad38e0d739/sonarr/templates/german-hd-bluray-web-v4.yml
-          custom_formats = [
-
-            { ### Optional
-              trash_ids = [
-                # "32b367365729d530ca1c124a0b180c64" # Bad Dual Groups
-                # "82d40da2bc6923f41e14394075dd4b03" # No-RlsGroup
-                # "e1a997ddb54e3ecbfe06341ad323c458" # Obfuscated
-                # "06d66ab109d4d2eddb2794d21526d140" # Retags
-                # "1b3994c551cbb92a2c781af061f4ab44" # Scene
-              ];
-              assign_scores_to = [{
-                name = "HD Bluray + WEB (GER)";
-              }];
-            }
-
-            { ### x265 - IMPORTANT: Only use on of the options below.
-              trash_ids = [
-                "9b64dff695c2115facf1b6ea59c9bd07" # Uncomment this to allow only HDR/DV x265 HD releases
-              ];
-              assign_scores_to = [{
-                name = "HD Bluray + WEB (GER)";
-              }];
-            }
-            {
-              trash_ids = [
-                # "47435ece6b99a0b477caf360e79ba0bb" # Uncomment this to block all x265 HD releases
-              ];
-              assign_scores_to = [{
-                name = "HD Bluray + WEB (GER)";
-                score = -35000;
-              }];
-            } ### /x265
-
-          ];
+          custom_formats = [{
+            trash_ids = [
+              "9b64dff695c2115facf1b6ea59c9bd07" # allow only HDR/DV x265 HD releases
+            ];
+            assign_scores_to = [{
+              name = "HD Bluray + WEB (GER)";
+            }];
+          }];
         };
+
       };
     };
 
