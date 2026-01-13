@@ -37,12 +37,6 @@ let
 in
 {
 
-  imports = [
-    ../gtk
-    ../waybar
-    inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
-  ];
-
   options.homelib.hyprland = with lib; {
 
     enable = mkEnableOption "custom hyprland desktop environment";
@@ -75,20 +69,6 @@ in
   config = lib.mkIf cfg.enable {
 
     home.packages = lib.optionals cfg.debugMode [ hyprLogs ];
-
-    homelib = {
-      kitty.enable = true;
-      gtk.theming.enable = true;
-      waybar.enable = true;
-      dunst.enable = true;
-    };
-
-    # volume/brightness notification
-    # alternative: https://github.com/heyjuvi/avizo
-    services.swayosd = {
-      enable = true;
-      topMargin = 0.9;
-    };
 
     systemd.user.services.hyprWorkspacePinner = {
       Unit = {

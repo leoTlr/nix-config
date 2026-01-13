@@ -10,8 +10,6 @@
 
   homelib = {
     statix.enable = true;
-    sops.enable = false;
-
     firefox.enable = true;
     vscode.enable = true;
     kitty.enable = true;
