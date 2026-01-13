@@ -4,12 +4,12 @@ let
 in
 {
   options.profiles.server = with lib; {
-    enable = mkEnableOption "server base profile";
+    enable = mkEnableOption "server profile";
     sshKey = mkOption {
       type = types.str;
       default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBTJPFx24iMt77z4a6unaq7EBMy8Hj+28vCZAJCbwdMi";
     };
-    monitoring = mkEnableOption "grafana cloud metrics" // { default = true; };
+    metrics = mkEnableOption "grafana cloud metrics" // { default = true; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -52,7 +52,7 @@ in
         authorizedKeys.${userConfig.userName} = lib.mkDefault [ cfg.sshKey ];
       };
 
-      alloy.enable = lib.mkDefault cfg.monitoring;
+      alloy.enable = lib.mkDefault cfg.metrics;
 
     };
 
