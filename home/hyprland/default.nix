@@ -40,7 +40,6 @@ in
   imports = [
     ../gtk
     ../waybar
-    ../kitty
     inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
   ];
 
@@ -115,7 +114,7 @@ in
       enable = true;
 
       settings = {
-        
+
         listener  =
         let
           timeouts = rec {

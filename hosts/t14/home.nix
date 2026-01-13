@@ -1,30 +1,19 @@
-{ inputs, pkgs, config, sysConfig, homeConfig, userConfig, ... }:
+{ pkgs, config, userConfig, ... }:
 
 {
 
-  programs.home-manager.enable = true;
-
-  home = {
-    username = userConfig.userName;
-    homeDirectory = "/home/${userConfig.userName}";
+  profiles.base = {
+    enable = true;
     stateVersion = "23.11";
   };
 
-  colorScheme = inputs.nix-colors.colorSchemes."gruvbox-dark-medium";
   sops.secrets = {
     "location/latitude" = {};
     "location/longitude" = {};
   };
 
   homelib = {
-    git = {
-      enable = true;
-      commitInfo = {
-        name = userConfig.git.userName;
-        inherit (userConfig) email;
-        inherit (userConfig.git) signKey;
-      };
-    };
+    kitty.enable = true;
     gpg.enable = true;
     statix.enable = true;
     sops.enable = true;
@@ -32,18 +21,10 @@
       enable = true;
       enableGui = true;
     };
-    just = {
-      enable = true;
-      homeConfiguration = homeConfig;
-      hostConfiguration = sysConfig;
-    };
 
     firefox.enable = true;
     vscode.enable = true;
-    helix = {
-      enable = true;
-      clipboardPkg = pkgs.wl-clipboard;
-    };
+    helix.clipboardPkg = pkgs.wl-clipboard;
 
     hyprland = {
       enable = true;
@@ -65,7 +46,6 @@
       systemdBindTarget = "hyprland-session.target";
     };
 
-    atuin.enable = true;
   };
 
   home.packages = with pkgs; [

@@ -1,37 +1,22 @@
-{ inputs, pkgs, lib, sysConfig, homeConfig, userConfig, ... }:
+{ pkgs, userConfig, ... }:
 
 {
 
-  programs.home-manager.enable = true;
-
-  home = {
-    username = userConfig.userName;
-    homeDirectory = "/home/${userConfig.userName}";
+  profiles.base = {
+    enable = true;
     stateVersion = "25.11";
   };
 
-  colorScheme = inputs.nix-colors.colorSchemes."gruvbox-dark-medium";
-
   homelib = {
-    git = {
-      enable = true;
-      commitInfo = {
-        name = userConfig.git.userName;
-        inherit (userConfig) email;
-      };
-    };
+    git.commitInfo.signKey = null;
+
+    kitty.enable = true;
     bitwarden = {
       enable = true;
       enableGui = true;
     };
-    just = {
-      enable = true;
-      homeConfiguration = homeConfig;
-      hostConfiguration = sysConfig;
-    };
 
     firefox.enable = true;
-    helix.enable = true;
 
     hyprland = {
       enable = true;
@@ -51,7 +36,6 @@
       systemdBindTarget = "hyprland-session.target";
     };
 
-    atuin.enable = true;
   };
 
   home.packages = with pkgs; [

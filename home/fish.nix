@@ -1,5 +1,7 @@
-{ pkgs, lib, ...}:
+{ pkgs, lib, config, ...}:
 let
+  cfg = config.homelib.fish;
+
   linuxSettings = {
     shellAliases = {
       sys = "systemctl";
@@ -13,45 +15,50 @@ let
   };
 in
 {
-  programs.fish = {
-    enable = true;
-    interactiveShellInit = ''
-      set fish_greeting # Disable greeting
-    '';
-    shellAliases = {
-      ".." = "cd ..";
-      "..." = "cd ../..";
-      g = "git";
-      ls = "eza";
-      la = "eza -lah";
-      rgf = "rg --files";
-    } // lib.optionalAttrs pkgs.stdenv.isLinux linuxSettings.shellAliases;
-    shellInit = ''
-      function digs; dig +short $argv[1] | uniq | head -n1; end
-      function mkcd; mkdir $argv[1] && cd $argv[1]; end
-      function icat; kitten icat $argv[1]; end #show images in kitty terminal
-      function nsp; nix shell nixpkgs#$argv; end
-    '';
-  };
+  options.homelib.fish.enable = lib.mkEnableOption "fish shell";
 
-  home.packages = with pkgs; [
-    broot # terminal file picker
-    ripgrep # grep
-    eza # ls
-    dig
-    fd # find
-    btop
-    killall
-    jq
-  ] ++ lib.optionals pkgs.stdenv.isLinux linuxSettings.packages;
-
-  # tldr client in rust https://github.com/tealdeer-rs/tealdeer
-  programs.tealdeer = {
-    enable = true;
-    settings.updates = {
-      auto_update = true;
-      auto_update_interval_hours = 168; # 1w
+  config = lib.mkIf cfg.enable {
+    programs.fish = {
+      enable = true;
+      interactiveShellInit = ''
+        set fish_greeting # Disable greeting
+      '';
+      shellAliases = {
+        ".." = "cd ..";
+        "..." = "cd ../..";
+        g = "git";
+        ls = "eza";
+        la = "eza -lah";
+        rgf = "rg --files";
+      } // lib.optionalAttrs pkgs.stdenv.isLinux linuxSettings.shellAliases;
+      shellInit = ''
+        function digs; dig +short $argv[1] | uniq | head -n1; end
+        function mkcd; mkdir $argv[1] && cd $argv[1]; end
+        function icat; kitten icat $argv[1]; end #show images in kitty terminal
+        function nsp; nix shell nixpkgs#$argv; end
+      '';
     };
+
+    home.packages = with pkgs; [
+      broot # terminal file picker
+      ripgrep # grep
+      eza # ls
+      dig
+      fd # find
+      btop
+      killall
+      jq
+    ] ++ lib.optionals pkgs.stdenv.isLinux linuxSettings.packages;
+
+    # tldr client in rust https://github.com/tealdeer-rs/tealdeer
+    programs.tealdeer = {
+      enable = true;
+      settings.updates = {
+        auto_update = true;
+        auto_update_interval_hours = 168; # 1w
+      };
+    };
+
   };
 
 }
