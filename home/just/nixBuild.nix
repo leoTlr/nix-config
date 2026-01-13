@@ -19,15 +19,15 @@ let
   sysSwitch = ''
     alias s := sys
     sys:
-      git add --all .
-      ${pkgs.nh}/bin/nh os switch -H ${cfg.hostConfiguration} --ask .
+      ${lib.getExe pkgs.git} add --all .
+      ${lib.getExe pkgs.nh} os switch -H ${cfg.hostConfiguration} --ask .
   '';
 
   homeSwitch = ''
     alias h := home
     home:
-      git add --all .
-      ${pkgs.nh}/bin/nh home switch --configuration ${cfg.homeConfiguration} --ask --backup-extension "bak" .
+      ${lib.getExe pkgs.git} add --all .
+      ${lib.getExe pkgs.nh} home switch --configuration ${cfg.homeConfiguration} --ask --backup-extension "bak" .
   '';
 
   flakeUpdateDeps = cfg:
@@ -39,14 +39,14 @@ let
     update: && ${flakeUpdateDeps cfg}
       ${check_worktree}/bin/check_worktree
       nix flake update
-      git add flake.lock
-      git commit -m "system update"
+      ${lib.getExe pkgs.git} add flake.lock
+      ${lib.getExe pkgs.git} commit -m "system update"
   '';
 
-  modules = [ "set working-directory := '${cfg.flakePath}'\n" ]
-    ++ (lib.optionals (cfg.hostConfiguration != null) [ sysSwitch ])
-    ++ (lib.optionals (cfg.homeConfiguration != null) [ homeSwitch ])
-    ++ [ flakeUpdate ];
 in
 
-lib.strings.concatStringsSep "\n" modules
+  lib.strings.concatStringsSep "\n" ([]
+    ++ (lib.optionals (cfg.hostConfiguration != null) [ sysSwitch ])
+    ++ (lib.optionals (cfg.homeConfiguration != null) [ homeSwitch ])
+    ++ [ flakeUpdate ]
+  )

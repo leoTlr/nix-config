@@ -28,9 +28,16 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.just pkgs.nh ];
+
+    home.packages = [ pkgs.just ];
+
     home.file.${cfg.path} = {
-      text = import ./nixBuild.nix { inherit cfg lib pkgs; };
+      text = lib.concatStringsSep "\n" [
+        "set working-directory := '${cfg.flakePath}'\n"
+        (import ./nixBuild.nix { inherit cfg lib pkgs; })
+        (import ./nixDiff.nix { inherit cfg lib pkgs; })
+      ];
     };
+
   };
 }
