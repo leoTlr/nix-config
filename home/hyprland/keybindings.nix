@@ -12,6 +12,14 @@ let
   brightness_up = brightness "+3";
   brightness_down = brightness "-3";
 
+  screenshot = pkgs.writeShellApplication {
+    name = "wl-screenshot";
+    runtimeInputs = with pkgs; [ grim slurp satty ];
+    text = ''
+      grim -g "$(slurp -d)" -t ppm - \
+        | satty --filename -
+    '';
+  };
 in
 {
   "$modkey" = cfg.modkey;
@@ -36,6 +44,7 @@ in
     "$modkey, R,            exec, ${pkgs.hyprland}/bin/hyprctl reload"
     "$modkey, D,            exec, ${pkgs.wofi}/bin/wofi --show drun"
     "$modkey, L,            exec, ${lib.getExe pkgs.hyprlock}"
+    "$modkey, Print,        exec, ${lib.getExe screenshot}"
 
     # monitor focus
     "$modkey, tab,          focusmonitor, +1"

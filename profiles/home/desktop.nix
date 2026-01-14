@@ -36,6 +36,7 @@ in
       kitty.enable = lib.mkDefault true;
       firefox.enable = lib.mkDefault true;
       helix.clipboardPkg = lib.mkDefault pkgs.wl-clipboard;
+      satty.enable = true;
 
       gtk.theming.enable = lib.mkDefault true;
       waybar.enable = lib.mkDefault true;
@@ -51,7 +52,6 @@ in
       };
 
       bitwarden.enableGui = lib.mkDefault true;
-
     };
 
     home.packages = with pkgs; [
