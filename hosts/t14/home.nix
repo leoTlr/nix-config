@@ -24,9 +24,4 @@
     };
   };
 
-  homelib = {
-    statix.enable = true;
-    vscode.enable = true;
-  };
-
 }

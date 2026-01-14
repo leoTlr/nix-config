@@ -12,8 +12,6 @@
     kitty.enable = true;
     git.configOverwritePaths = [ "git/.gitconfig" ];
 
-    statix.enable = true;
-
     vscode = {
       enable = true;
       flavor = "ms";
@@ -28,7 +26,6 @@
 
   home.packages = with pkgs; [
     keepassxc
-    keepassxc-go # cli
     invhosts
   ];
 
