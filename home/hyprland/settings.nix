@@ -47,12 +47,18 @@ in
     "w[tv1]s[false], gapsout:0, gapsin:0"
     "f[1]s[false], gapsout:0, gapsin:0"
   ];
-  windowrule = [
+  windowrule = lib.mkIf (lib.versionAtLeast pkgs.hyprland.version "0.53.0") [
     "border_size 0, match:float 0, match:workspace w[tv1]s[false]"
     "rounding 0, match:float 0, match:workspace w[tv1]s[false]"
     "border_size 0, match:float 0, match:workspace f[1]s[false]"
     "rounding 0, match:float 0, match:workspace f[1]s[false]"
     # /smart gaps
+  ];
+  windowrulev2 = lib.mkIf (lib.versionOlder pkgs.hyprland.version "0.53.0") [
+    "bordersize 0, floating:0, onworkspace:w[tv1]s[false]"
+    "rounding 0, floating:0, onworkspace:w[tv1]s[false]"
+    "bordersize 0, floating:0, onworkspace:f[1]s[false]"
+    "rounding 0, floating:0, onworkspace:f[1]s[false]"
   ];
 
   general = {
