@@ -65,7 +65,7 @@
       homeConfigurations = with self.inputs; {
         "leo@t14" = mkHome "x86_64-linux" "t14" "leo" home-manager-unstable;
         "leo@tower" = mkHome "x86_64-linux" "tower" "leo" home-manager;
-        "ji09br@APM3LJDY9D2K7HC" = mkHome "aarch64-darwin" "APM3LJDY9D2K7HC" "ji09br" home-manager;
+        "ji09br@APM3LJDY9D2K7HC" = mkHome "aarch64-darwin" "APM3LJDY9D2K7HC" "ji09br" home-manager-unstable;
         "deck@deck" = mkHome "x86_64-linux" "deck" "deck" home-manager;
       };
 
