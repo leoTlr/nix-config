@@ -38,7 +38,7 @@ in
       helix.clipboardPkg = lib.mkDefault pkgs.wl-clipboard;
       satty.enable = true;
 
-      gtk.theming.enable = lib.mkDefault true;
+      gtk.enable = lib.mkDefault true;
       waybar.enable = lib.mkDefault true;
       dunst.enable = lib.mkDefault true;
 
