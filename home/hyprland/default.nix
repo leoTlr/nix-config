@@ -1,11 +1,12 @@
-{ lib, config, pkgs, inputs, ... }:
+{ lib, config, pkgs, ... }:
 let
   cfg = config.homelib.hyprland;
+
   hyprlandSettings = import ./settings.nix {
     inherit config lib pkgs;
   };
 
-  mkColor = base: "rgb(${config.colorscheme.palette."base0${toString base}"})";
+  mkColor = base: "rgb(${config.lib.stylix.colors."base0${toString base}"})";
 
   handleMonitorConnect = pkgs.writeShellApplication {
     name = "handle_monitor_connect";
@@ -78,8 +79,6 @@ in
       Service.ExecStart = lib.getExe handleMonitorConnect;
       Install.WantedBy = [ "hyprland-session.target" ];
     };
-
-    programs.hyprcursor-phinger.enable = true;
 
     wayland.windowManager.hyprland = {
       enable = true;

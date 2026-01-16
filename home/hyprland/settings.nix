@@ -6,6 +6,7 @@ let
     path = ./cody_foreman_the_rebuild_1920x1080.jpg;
     name = "wallpaper_fhd";
   };
+
   keybindings = import ./keybindings.nix { inherit config lib pkgs; };
 in
 {
@@ -22,11 +23,6 @@ in
     disable_logs = !cfg.debugMode;
     enable_stdout_logs = false;
   };
-
-  env = [
-    "HYPRCURSOR_THEME,phinger-cursors-light-hyprcursor"
-    "HYPRCURSOR_SIZE,24"
-  ];
 
   # dont define directive if empty to let hyprland decide what to do in this case
   monitor = lib.mkIf
@@ -65,8 +61,6 @@ in
   general = {
     gaps_in = 3;
     gaps_out = 6;
-    "col.active_border" = "rgb(${config.colorScheme.palette.base04})";
-    "col.inactive_border" = "rgb(${config.colorScheme.palette.base00})";
   };
 
   decoration = {

@@ -1,4 +1,4 @@
-{ config, lib, inputs, pkgs, userConfig, homeConfig, sysConfig, ... }:
+{ config, lib, pkgs, userConfig, homeConfig, sysConfig, ... }:
 let
   cfg = config.profiles.base;
 
@@ -37,14 +37,16 @@ in
       package = lib.mkDefault pkgs.nix;
     };
 
-    colorScheme = lib.mkDefault
-      inputs.nix-colors.colorSchemes."gruvbox-dark-medium";
-
     homelib = {
 
       fish.enable = lib.mkDefault true;
       helix.enable = lib.mkDefault true;
       atuin.enable = lib.mkDefault true;
+
+      stylix = {
+        enable = true;
+        theme = "gruvbox-dark-medium";
+      };
 
       just = {
         enable = true;

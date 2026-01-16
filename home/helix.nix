@@ -26,7 +26,11 @@ in
       # https://theari.dev/blog/enhanced-helix-config/
       settings = {
 
-        theme = "gruvbox";
+        # not managed by stylix because the built-in guvbox variant is better.
+        # could aslo use without transform but there is no guvbox_dark_medium
+        theme = with builtins; head (
+          split "_" config.lib.stylix.colors.scheme-slug-underscored
+        );
 
         editor = {
           # Show currently open buffers, only when more than one exists.

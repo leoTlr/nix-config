@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, userConfig, ... }:
+{ config, lib, pkgs, userConfig, ... }:
 let
   cfg = config.profiles.desktop;
 in
@@ -15,10 +15,6 @@ in
       ]'';
     };
   };
-
-  imports = [
-    inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
-  ];
 
   config = lib.mkIf cfg.enable {
 
@@ -38,7 +34,6 @@ in
       helix.clipboardPkg = lib.mkDefault pkgs.wl-clipboard;
       satty.enable = true;
 
-      gtk.enable = lib.mkDefault true;
       waybar.enable = lib.mkDefault true;
       dunst.enable = lib.mkDefault true;
 

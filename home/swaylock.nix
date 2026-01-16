@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.homelib.swaylock;
-  color = config.colorScheme.palette;
+  color = config.lib.stylix.colors;
 in
 {
   options.homelib.swaylock = {

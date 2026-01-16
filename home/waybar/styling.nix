@@ -1,8 +1,6 @@
 { config }:
 let
-    color = config.colorScheme.palette;
-
-    mkColor = base: "#${color."base0${toString base}"}";
+    mkColor = base: ''#${config.lib.stylix.colors."base0${toString base}"}'';
 in
 # https://github.com/manjaro-sway/desktop-settings/tree/sway/community/sway/usr/share/sway/templates
 ''
@@ -51,7 +49,8 @@ in
     min-height: 0;
     margin: 0;
     padding: 0;
-    font-family: "JetBrainsMono NF", "Roboto Mono", sans-serif;
+    font-family: "${config.stylix.fonts.monospace.name}";
+    font-size: 14px;
 }
 
 /* The whole bar */
