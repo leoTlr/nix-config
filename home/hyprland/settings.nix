@@ -36,6 +36,13 @@ in
     touchpad.scroll_factor = 2.0;
   };
 
+  # workaround for https://github.com/hyprwm/Hyprland/discussions/12788
+  # can also be set per monitor, see https://wiki.hypr.land/Configuring/Monitors/#extra-args
+  render.cm_sdr_eotf = lib.mkIf
+    (lib.versionAtLeast pkgs.hyprland.version "0.53.0")
+    2
+  ;
+
   workspace = [
     "special:scratchpad, gapsout:200, gapsin:100, shadow:true, border:false, on-created-empty: ${lib.getExe pkgs.kitty}"
     "special:top, gapsout:80, gapsin:40, shadow:true, border:false, on-created-empty: ${lib.getExe pkgs.kitty} ${lib.getExe pkgs.btop}"
