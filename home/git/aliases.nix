@@ -40,6 +40,7 @@ in
   c = "commit --message";
   cf = "commit --fixup";
   cfp = "! git cf $(${lib.getExe pickCommitFromBranch})";
+  cp = "cherry-pick";
   ca = "commit --amend";
   can = "commit --amend --no-edit";
   co = "checkout";
