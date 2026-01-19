@@ -4,13 +4,13 @@ let
     name = "pickbranch";
     runtimeInputs = with pkgs; [ git coreutils gawk fzf ];
     text = ''
-      format_ref='%(align:30)%(color:yellow)%(refname:short)%(end)'
-      format_cdate='%(align:18)%(color:bold green)%(committerdate:relative)%(end)'
-      format_subject='%(align:55)%(color:blue)%(subject)%(end)'
+      format_ref='%(align:30)%(color:magenta)%(refname:short)%(end)'
+      format_cdate='%(align:20)%(color:bold green)%(committerdate:relative)%(end)'
+      format_subject='%(align:70)%(color:white)%(subject)%(end)'
       format_author='%(align:18)%(color:magenta)%(authorname)%(color:reset)%(end)'
-      git for-each-ref --sort=-committerdate refs/heads \
+      git for-each-ref --sort=-committerdate --color=always refs/heads \
         --format="$format_ref | $format_cdate | $format_subject | $format_author" \
-      | fzf --layout=reverse --height=25% \
+      | fzf --ansi --layout=reverse --height=25% \
       | awk -F "|" '{ print $1 }' \
       | tr -d ' '
     '';
@@ -20,8 +20,9 @@ let
     name = "pickCommitFromBranch";
     runtimeInputs = with pkgs; [ git gawk fzf ];
     text = ''
-      git log --pretty=format:"%h %d %s (%cr) [%an]" --abbrev-commit -30 main~1..HEAD \
-      | fzf --layout=reverse --height=25% \
+      format="%C(magenta)%h %C(auto)%d %Creset%C(bold white)%s %C(green)%cr %C(blue)[%an]"
+      git log --color=always --abbrev-commit -30 main~1..HEAD --pretty=format:"$format" \
+      | fzf --ansi --layout=reverse --height=25% \
       | awk -F " " '{ print $1 }'
     '';
   };
