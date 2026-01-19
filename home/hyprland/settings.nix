@@ -37,6 +37,7 @@ in
     kb_layout = config.homelib.hyprland.keyMap;
     repeat_delay = 200;
     repeat_rate = 60;
+    touchpad.scroll_factor = 2.0;
   };
 
   workspace = [
