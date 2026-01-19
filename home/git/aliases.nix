@@ -33,6 +33,7 @@ in
   s = "status -sb";
   st = "status";
   sh = "show";
+  shp = "! git sh $(${lib.getExe pickCommitFromBranch})";
   aa = "add --all";
   aac = "!git add --all; git commit --message";
   c = "commit --message";
@@ -63,6 +64,7 @@ in
   rb = "rebase";
   rbm = "rebase main";
   rbi = "rebase -i";
+  rbip = "! git rbi $(${lib.getExe pickCommitFromBranch})";
   rbim = "rebase -i main";
   rbc = "rebase --continue";
   rba = "rebase --abort";
