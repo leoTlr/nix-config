@@ -6,8 +6,12 @@ keys:
     - &bee 0553987A6C422E4462632494ED1F0C6720F4207D
     - &tower E13A6C611BC60D19CC0B68B3F6DFCCC6153E906C
     - &h0 47E21190D5A43CBE17303EEABA59C47ACC4E10A9
+    - &moni 731ACDDDB283606B43D0E73AB6D3F1FCDD6DA21B
 
 creation_rules:
+  - path_regex: hosts/moni/secrets.yaml
+    key_groups:
+      - pgp: [ *moni ]
   - path_regex: hosts/h0/secrets.yaml
     key_groups:
       - pgp: [ *h0 ]
