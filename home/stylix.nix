@@ -21,6 +21,7 @@ in
         hyprlock.enable = false; # own styling
         waybar.enable = false; # have own css
         helix.enable = false; # built-in gruvbox variant looks much better
+        vscode.enable = false; # doesnt work well
       };
 
       fonts = {
@@ -61,7 +62,7 @@ in
         size = 32;
       };
 
-      icons = {
+      icons = lib.mkIf pkgs.stdenv.isLinux {
         enable = true;
         package = pkgs.gruvbox-plus-icons;
         light = "Gruvbox-Plus-Light";
