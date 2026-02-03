@@ -11,20 +11,20 @@ keys:
 creation_rules:
   - path_regex: hosts/moni/secrets.yaml
     key_groups:
-      - pgp: [ *moni ]
+      - pgp: [ *moni, *ltlr ]
   - path_regex: hosts/h0/secrets.yaml
     key_groups:
-      - pgp: [ *h0 ]
+      - pgp: [ *h0, *ltlr ]
   - path_regex: users/leo.secrets.yaml
     key_groups:
-      - pgp: [ *tower ]
+      - pgp: [ *tower, *ltlr ]
   - path_regex: hosts/tower/secrets.yaml
     key_groups:
-      - pgp: [ *tower ]
+      - pgp: [ *tower, *ltlr ]
   - path_regex: hosts/sparrow/secrets.yaml
     key_groups:
-      - pgp: [ *sparrow ]
+      - pgp: [ *sparrow, *ltlr ]
   - path_regex: hosts/bee/secrets.yaml
     key_groups:
-      - pgp: [ *bee ]
-  - pgp: *ltlr # -> valid for everything in here
+      - pgp: [ *bee, *ltlr ]
+  - pgp: *ltlr # -> used for encryption if no other rule applies
