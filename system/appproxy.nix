@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.syslib.appproxy;
 
@@ -74,6 +74,22 @@ let
     };
   };
 
+  traefikConfs = pkgs.writeShellApplication {
+    name = "print_traefik_confs";
+    runtimeInputs = with pkgs; [ coreutils gawk ];
+    text = ''
+      static_conf=$(systemctl cat traefik.service | grep 'ExecStart=' | awk '{print $2}' | cut -d "=" -f 2)
+      echo 'static conf:'
+      echo '--------------------------------------------'
+      cat "$static_conf"
+      dynamic_conf=$(cat "$static_conf" | grep 'filename =' | cut -d ' ' -f 3-100 | tr -d '"')
+      echo '--------------------------------------------'
+      echo 'dynamic conf:'
+      echo '--------------------------------------------'
+      cat "$dynamic_conf"
+    '';
+  };
+
 in
 {
   options.syslib.appproxy = with lib; {
@@ -110,6 +126,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
+    environment.systemPackages = [ traefikConfs ];
 
     networking.firewall.allowedTCPPorts = [ 80 443 ];
 
