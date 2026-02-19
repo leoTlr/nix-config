@@ -1,4 +1,4 @@
-{ pkgs, config, userConfig, ... }:
+{ pkgs, config, userConfig, lib, ... }:
 {
 
   profiles.base = {
@@ -45,5 +45,11 @@
   ];
 
   services.fwupd.enable = true;
+
+  programs.steam.enable = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "steam"
+    "steam-unwrapped"
+  ];
 
 }
