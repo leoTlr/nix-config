@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+  { config, lib, pkgs, ... }:
 let
   cfg = config.homelib.stylix;
 in
@@ -6,6 +6,7 @@ in
   options.homelib.stylix = with lib; {
     enable = mkEnableOption "stylix";
     theme = mkOption { type = types.str; };
+    fontSize = mkOption { type = types.ints.positive; default = 10; description = "in pt"; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -44,7 +45,13 @@ in
           name = "Noto Color Emoji";
         };
 
-        sizes.terminal = 15;
+        sizes = rec {
+          # same relation like stylix absolute defaults
+          applications = builtins.ceil (desktop * 1.2);
+          desktop = cfg.fontSize;
+          popups = desktop;
+          terminal = applications;
+        };
 
       };
 

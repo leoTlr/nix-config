@@ -50,14 +50,14 @@ in
     margin: 0;
     padding: 0;
     font-family: "${config.stylix.fonts.monospace.name}";
-    font-size: 14px;
+    font-size: ${toString config.stylix.fonts.sizes.desktop}pt;
 }
 
 /* The whole bar */
 window#waybar {
     background: @theme_bg_color;
     color: @wm_icon_bg;
-    font-size: 14px;
+    font-size: ${toString config.stylix.fonts.sizes.desktop}pt;
 }
 
 /* Each module */
