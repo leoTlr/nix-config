@@ -26,12 +26,18 @@ let
       | awk -F " " '{ print $1 }'
     '';
   };
+
+  editModifiedFiles = pkgs.writeShellScript "editModifiedFiles" ''
+    $EDITOR $(git status --porcelain | awk '{ print $2 }')
+  '';
+
   logFormat = ''--pretty=format:"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]"'';
 in
 {
   gl = "config --global -l";
   reporoot = "rev-parse --show-toplevel";
   s = "status -sb";
+  se = "! ${editModifiedFiles}";
   st = "status";
   sh = "show";
   shp = "! git sh $(${lib.getExe pickCommitFromBranch})";
