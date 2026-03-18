@@ -50,6 +50,12 @@
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "steam"
     "steam-unwrapped"
+    "winbox" # mikrotik config tool
   ];
+
+  programs.winbox = {
+    enable = true;
+    openFirewall = true;
+  };
 
 }
