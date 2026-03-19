@@ -9,9 +9,7 @@ let
       jctl = "journalctl";
       jctlu = "journalctl --user-unit";
     };
-    packages = [
-      pkgs.isd # systemd tui
-    ];
+    packages = [ ];
   };
 in
 {
@@ -52,7 +50,7 @@ in
     };
 
     home.packages = with pkgs; [
-      broot # terminal file picker
+      yazi # terminal file picker
       ripgrep # grep
       eza # ls
       dig
@@ -60,15 +58,13 @@ in
       btop
       killall
       jq
+      tlrc # tldr client
     ] ++ lib.optionals pkgs.stdenv.isLinux linuxSettings.packages;
 
-    # tldr client in rust https://github.com/tealdeer-rs/tealdeer
-    programs.tealdeer = {
+    services.tldr-update = {
       enable = true;
-      settings.updates = {
-        auto_update = true;
-        auto_update_interval_hours = 168; # 1w
-      };
+      package = pkgs.tlrc;
+      period = "daily";
     };
 
   };
