@@ -74,5 +74,10 @@ in
     # so other apps can access the fonts when stylix nixosModule is not used
     home.packages = config.stylix.fonts.packages;
 
+    # default gruvbox color for this just doesnt work for me
+    wayland.windowManager.hyprland.settings.general."col.active_border" =
+      lib.mkIf (cfg.theme == "gruvbox-dark-medium")
+      (lib.mkForce "rgb(${config.lib.stylix.colors.base04})");
+
   };
 }
