@@ -52,6 +52,7 @@ let
   cfglib = {
     inherit nixModulesIn;
     paths = cfgPaths;
+    flakeRev = self.rev or self.dirtyRev or null;
   };
  in
 {

@@ -46,6 +46,7 @@ in
     syslib = {
 
       nix.enable = lib.mkDefault true;
+      flakeRev.enable = lib.mkDefault true;
 
       users = {
         mutable = lib.mkDefault true;
