@@ -1,4 +1,4 @@
-{ config, lib, ...}:
+{ config, lib, pkgs, ...}:
 # https://nixos.wiki/wiki/Bluetooth
 {
   options.syslib.bluetooth.enable = lib.mkEnableOption "bluetooth";
@@ -11,5 +11,7 @@
 
     # provides: blueman-manager, blueman-applet
     services.blueman.enable = true;
+
+    environment.systemPackages = [ pkgs.bluetui ];
   };
 }
