@@ -38,6 +38,8 @@
       isVmGuest = false;
       user = userConfig.userName;
     };
+
+    bluetooth.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
