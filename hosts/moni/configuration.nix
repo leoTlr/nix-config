@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
 {
 
   # VM on hetzner
@@ -35,7 +35,14 @@
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBTJPFx24iMt77z4a6unaq7EBMy8Hj+28vCZAJCbwdMi"
           ];
           hostKeys = [ "/ssh_host_ed25519_key" ];
-          shell = "/bin/cryptsetup-askpass";
+
+          # remote unlock with 26.05:
+          # ssh -p 2222 -o RequestTTY=force root@<host> systemctl default
+          # https://nixos.org/manual/nixos/stable/release-notes#sec-release-26.05
+          shell =
+            lib.mkIf (lib.versionOlder config.system.nixos.release "26.05")
+            "/bin/cryptsetup-askpass"
+          ;
         };
       };
     };

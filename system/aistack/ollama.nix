@@ -9,7 +9,7 @@ in
       package = nixpkgs-unstable.ollama-rocm;
       port = cfg.ports.ollamaApi;
       loadModels = cfg.preloadModels;
-      acceleration = "rocm";
+      acceleration = lib.mkIf (lib.versionOlder config.system.nixos.release "26.05") "rocm";
       # rocmOverrideGfx = "10.3.0";
     };
   };
