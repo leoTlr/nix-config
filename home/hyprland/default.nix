@@ -87,6 +87,10 @@ in
       systemd.enable = true; # hyprland-session.target
 
       settings = hyprlandSettings;
+      configType =
+        lib.mkIf (lib.versionAtLeast pkgs.hyprland.version "0.55.0")
+        "hyprlang"
+      ;
     };
 
     services.hypridle = {
