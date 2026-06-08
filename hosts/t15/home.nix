@@ -25,7 +25,10 @@ _:
   };
 
   homelib = {
-    hyprland.keyMap.layout = "us";
+    hyprland.keyMap = {
+      layout = "us";
+      variant = "altgr-intl";
+    };
     stylix.fontSize = 14;
   };
 
