@@ -25,7 +25,7 @@ _:
   };
 
   homelib = {
-    hyprland.keyMap = "us";
+    hyprland.keyMap.layout = "us";
     stylix.fontSize = 14;
   };
 

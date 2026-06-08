@@ -12,6 +12,8 @@
     extraModulePackages = with config.boot.kernelPackages; [ yt6801 ];
   };
 
+  users.users.${userConfig.userName}.extraGroups = [ "video" ];
+
   networking = {
     networkmanager.enable = true;
     nameservers = [ "192.168.1.50" ];

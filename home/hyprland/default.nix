@@ -48,9 +48,17 @@ in
       example = "ALT";
     };
 
-    keyMap = mkOption {
-      type = types.str;
-      example = "de";
+    keyMap = {
+      layout = mkOption {
+        type = types.str;
+        description = "input.kb_layout";
+        example = "de";
+      };
+      variant = mkOption {
+        type = types.nullOr types.str;
+        description = "input.kb_variant";
+        example = "nodeadkeys";
+      };
     };
 
     monitors = mkOption {

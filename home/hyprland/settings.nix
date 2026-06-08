@@ -30,7 +30,8 @@ in
     cfg.monitors;
 
   input = {
-    kb_layout = config.homelib.hyprland.keyMap;
+    kb_layout = cfg.keyMap.layout;
+    kb_variant = lib.mkIf (cfg.keyMap.variant != null) cfg.keyMap.variant;
     repeat_delay = 200;
     repeat_rate = 60;
     touchpad.scroll_factor = 2.0;

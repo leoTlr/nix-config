@@ -25,7 +25,7 @@ in
       hyprland = {
         enable = true;
         debugMode = lib.mkDefault false;
-        keyMap = lib.mkDefault userConfig.localization.keymap;
+        keyMap.layout = lib.mkDefault userConfig.localization.keymap;
         inherit (cfg) monitors;
       };
 
