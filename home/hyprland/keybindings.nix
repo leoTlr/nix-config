@@ -41,6 +41,7 @@ in
     "$modkey, F,            fullscreen,"
     "$modkey, S,            togglespecialworkspace, scratchpad"
     "$modkey, T,            togglespecialworkspace, top"
+    "$modkey, B,            togglespecialworkspace, bluetooth"
     "$modkey, R,            exec, ${pkgs.hyprland}/bin/hyprctl reload"
     "$modkey, D,            exec, ${pkgs.wofi}/bin/wofi --show drun"
     "$modkey, L,            exec, ${lib.getExe pkgs.hyprlock}"
