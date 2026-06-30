@@ -1,0 +1,33 @@
+name: Update Flake
+
+on:
+  schedule:
+    - cron: "0 0 */2 * *"
+  workflow_dispatch:
+
+jobs:
+  update-flake:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@v28
+        with:
+          token: ${{ secrets.PAT_RW_nix-config }}
+          pr-title: "system update (automated)"
+          pr-labels: automated
+          pr-body: |
+            Regular fake update via github action
+
+            {{env.GIT_COMMIT_MESSAGE}}

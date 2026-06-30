@@ -1,0 +1,98 @@
+name: Check config build
+
+on:
+  pull_request:
+    paths:
+      - flake.lock
+  workflow_dispatch:
+
+jobs:
+  discover:
+    name: Discover flake outputs
+    runs-on: ubuntu-latest
+    outputs:
+      nixos-configs: ${{ steps.discover.outputs.nixos-configs }}
+      home-configs: ${{ steps.discover.outputs.home-configs }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Discover configuration names
+        id: discover
+        run: |
+          set -euo pipefail
+
+          # nix flake show . --json wouldnt work here bc it doesnt show homeConfigurations
+          NIXOS_CONFIGS=$(nix eval --json '.#nixosConfigurations' --apply builtins.attrNames 2>/dev/null || echo '[]')
+          HOME_CONFIGS=$(nix eval --json '.#homeConfigurations' --apply builtins.attrNames 2>/dev/null || echo '[]')
+
+          echo "nixosConfigurations: $NIXOS_CONFIGS"
+          echo "homeConfigurations: $HOME_CONFIGS"
+
+          echo "nixos-configs=$NIXOS_CONFIGS" >> "$GITHUB_OUTPUT"
+          echo "home-configs=$HOME_CONFIGS" >> "$GITHUB_OUTPUT"
+
+  check-nixos:
+    name: Build nixosConfigurations.${{ matrix.config }}
+    needs: discover
+    if: needs.discover.outputs.nixos-configs != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(needs.discover.outputs.nixos-configs) }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Build ${{ matrix.config }}
+        run: |
+          nix build ".#nixosConfigurations.${{ matrix.config }}.config.system.build.toplevel" --dry-run
+
+  check-home:
+    name: Build homeConfigurations.${{ matrix.config }}
+    needs: discover
+    if: needs.discover.outputs.home-configs != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJSON(needs.discover.outputs.home-configs) }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Build ${{ matrix.config }}
+        run: |
+          nix build ".#homeConfigurations.${{ matrix.config }}.activationPackage" --dry-run
+
+  auto-merge:
+    needs: [check-nixos, check-home]
+    runs-on: ubuntu-latest
+    if: |
+      always() &&
+      contains(github.event.pull_request.labels.*.name, 'automated') &&
+      (needs.check-nixos.result == 'success' || needs.check-nixos.result == 'skipped') &&
+      (needs.check-home.result == 'success' || needs.check-home.result == 'skipped')
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Enable auto-merge
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
