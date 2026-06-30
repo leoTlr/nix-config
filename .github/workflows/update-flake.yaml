@@ -24,7 +24,7 @@ jobs:
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@v28
         with:
-          token: ${{ secrets.PAT_RW_nix-config }}
+          token: ${{ secrets.PAT_RW_NIX_CONFIG }}
           pr-title: "system update (automated)"
           pr-labels: automated
           pr-body: |
