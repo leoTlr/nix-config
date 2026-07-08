@@ -4,6 +4,13 @@ let
   gitConfig = import ./gitconfig.nix {};
   gitAliases = import ./aliases.nix { inherit pkgs lib; };
   gitIgnore = import ./gitignore.nix {};
+
+  deltaOpts = {
+    core.pager = lib.getExe pkgs.delta;
+    interactive.diffFilter = "${lib.getExe pkgs.delta} --color-only";
+    delta.navigate = true;
+    merge.conflictStyle = "zdiff3";
+  };
 in
 {
   options.homelib.git = {
@@ -62,12 +69,16 @@ in
     programs.git = {
       enable = true;
 
-      settings = {
-        user = {
-          inherit (cfg.commitInfo) name email;
-        };
-        alias = lib.mkIf cfg.aliases.enable gitAliases;
-      } // gitConfig;
+      settings = lib.mkMerge [
+        {
+          user = { inherit (cfg.commitInfo) name email; };
+          alias = lib.mkIf cfg.aliases.enable gitAliases;
+        }
+
+        gitConfig
+
+        (lib.mkIf cfg.aliases.enable deltaOpts)
+      ];
 
       ignores = lib.mkIf cfg.ignore.enable gitIgnore;
 

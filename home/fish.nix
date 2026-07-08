@@ -34,6 +34,7 @@ in
         rg = lib.getExe pkgs.ripgrep + " --ignore-case";
         tldr = "tldr --platform linux";
         tldrm = "tldr --platform macos";
+        diff = lib.getExe pkgs.delta;
       } // lib.optionalAttrs pkgs.stdenv.isLinux linuxSettings.shellAliases;
 
       shellInit = ''
@@ -70,6 +71,7 @@ in
       killall
       jq
       tlrc # tldr client
+      delta # diff replacement
     ] ++ lib.optionals pkgs.stdenv.isLinux linuxSettings.packages;
 
     services.tldr-update = {
