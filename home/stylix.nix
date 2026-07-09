@@ -21,7 +21,6 @@ in
         hyprlock.enable = false; # own styling
         waybar.enable = false; # have own css
         helix.enable = false; # built-in gruvbox variant looks much better
-        vscode.enable = false; # doesnt work well
       };
 
       fonts = {
