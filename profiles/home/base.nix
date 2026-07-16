@@ -23,7 +23,15 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    programs.home-manager.enable = true;
+    programs = {
+      home-manager.enable = true;
+
+      # allow shell integrations for arbitrary programs to execute
+      # even if the shell is not the default shell
+      bash.enable = lib.mkDefault true;
+      fish.enable = lib.mkDefault true;
+    };
+
 
     home = {
       username = lib.mkDefault userConfig.userName;
