@@ -61,8 +61,12 @@ in
       '';
     };
 
+    programs.yazi = {
+      enable = true;
+      settings.mgr.linemode = "btime";
+    };
+
     home.packages = with pkgs; [
-      yazi # terminal file picker
       ripgrep # grep
       eza # ls
       dig
