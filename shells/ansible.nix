@@ -1,13 +1,13 @@
 { self, system, pkgs, ... }:
 let
-  requirements = (pkgs.writeText "requirements.txt" ''
+  customPython = (pkgs.python3.withPackages (ps: with ps; [
     # playbook deps
     cryptography # ansible-vault requirement
     configparser
     dnspython
-    #flask_limiter
     flask
-    kubernetes-validate
+    #flask_limiter
+    # kubernetes-validate
     kubernetes
     netaddr
     #pyOpenSSL
@@ -20,24 +20,22 @@ let
 
     # own deps
     jmespath # json_query filter
-  '');
+  ]));
 in
-
 pkgs.mkShell {
 
   packages = with pkgs; [
-    python311
-    ansible_2_14
-    ansible-lint
+    customPython
+    (ansible_2_14.override {
+      python3 = customPython;
+    })
+    (ansible-lint.override {
+      python3 = customPython;
+    })
     self.outputs.packages.${system}.invhosts
   ];
 
   shellHook = ''
-    echo "setting up venv"
-    python -m venv .venv
-    source .venv/bin/activate
-    pip install -r ${requirements}
-
     echo "🚀 Development environment loaded!"
     echo "📦 $(python --version)"
     echo "📦 $(ansible --version)"
