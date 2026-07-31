@@ -15,6 +15,7 @@
     vscode = {
       enable = true;
       flavor = "ms";
+      extensions.enable = true;
     };
 
     k8stools = {

@@ -18,6 +18,13 @@ in
       default = "foss";
       description = "The build of vscode to use";
     };
+    extensions = {
+      enable = mkEnableOption "also manage extensions";
+      extensions = mkOption {
+        type = types.listOf types.package;
+        default = extensions;
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -37,8 +44,8 @@ in
         then pkgs.vscode
         else pkgs.vscodium;
       profiles.default = {
-        inherit extensions userSettings;
-      };
+        inherit userSettings;
+      } // lib.optionalAttrs (cfg.extensions.enable) { inherit (cfg.extensions) extensions; };
     };
 
     home.packages = [ pkgs.nixd ];
