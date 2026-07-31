@@ -24,4 +24,6 @@
     };
   };
 
+  homelib.certtools.enable = true;
+
 }

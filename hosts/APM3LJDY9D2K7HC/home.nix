@@ -1,4 +1,4 @@
-{ pkgs, homeConfig, userConfig, ... }:
+{ pkgs, ... }:
 
 {
 
@@ -21,6 +21,8 @@
       enable = true;
       minikube.enable = true;
     };
+
+    certtools.enable = true;
 
   };
 
