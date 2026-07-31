@@ -46,24 +46,13 @@ in
           set --local --export NIXPKGS_ALLOW_INSECURE 1
           nix shell --impure nixpkgs#$argv
         end
-        function y --description 'yazi with cd-on-exit'
-          set -l tmp (mktemp -t yazi-cwd.XXXXXX)
-          ${lib.getExe pkgs.yazi} $argv --cwd-file="$tmp"
-          if test -s "$tmp"
-            set -l cwd (cat -- $tmp)
-            if test -n "$cwd"; and test "$cwd" != "$PWD"
-              cd -- "$cwd"
-                commandline -f repaint
-            end
-          end
-          rm -f -- "$tmp"
-        end
       '';
     };
 
     programs.yazi = {
       enable = true;
       settings.mgr.linemode = "btime";
+      shellWrapperName = "y";
     };
 
     home.packages = with pkgs; [
