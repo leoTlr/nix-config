@@ -14,6 +14,9 @@ in
     stylix = {
       enable = true;
 
+      # dont warn if home-manager stable but stylix unstable or the other way
+      enableReleaseChecks = false;
+
       base16Scheme = "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
 
       targets = {
