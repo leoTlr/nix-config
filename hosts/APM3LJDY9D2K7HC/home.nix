@@ -19,7 +19,7 @@
 
     k8stools = {
       enable = true;
-      minikube.enable = true;
+      minikube.enable = false;
     };
 
     certtools.enable = true;
