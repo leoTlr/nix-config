@@ -30,6 +30,7 @@ _:
       variant = "altgr-intl";
     };
     stylix.fontSize = 14;
+    certtools.enable = true;
   };
 
 }
