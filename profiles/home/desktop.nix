@@ -49,9 +49,10 @@ in
     };
 
     home.packages = with pkgs; [
-      trilium-next-desktop
       signal-desktop
       lazygit
+    ] ++ lib.optionals (trilium-desktop.version != "0.102.2") [
+      trilium-desktop # nixpkgs issue 546491
     ];
 
     # there is also services.poweralertd which seems more maintained
