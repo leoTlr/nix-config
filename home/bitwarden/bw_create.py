@@ -1,13 +1,10 @@
-#!/usr/bin/env python3
-# min py 3.10 for match statement and type union with |
-
 import argparse as ap
 import logging
-from os import environ
-from dataclasses import dataclass
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from json import dumps, loads
-from subprocess import run, PIPE
+from os import environ
+from subprocess import PIPE, run
 from sys import exit
 
 logger = logging.getLogger(__name__)
@@ -109,7 +106,7 @@ def run_cmd(cmd: str | list[str], stdin: str | None = None) -> str:
         "stderr": None,
     }
     logger.info(f"running command: {cmd}")
-    result = run(cmd, **args)
+    result = run(cmd, **args)  # noqa: PLW1510
     logger.debug(f"command result: {result}")
     return result.stdout
 
