@@ -123,12 +123,13 @@ in
           }
           { # lock screen
             timeout = timeouts.lock;
-            on-timeout = "${lib.getExe pkgs.hyprlock}";
+            on-timeout = "${lib.getExe pkgs.hyprlock} --grace 2";
           }
           { # turn screen off
             timeout = timeouts.displayOff;
             on-timeout = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
-            on-resume = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";          }
+            on-resume = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+          }
           { # suspend
             timeout = timeouts.suspend;
             on-timeout = "systemctl suspend-then-hibernate";
@@ -142,10 +143,6 @@ in
       enable = true;
 
       settings = {
-
-        general = {
-          grace = 2;
-        };
 
         background = [{
           path = "screenshot";
