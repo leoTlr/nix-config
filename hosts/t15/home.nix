@@ -1,4 +1,4 @@
-_:
+{ nixpkgs-unstable, ... }:
 
 {
 
@@ -32,5 +32,7 @@ _:
     stylix.fontSize = 14;
     certtools.enable = true;
   };
+
+  programs.atuin.package = nixpkgs-unstable.atuin;
 
 }
