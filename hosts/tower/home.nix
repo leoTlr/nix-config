@@ -1,4 +1,4 @@
-{ pkgs, userConfig, ... }:
+{ pkgs, ... }:
 
 {
 
@@ -23,5 +23,7 @@
     };
 
   };
+
+  home.packages = [ pkgs.heroic ];
 
 }
