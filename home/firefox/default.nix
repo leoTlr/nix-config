@@ -32,6 +32,7 @@ in
   config = {
     programs.firefox = lib.mkIf cfg.enable {
       enable = true;
+      configPath = "${config.xdg.configHome}/mozilla/firefox";
 
       profiles = {
         default = {
