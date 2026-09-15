@@ -22,7 +22,7 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@main
 
       - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@v28
+        uses: DeterminateSystems/update-flake-lock@v29
         with:
           token: ${{ secrets.PAT_RW_NIX_CONFIG }}
           commit-msg: "system update (automated)"
