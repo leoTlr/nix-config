@@ -72,5 +72,15 @@ in
         };
       };
     };
+
+    nodev."/tmp" = {
+      fsType = "tmpfs";
+      mountOptions = [
+        "size=16G"
+        "mode=1777"
+        "nosuid"
+        "nodev"
+      ];
+    };
   };
 }
