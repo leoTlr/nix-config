@@ -59,7 +59,6 @@
         bee = mkSystem "x86_64-linux" "bee" "leo" nixpkgs;
         tower = mkSystem "x86_64-linux" "tower" "leo" nixpkgs;
         sparrow = mkSystem "x86_64-linux" "sparrow" "leo" nixpkgs;
-        h0 = mkSystem "x86_64-linux" "h0" "leo" nixpkgs;
         moni = mkSystem "x86_64-linux" "moni" "leo" nixpkgs;
       };
 
