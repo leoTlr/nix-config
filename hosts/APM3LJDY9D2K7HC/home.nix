@@ -30,6 +30,10 @@
   home.packages = with pkgs; [
     keepassxc
     invhosts
+
+    gh
+    gh-dash
+    gh-stack
   ];
 
 }
