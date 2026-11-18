@@ -46,6 +46,7 @@ in
         systemdBindTarget = "hyprland-session.target";
       };
 
+      bitwarden.enableGui = lib.mkDefault true;
     };
 
     home.packages = with pkgs; [
