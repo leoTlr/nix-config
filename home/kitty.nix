@@ -23,8 +23,6 @@ in
       tab_bar_style powerline
 
       scrollback_lines 10000
-    '' + lib.optionalString pkgs.stdenv.isDarwin ''
-      macos_option_as_alt yes
     '';
 
     keybindings = lib.mkIf pkgs.stdenv.isDarwin {
