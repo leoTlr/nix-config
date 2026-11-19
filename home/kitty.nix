@@ -23,6 +23,10 @@ in
       tab_bar_style powerline
 
       scrollback_lines 10000
+    '' + lib.optionalString pkgs.stdenv.isDarwin ''
+
+      macos_hide_from_tasks yes
+      macos_quit_when_last_window_closed yes
     '';
 
     keybindings = lib.mkIf pkgs.stdenv.isDarwin {
