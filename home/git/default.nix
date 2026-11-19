@@ -27,10 +27,17 @@ in
       description = "Manage git aliases";
     };
 
-    ignore.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = cfg.enable;
-      description = "Manage git ignores";
+    ignore = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = cfg.enable;
+        description = "Manage git ignores";
+      };
+      extraRules = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        description = "Host specific .gitignores rules";
+      };
     };
 
     configOverwritePaths = lib.mkOption {
@@ -80,10 +87,15 @@ in
         (lib.mkIf cfg.aliases.enable deltaOpts)
       ];
 
-      ignores = lib.mkIf cfg.ignore.enable gitIgnore;
+      ignores = lib.mkIf cfg.ignore.enable (
+        gitIgnore
+        ++ cfg.ignore.extraRules
+      );
 
-      includes =
-        builtins.map (item: { path = item; }) cfg.configOverwritePaths;
+      includes = map
+        (item: { path = item; })
+        cfg.configOverwritePaths
+      ;
 
       signing = lib.mkIf (cfg.commitInfo.signKey != null) {
         key = cfg.commitInfo.signKey;
