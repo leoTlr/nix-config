@@ -25,6 +25,7 @@ in
       scrollback_lines 10000
     '' + lib.optionalString pkgs.stdenv.isDarwin ''
 
+      macos_option_as_alt left # right option for @~|, left option for helix Alt- combinations
       macos_hide_from_tasks yes
       macos_quit_when_last_window_closed yes
     '';
