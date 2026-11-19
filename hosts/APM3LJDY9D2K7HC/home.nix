@@ -10,8 +10,10 @@
 
   homelib = {
     kitty.enable = true;
-    git.configOverwritePaths = [ "git/.gitconfig" ];
-
+    git = {
+      configOverwritePaths = [ "git/.gitconfig" ];
+      ignore.extraRules = [ "**/copilot-instructions.md" ];
+    };
     vscode = {
       enable = true;
       flavor = "ms";
